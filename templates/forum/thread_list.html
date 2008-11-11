@@ -1,0 +1,47 @@
+{% extends "forum/base.html" %}
+
+
+{% block path %} 
+    {{ block.super }} &raquo; {{ category }}
+{% endblock %}
+
+{% block submenu %}
+    <li><a href="new/">Nowy temat</a></li>
+    {{ block.super }}
+{% endblock %}
+
+{% block forumdata %}
+    <table class="list">
+        <thead>
+            <tr>
+                <td class="topic-title">Tytuł</td>
+                <td class="topic-tag">Dział</td>
+                <td class="topic-posts">Odpowiedzi</td>
+                <td class="topic-view">Wyświetlenia</td>
+                <td class="topic-change">Ostatnia zmiana</td>
+                <td class="topic-date">Data utworzenia</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in thread %}
+                <tr>
+                    <td class="topic-title">
+                        {% if t.sticky %}<span class="topic-flag stick">Przyklejony</span> &bull; {% endif %}
+                        {% if t.is_new %}<span class="topic-flag topic-new">Nowy</span> &bull; {% endif %}
+                        {% if t.solved %}
+                            <span class="topic-flag solved">Rozwiązany</span> &bull; 
+                        {% else %} 
+                            {% if t.closed %}<span class="topic-flag closed">Zamknięty</span> &bull; {% endif %}
+                        {% endif %}
+                        <a href="{{ t.get_absolute_url }}">{{ t.title }}</a>
+                    </td> 
+                    <td class="topic-tag">{{ t.thread }}</td>
+                    <td class="topic-posts">{{ t.post_count }}</td>
+                    <td class="topic-view">{{ t.view_count }}</td>
+                    <td class="topic-change">{{ t.latest_post_date|date:"d.m.y - H:i" }} &bull; {{ t.latest_post.author }}</td>
+                    <td class="topic-date">{{ t.date|date:"d.m.y - H:i" }} &bull; {{ t.author }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

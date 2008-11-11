@@ -1,0 +1,10 @@
+{% extends "forum/base.html" %}
+
+{% block forumdata %}
+    <form action="." method="POST">
+        {{ t_form.as_p }}
+        {{ p_form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+{% endblock %}
+

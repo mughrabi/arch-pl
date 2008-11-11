@@ -1,0 +1,29 @@
+{% extends "forum/base.html" %}
+
+
+
+{% block forumdata %}
+    <table class="list">
+        <thead>
+            <tr>
+                <td>Nazwa działu</td>
+                <td>Wątki</td>
+                <td>Posty</td>
+                <td>Opis</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in category %}
+            <tr>
+                <td class="forum-title">
+                    {% if c.has_new %}<span class="topic-flag topic-new">Nowy</span> &bull; {% endif %}
+                    <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                </td> 
+                <td>{{ c.thread_count }}</td>
+                <td>{{ c.post_count }}</td>
+                <td class="forum-description"> {{ c.description }} </td> 
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block middle %}
+
+<form action="." method="POST">
+    <p><em>Do formatowania składni możesz użyć markdown</em></p>
+    {{ form }}
+    <input type="submit" value="Wyślij" />
+</form>
+
+{% endblock %}

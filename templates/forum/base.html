@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block submenu %}
+    {% if user.is_authenticated %}
+        <li><a href="/forum/show_new/">Pokaż nowe</a></li>
+        <li><a href="/forum/all_readed/">Oznacz wszystkie jako przeczytane</a></li>
+        <li><a href="#">Wyloguj się</a></li>
+    {% else %}
+        <li><a href="#">Zaloguj się</a></li>
+    {% endif %}
+{% endblock %}
+
+
+{% block middle %}
+    <div class="topic-info">
+    {% block path %} 
+        &bull; <a href="/forum/">Index</a> 
+    {% endblock %}
+    </div>
+
+    {% block forumdata %}
+    {% endblock %}
+{% endblock %}

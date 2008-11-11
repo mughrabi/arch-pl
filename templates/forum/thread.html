@@ -1,0 +1,60 @@
+{% extends "forum/base.html" %}
+
+{% load markup %}
+
+
+{% block title %}{{ block.super}} : {{ thread.title }}{% endblock %}
+
+{% block path %}
+    {{ block.super }} &raquo; 
+        <a href="{{ thread.category.get_absolute_url }}">{{ thread.category }}</a> 
+        &raquo; {{ thread.title }} 
+        {% if thread.solved %} &bull; <strong>Solved</strong> {% endif %}
+
+    {% if user.is_authenticated %}
+        <div style="text-align: right"><a href="post_new/">Odpowiedź</a></div>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block forumdata %}
+    {% for p in post %}
+        <div class="post">
+            <div class="panel">
+                <div class="panel-right">
+                    <small>{{ p.date }}</small>
+                    {% ifequal p.author.username user.username %}
+                        {% ifequal p thread.latest_post %}
+                            &bull; <a href="#">edytuj</a> 
+                            &bull; <a href="#">usuń</a> 
+                        {% endifequal %}
+                    {% endifequal %}
+                    &bull; <a href="#">cytuj</a>
+                </div>
+                <div>
+                    <a href="#{{ forloop.counter }}" id="{{ forloop.counter }}">#{{ forloop.counter }} </a> 
+                    &bull; <strong><a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a></strong>
+                </div>
+            </div>
+            <div class="text rightnav">
+                {{ p.text|markdown }}
+            </div>
+            <div style="clear:both"><!-- sentry --></div>
+        </div>
+    {% endfor %}
+
+    {# quick post form #}
+    {% if user.is_authenticated %}
+        {% ifnotequal thread.latest_post.author user %}
+            <div id="response">
+                <form action="reply/" method="POST">
+                    <p><em>Do formatowania składni możesz użyć <a href="http://en.wikipedia.org/wiki/Markdown">markdown</a></em></p>
+                    {{ form }}
+                    <input type="submit" value="Wyślij" />
+                </form>
+            </div>
+        {% endifnotequal %}
+    {% endif %}
+
+{% endblock %}
