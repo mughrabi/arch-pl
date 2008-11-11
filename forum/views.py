@@ -161,3 +161,13 @@ def mark_all_read(request):
         obj.date = datetime.datetime.now()
         obj.save()
     return HttpResponseRedirect("/forum/")
+
+@login_required
+def toggle_solved(request, thread_slug):
+    t = get_object_or_404(Thread, slug=thread_slug)
+    if t.author == request.user:
+        t.solved = not t.solved
+        t.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    
+

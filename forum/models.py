@@ -14,6 +14,7 @@ class Category(models.Model):
     thread_count = models.PositiveIntegerField(_("Topics"), default=0)
     post_count = models.PositiveIntegerField(_("Posts"), default=0)
     latest_thread_date = models.DateTimeField(auto_now=True)
+    latest_thread_author = models.ForeignKey(User, default=1)
 
     def __unicode__(self):
         return self.name
@@ -62,6 +63,7 @@ class Thread(models.Model):
         c = self.category
         c.post_count = c.thread_set.count()
         c.latest_thread_date = datetime.datetime.now()
+        c.latest_thread_author = self.author
         super(Thread, self).save(force_insert, force_update)
 
     def delete(self):
@@ -69,6 +71,10 @@ class Thread(models.Model):
         c = self.category
         c.threads = c.thread_set.count()
         c.posts = Post.objects.filter(thread__category__pk=c.id).count()
+        latest_post = Post.objects.filter(
+                category__pk=c.id).latest("date")
+        c.latest_thread_date = latest_post.date
+        c.latest_thread_author = latest_post.author
         c.save()
 
 
@@ -96,6 +102,7 @@ class Post(models.Model):
         c.post_count = Post.objects.filter(
                 thread__category__pk=c.id).count()
         c.latest_thread_date = datetime.datetime.now()
+        c.latest_thread_author = t.author
         c.save()
 
     def delete(self, *args, **kwds):
@@ -104,12 +111,10 @@ class Post(models.Model):
                     pk=self.id).latest("date").date
         except Post.DoesNotExist:
             latest_post_date = None
-
         t = self.thread
         t.post_count = t.post_set.exclude(pk=self.id).count()
         t.latest_post_date = latest_post_date
         t.save()
-
         c = self.thread.category
         c.post_count = Post.objects.filter(
                 thread__category__pk=c.id).exclude(pk=self.id).count()

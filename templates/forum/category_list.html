@@ -9,7 +9,7 @@
                 <td>Nazwa działu</td>
                 <td>Wątki</td>
                 <td>Posty</td>
-                <td>Opis</td>
+                <td>Ostatni post</td>
             </tr>
         </thead>
         <tbody>
@@ -17,11 +17,12 @@
             <tr>
                 <td class="forum-title">
                     {% if c.has_new %}<span class="topic-flag topic-new">Nowy</span> &bull; {% endif %}
-                    <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
+                    <a href="{{ c.get_absolute_url }}">{{ c.name }}</a><br />
+                    <small>{{ c.description }}</small>
                 </td> 
                 <td>{{ c.thread_count }}</td>
                 <td>{{ c.post_count }}</td>
-                <td class="forum-description"> {{ c.description }} </td> 
+                <td>{{ c.latest_thread_author }} &raquo; <small>{{ c.latest_thread_date|date:"H:i - d.m.y" }}</small></td> 
             </tr>
             {% endfor %}
         </tbody>

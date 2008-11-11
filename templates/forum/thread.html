@@ -12,7 +12,11 @@
         {% if thread.solved %} &bull; <strong>Solved</strong> {% endif %}
 
     {% if user.is_authenticated %}
-        <div style="text-align: right"><a href="post_new/">Odpowiedź</a></div>
+    <div style="text-align: right">
+        <a href="post_new/">Napisz odpowiedź</a>
+        {% ifequal user thread.author %}&bull; <a href="solved/">Oznacz jako rozwiązany</a> {% endifequal %}
+    </div>
+
     {% endif %}
 
 {% endblock %}
@@ -34,7 +38,7 @@
                 </div>
                 <div>
                     <a href="#{{ forloop.counter }}" id="{{ forloop.counter }}">#{{ forloop.counter }} </a> 
-                    &bull; <strong><a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a></strong>
+                    &bull; autor : <strong><a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a></strong>
                 </div>
             </div>
             <div class="text rightnav">
