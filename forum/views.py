@@ -20,10 +20,14 @@ def category_list(request, template="forum/category_list.html"):
         }, context_instance=RequestContext(request))
 
 
-def thread_list(request, category_slug, number=20, offset=0,
+def thread_list(request, category_slug, offset_step=0, number=20,
         template="forum/thread_list.html"):
+    offset_step = int(offset_step)
+    number = int(number)
+    offset = offset_step * number
+    # fetch from database
     c = get_object_or_404(Category, slug=category_slug)
-    thread = c.thread_set.all()[offset:number]
+    thread = c.thread_set.all()[offset:offset+number]
     u = request.user
     # if possible, mark threads containing new messages
     if u.is_authenticated():
@@ -43,27 +47,52 @@ def thread_list(request, category_slug, number=20, offset=0,
                 if t.id == vt.thread.id and t.latest_post_date < vt.date:
                     t.is_new = False
                     break
+    # template data
+    threadcount = c.thread_count // number
+    if c.thread_count % number:
+        threadcount += 1
+    pageinfo = {
+            "offset": offset,
+            "number": number,
+            "offset_step": offset_step,
+            "sitecount": range(threadcount),
+            }
     return render_to_response(template, {
-        "category" : c,
-        "thread" : thread,
+        "category": c,
+        "thread": thread,
+        "page": pageinfo,
         }, context_instance=RequestContext(request))
 
-def thread(request, thread_slug, offset=0, number=20,
+def thread(request, thread_slug, offset_step=0, number=20,
         template="forum/thread.html"):
+    offset_step = int(offset_step)
+    number = int(number)
+    offset = offset_step * number
     t = get_object_or_404(Thread, slug=thread_slug)
     t.view_count += 1
     t.save()
-    p = t.post_set.all()[offset:number]
+    p = t.post_set.all()[offset:offset+number]
     f = PostForm()
     if request.user.is_authenticated():
         vt, created = VisitedThread.objects.get_or_create(
                 user=request.user, thread=t)
         vt.date = datetime.datetime.now()
         vt.save()
+    # template data
+    sitecount = t.post_count // number
+    if t.post_count % number:
+        sitecount += 1
+    pageinfo = {
+            "offset": offset,
+            "number": number,
+            "offset_step": offset_step,
+            "sitecount": range(sitecount),
+            }
     return render_to_response(template, {
-        "thread" : t,
-        "post" : p,
-        "form" : f,
+        "thread": t,
+        "post": p,
+        "form": f,
+        "page": pageinfo,
         }, context_instance=RequestContext(request))
 
 
@@ -141,7 +170,7 @@ def toggle_solved(request, thread_slug):
         t.solved = not t.solved
         t.save()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
-    
+
 
 @login_required
 def show_unreaded(request, template="forum/thread_list.html"):

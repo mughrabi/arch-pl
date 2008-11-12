@@ -44,6 +44,18 @@
             {% endfor %}
         </tbody>
     </table>
+        {% if not page.sitecount|length_is:"1" %}
+            <div class="center">
+                {% for n in page.sitecount %}
+                    {% ifequal n page.offset %}
+                        <strong>{{ n }}</strong>
+                    {% else %}
+                        <a href="{{ category.get_absolute_url }}offset/{{n}}/">{{ n }}</a>
+                    {% endifequal %}
+                    {% if not forloop.last %}&bull;{% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
     {% else %}
         <div class="center info">
         <h2>Brak postów</h2> 

@@ -31,13 +31,15 @@
                     {% ifequal p.author.username user.username %}
                         {% ifequal p thread.latest_post %}
                             &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
-                            &bull; <a href="{{ p.id }}/delete/">usuń</a> 
+                            &bull; <a href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
                         {% endifequal %}
                     {% endifequal %}
                     &bull; <a href="#">cytuj</a>
                 </div>
                 <div>
-                    <a href="#{{ forloop.counter }}" id="{{ forloop.counter }}">#{{ forloop.counter }} </a> 
+                    <a href="#{{ forloop.counter|add:page.offset }}" id="{{ forloop.counter|add:page.offset }}">
+                        #{{ forloop.counter|add:page.offset }} 
+                    </a> 
                     &bull; autor : <strong><a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a></strong>
                 </div>
             </div>
@@ -60,5 +62,18 @@
             </div>
         {% endifnotequal %}
     {% endif %}
+    
+    <div class="center">
+        {# <h2>{{ page.sitecount }}, {{ page.offset }}, {{ page.number }}, {{ thread.post_count }}</h2> #}
+        {% for n in page.sitecount %}
+            {% ifequal n page.offset_step %}
+                <strong>{{ n }}</strong>
+            {% else %}
+                <a href="{{ thread.get_absolute_url }}offset/{{n}}/">{{ n }}</a>
+            {% endifequal %}
+            {% if not forloop.last %}&bull;{% endif %}
+        {% endfor %}
+    </div>
+
 
 {% endblock %}

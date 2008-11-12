@@ -95,7 +95,7 @@ class Post(models.Model):
         super(Post, self).save(force_insert, force_update)
         t = self.thread
         t.latest_post_time = t.post_set.latest("date").date
-        t.posts = t.post_set.count()
+        t.post_count = t.post_set.count()
         t.save()
         c = self.thread.category
         c.thread_count = c.thread_set.count()
@@ -117,11 +117,10 @@ class Post(models.Model):
                 thread__category__pk=c.id).exclude(pk=self.id).count()
         c.save()
         # if this one is last, delete thread
-        if not self.id == t.latest_post.id:
-            t.post_count = t.post_set.exclude(pk=self.id).count()
-            t.latest_post_date = latest_post_date
-            t.save()
-        else:
+        t.post_count = t.post_set.exclude(pk=self.id).count()
+        t.latest_post_date = latest_post_date
+        t.save()
+        if not t.post_count:
             t.delete()
         super(Post, self).delete()
 
