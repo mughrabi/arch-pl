@@ -70,9 +70,9 @@ class Thread(models.Model):
         super(Thread, self).delete()
         c = self.category
         c.threads = c.thread_set.count()
-        c.posts = Post.objects.filter(thread__category__pk=c.id).count()
-        latest_post = Post.objects.filter(
-                category__pk=c.id).latest("date")
+        c.posts = Post.objects.filter(
+                thread__category__pk=c.id).count()
+        latest_post = Post.objects.latest("date")
         c.latest_thread_date = latest_post.date
         c.latest_thread_author = latest_post.author
         c.save()
@@ -112,13 +112,17 @@ class Post(models.Model):
         except Post.DoesNotExist:
             latest_post_date = None
         t = self.thread
-        t.post_count = t.post_set.exclude(pk=self.id).count()
-        t.latest_post_date = latest_post_date
-        t.save()
         c = self.thread.category
         c.post_count = Post.objects.filter(
                 thread__category__pk=c.id).exclude(pk=self.id).count()
         c.save()
+        # if this one is last, delete thread
+        if not self.id == t.latest_post.id:
+            t.post_count = t.post_set.exclude(pk=self.id).count()
+            t.latest_post_date = latest_post_date
+            t.save()
+        else:
+            t.delete()
         super(Post, self).delete()
 
 
@@ -134,6 +138,6 @@ class VisitedThread(models.Model):
 class AllCategoryVisit(models.Model):
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True)
-    
+
     def __unicode__(self):
         return "%s # %s" % (self.user, self.date)

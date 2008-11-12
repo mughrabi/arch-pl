@@ -16,7 +16,7 @@
             {% for c in category %}
             <tr>
                 <td class="forum-title">
-                    {% if c.has_new %}<span class="topic-flag topic-new">Nowy</span> &bull; {% endif %}
+                    {# {% if c.has_new %}<span class="topic-flag topic-new">Nowy</span> &bull; {% endif %} #}
                     <a href="{{ c.get_absolute_url }}">{{ c.name }}</a><br />
                     <small>{{ c.description }}</small>
                 </td> 

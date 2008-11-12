@@ -13,8 +13,8 @@
 
     {% if user.is_authenticated %}
     <div style="text-align: right">
-        <a href="post_new/">Napisz odpowiedź</a>
-        {% ifequal user thread.author %}&bull; <a href="solved/">Oznacz jako rozwiązany</a> {% endifequal %}
+        {% ifequal user thread.author %} <a href="solved/">Oznacz jako rozwiązany</a> {% endifequal %}
+        {% ifnotequal user thread.latest_post.author %}&bull; <a href="reply/">Napisz odpowiedź</a> {% endifnotequal %}
     </div>
 
     {% endif %}
@@ -30,8 +30,8 @@
                     <small>{{ p.date }}</small>
                     {% ifequal p.author.username user.username %}
                         {% ifequal p thread.latest_post %}
-                            &bull; <a href="#">edytuj</a> 
-                            &bull; <a href="#">usuń</a> 
+                            &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
+                            &bull; <a href="{{ p.id }}/delete/">usuń</a> 
                         {% endifequal %}
                     {% endifequal %}
                     &bull; <a href="#">cytuj</a>

@@ -6,11 +6,12 @@
 {% endblock %}
 
 {% block submenu %}
-    <li><a href="new/">Nowy temat</a></li>
+    {% if category %}<li><a href="new/">Nowy temat</a></li>{% endif %}
     {{ block.super }}
 {% endblock %}
 
 {% block forumdata %}
+    {% if thread %}
     <table class="list">
         <thead>
             <tr>
@@ -43,4 +44,9 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+        <div class="center info">
+        <h2>Brak postów</h2> 
+    </div>
+    {% endif %}
 {% endblock %}

@@ -6,6 +6,9 @@ body {
     font-size: 0.9em;
 }
 
+.center { text-align: center; }
+.info { border: 2px solid #1793D1; margin: 3em auto; padding: 1em; max-width: 60em}
+
 a {
     text-decoration: none;
     color: #1793D1;

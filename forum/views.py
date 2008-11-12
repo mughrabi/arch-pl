@@ -15,26 +15,6 @@ from forms import PostForm, ThreadForm
 def category_list(request, template="forum/category_list.html"):
     "Show forums list"
     category = Category.objects.all()
-    u = request.user
-    # mark category that contain new messages
-    if u.is_authenticated():
-        category = list(category)
-        dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
-        try:
-            allcv = AllCategoryVisit.objects.get(user=u)
-            dt = dt if dt > allcv.date else allcv.date
-        except AllCategoryVisit.DoesNotExist:
-            pass
-        vthread = list(VisitedThread.objects.filter(user=u))
-        for c in category:
-            if c.latest_thread_date < dt:
-                c.has_new = False
-                continue
-            c.has_new = True
-            for vt in vthread:
-                if c.id == vt.thread.category.id and \
-                        c.latest_thread_date < vt.date:
-                    c.has_new = False
     return render_to_response(template, {
         "category" : category,
         }, context_instance=RequestContext(request))
@@ -42,14 +22,6 @@ def category_list(request, template="forum/category_list.html"):
 
 def thread_list(request, category_slug, number=20, offset=0,
         template="forum/thread_list.html"):
-    def mark_unreaded(threads, readed_threads):
-        for t in threads:
-            t.is_new = True
-            for r in readed_threads:
-                if t.id == r.id and t.latest_post_date <= r.date:
-                    t.is_new = False
-                    break
-        return t
     c = get_object_or_404(Category, slug=category_slug)
     thread = c.thread_set.all()[offset:number]
     u = request.user
@@ -171,3 +143,54 @@ def toggle_solved(request, thread_slug):
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
     
 
+@login_required
+def show_unreaded(request, template="forum/thread_list.html"):
+    u = request.user
+    try:
+        dt = AllCategoryVisit.objects.get(user=u).date
+    except AllCategoryVisit.DoesNotExist:
+        dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
+    visited_th = VisitedThread.objects.filter(user=u)
+    all_th = Thread.objects.filter(latest_post_date__gt=dt)
+    # get unreaded posts
+    unreaded = []
+    for t in all_th:
+        is_new = True
+        for vt in visited_th:
+            if t.id == vt.thread.id and t.latest_post_date < vt.date:
+                is_new = False
+                break
+        if is_new:
+            unreaded.append(t)
+    return render_to_response(template, {
+        "thread" : unreaded,
+        }, context_instance=RequestContext(request))
+
+@login_required
+@user_passes_test(lambda u: u.has_perm("forum.add_post"))
+def edit_post(request, thread_slug, post_id, template="forum/add_post.html"):
+    t = get_object_or_404(Thread, slug=thread_slug)
+    p = t.post_set.get(id=post_id)
+    u = request.user
+    if not t.latest_post.id == p.id or not p.author == u:
+        return HttpResponseRedirect(t.get_absolute_url())
+    if request.POST:
+        f = PostForm(request.POST, instance=p)
+        if f.is_valid():
+            f.save()
+            return HttpResponseRedirect(t.get_absolute_url())
+    f = PostForm(instance=p)
+    return render_to_response(template, {
+        "topic": t,
+        "form": f,
+        }, context_instance=RequestContext(request))
+
+@login_required
+def delete_post(request, thread_slug, post_id):
+    t = get_object_or_404(Thread, slug=thread_slug)
+    p = t.post_set.get(id=post_id)
+    u = request.user
+    c_ulr = t.category.get_absolute_url()
+    if t.latest_post.id == p.id and p.author == u:
+        p.delete()
+    return HttpResponseRedirect(c_ulr)
