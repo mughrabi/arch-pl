@@ -1,0 +1,28 @@
+form { 
+    text-align: center; 
+    font-family: "DejaVu Sans", "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif;
+}
+
+textarea {
+    width: 95%;
+    margin: 0.5em auto;
+}
+
+div#id_submit { 
+    min-width: 16em; 
+    text-align: right; 
+    margin: 0.2em 3em;
+}
+
+input#id_title { font-size: 1.4em; font-weight: bold; }
+
+div#id_submit input { min-width: 20em; }
+
+input#id_title { width: 95%; }
+
+.wmd-preview { margin: 2em; }
+
+.formbox {
+    margin: 2em 0 0 0;
+}
+

@@ -1,0 +1,22 @@
+.news {
+    margin: 5em 2em;
+}
+
+.news .header { 
+    border-bottom: 1px dotted #1793D1; 
+    line-height: 1.5em;
+}
+
+.news .header .title { 
+    float: left; 
+    font-size: 1.5em;
+}
+
+.news .header .date {
+    font-size: 0.8em;
+    text-align: right;
+}
+
+.news .text {
+
+}

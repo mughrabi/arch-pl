@@ -2,13 +2,29 @@
 
 {% load markup %}
 
+{% block title %} {{ block.super }} - wiadomości {% endblock %}
 
 {% block middle %}
     {% for n in news %}
-        <div>
-            <h2><a href="{{ n.get_absolute_url }}">{{ n.title|capfirst }}</a></h2>
-            <small>{{ n.author }} - {{ n.date|date:"D d M Y" }}</small>
-            {{ n.text|markdown|truncatewords_html:100 }}
+        <div class="news">
+            <div class="header">
+                <div class="title"><a href="{{ n.get_absolute_url }}">{{ n.title|capfirst }}</a></div>
+                <div class="date">{{ n.author }} - {{ n.date|date:"D d M Y" }}</div>
+            </div>
+            <div class="text">
+                {{ n.text|markdown|truncatewords_html:100 }}
+            </div>
         </div>
     {% endfor %}
+
+    <div class="center">
+    {% for i in page.newsrange %}
+        {% ifequal i page.offset %}
+            <strong>{{ i }}</strong>
+        {% else %}
+        <a href="/news/older/{{ i }}/">{{ i }}</a>
+        {% endifequal %}
+        {% if not forloop.last %} &bull; {% endif %}
+    {% endfor %}
+    </div>
 {% endblock %}

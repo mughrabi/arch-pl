@@ -2,10 +2,17 @@
 
 {% load markup %}
 
+
+{% block title %} {{ block.super }} - wiadomość: {{ news.title }} {% endblock %}
+
 {% block middle %}
-    <div>
-        <h2><a href="{{ news.get_absolute_url }}">{{ news.title|capfirst }}</a></h2>
-        <small>{{ news.author }} - {{ news.date|date:"D d M Y" }}</small>
-        {{ news.text|markdown }}
+    <div class="news">
+        <div class="header">
+            <div class="title">{{ news.title|capfirst }}</a></div>
+            <div class="date">{{ news.author }} - {{ news.date|date:"D d M Y" }}</div>
+        </div>
+        <div class="text">
+            {{ news.text|markdown }}
+        </div>
     </div>
 {% endblock %}

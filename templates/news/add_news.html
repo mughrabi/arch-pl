@@ -1,9 +1,21 @@
 {% extends "base.html" %}
 
+{% block css %}<link rel="stylesheet" type="text/css" href="/static/css/addnews.css" />{% endblock %}
 
 {% block middle %}
-    <form action="." method="POST">
-        {{ form.as_p }}
-        <input type="submit" value="Wyślij" />
-    </form>
+    <div class="formbox">
+        <form action="." method="POST">
+            {{ form.title.errors }}
+            {{ form.title }}
+
+            {{ form.text }} 
+            {{ form.text.errors }} 
+
+            <div id="id_submit"><input type="submit" value="Wyślij" /></div>
+        </form>
+    </div>
+    <div class="wmd-preview"></div>    
+    <script type="text/javascript" src="/static/javascript/wmd.js"></script>
 {% endblock %}
+
+    

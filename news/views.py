@@ -20,11 +20,12 @@ def latest(request, offset=0, number=10, template="news/latest.html"):
             "offset": offset,
             "number": number,
             "offset_step": offset_step,
-            "newscount": newscount,
+            "newsrange": range(newscount),
             }
     n = News.objects.exclude(show=False)[offset_step:offset_step+number]
     return render_to_response(template, {
         "news": n,
+        "page": page,
         }, context_instance=RequestContext(request))
 
 def details(request, slug, template="news/details.html"):
