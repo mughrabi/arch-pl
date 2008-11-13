@@ -4,9 +4,6 @@
     {% if user.is_authenticated %}
         <li><a href="/forum/show_unreaded/">Pokaż nowe</a></li>
         <li><a href="/forum/all_readed/">Oznacz wszystkie jako przeczytane</a></li>
-        <li><a href="#">Wyloguj się</a></li>
-    {% else %}
-        <li><a href="#">Zaloguj się</a></li>
     {% endif %}
 {% endblock %}
 

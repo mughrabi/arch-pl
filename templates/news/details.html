@@ -1,0 +1,11 @@
+{% extends "news/base.html" %}
+
+{% load markup %}
+
+{% block middle %}
+    <div>
+        <h2><a href="{{ news.get_absolute_url }}">{{ news.title|capfirst }}</a></h2>
+        <small>{{ news.author }} - {{ news.date|date:"D d M Y" }}</small>
+        {{ news.text|markdown }}
+    </div>
+{% endblock %}

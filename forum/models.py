@@ -105,7 +105,7 @@ class Post(models.Model):
         c.latest_thread_author = t.author
         c.save()
 
-    def delete(self, *args, **kwds):
+    def delete(self):
         try:
             latest_post_date = Post.objects.exclude(
                     pk=self.id).latest("date").date

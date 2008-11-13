@@ -14,6 +14,13 @@
                 {% block menu %}
                 <li><a href="/">Strona główna</a></li>
                 <li><a href="/forum/">Forum</a></li>
+                {% if user %}
+                    {% if user.is_authenticated %}
+                        <li><a href="#">Wyloguj się</a></li>
+                    {% else %}
+                        <li><a href="#">Zaloguj się</a></li>
+                    {% endif %}
+                {% endif %}
                 {% endblock %}
             </ul>
             <ul class="submenu">

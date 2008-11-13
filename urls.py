@@ -7,9 +7,11 @@ from settings import DEBUG
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^admin/(.*)',        admin.site.root),
+    (r'^$',                 'news.views.latest'),
+    (r'^news',              include('news.urls')),
     (r'^uzytkownicy/',      include('registration.urls')),
     (r'^forum',             include('forum.urls')),
+    (r'^admin/(.*)',        admin.site.root),
 )
 
 if DEBUG:

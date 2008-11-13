@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+
+{% block middle %}
+    <form action="." method="POST">
+        {{ form.as_p }}
+        <input type="submit" value="Wyślij" />
+    </form>
+{% endblock %}

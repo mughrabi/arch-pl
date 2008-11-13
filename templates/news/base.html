@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load markup %}
+
+{% block submenu %}
+    {% if user.is_authenticated %}<a href="/news/create/">Zaproponuj artykuł</a>{% endif %}
+{% endblock %}
+
+
+{% block middle %}
+
+{% endblock %}

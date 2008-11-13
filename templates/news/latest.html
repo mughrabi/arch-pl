@@ -1,0 +1,14 @@
+{% extends "news/base.html" %}
+
+{% load markup %}
+
+
+{% block middle %}
+    {% for n in news %}
+        <div>
+            <h2><a href="{{ n.get_absolute_url }}">{{ n.title|capfirst }}</a></h2>
+            <small>{{ n.author }} - {{ n.date|date:"D d M Y" }}</small>
+            {{ n.text|markdown|truncatewords_html:100 }}
+        </div>
+    {% endfor %}
+{% endblock %}
