@@ -1,0 +1,87 @@
+table.list {
+    margin: 2em auto;
+    border-collapse: collapse;
+    border: 1px solid #333333;
+    width: 96%;
+    min-width: 60em;
+    line-height: 1.8em;
+}
+
+table.list td { padding: 0 1em; }
+
+.list thead{
+    background: #333333;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+}
+
+thead.topic-header { border: #0771A6; }
+
+thead.topic-header td { border-bottom: 3px solid #98B3D5; }
+
+thead.topic-header {
+    border: 1px solid #98B3D5;
+    padding: 0.3em 1em;
+    background-color: #BDC9D8;
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #5E5E5E;
+}
+
+td.t_name { min-width: 30em; }
+
+td.t_tnumb { text-align: center; }
+td.t_pnumb { text-align: center; }
+td.t_last { text-align: center; }
+td.t_vnumb { text-align: center; }
+
+td.t_name img { margin: 0 0.5em -0.2em 0; }
+
+
+/* post */
+.topic-info {
+    font-size: 1.4em;
+    margin: 0.5em 2em;
+}
+
+.post {
+    clear: both;
+    margin: 0.4em 1em;
+}
+
+.post .user-info {
+    margin: 1em;
+    text-align: center;
+}
+
+.leftnav {
+    min-width: 6em;
+    float: left;
+}
+
+.rightnav {
+}
+
+.post .text {
+    padding: 0.3em;
+    border: 1px solid #DCDCDC;
+}
+
+.user-name {
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.post .panel {
+    background: #DCDCDC;
+    margin: 0;
+    padding: 0 0.3em;
+    border-bottom: none;
+}
+
+.post .panel-right {
+    text-align: right;
+    float: right;
+}

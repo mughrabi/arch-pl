@@ -47,8 +47,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     'django.contrib.markup',
-    'registration',
-    # current apps
     'forum',
     'userprofile',
     'news',
@@ -57,7 +55,6 @@ INSTALLED_APPS = (
 
 AUTH_PROFILE_MODULE = 'userprofile.userprofile'
 
-ACCOUNT_ACTIVATION_DAYS = 7
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.auth",
@@ -66,4 +63,4 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media"
 )
 
-FORUM_MAX_DAY_MARK = 40
+FORUM_MAX_DAY_MARK = 10

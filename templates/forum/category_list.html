@@ -6,23 +6,26 @@
     <table class="list">
         <thead>
             <tr>
-                <td>Nazwa działu</td>
-                <td>Wątki</td>
-                <td>Posty</td>
-                <td>Ostatni post</td>
+                <td class="t_name">Nazwa działu</td>
+                <td class="t_tnumb">Wątki</td>
+                <td class="t_pnumb">Posty</td>
+                <td class="t_last">Ostatni post</td>
             </tr>
         </thead>
         <tbody>
             {% for c in category %}
             <tr>
-                <td class="forum-title">
-                    {# {% if c.has_new %}<span class="topic-flag topic-new">Nowy</span> &bull; {% endif %} #}
+                <td class="t_name">
+                    {% if c.has_new %}Obrazek! {% endif %}
                     <a href="{{ c.get_absolute_url }}">{{ c.name }}</a><br />
                     <small>{{ c.description }}</small>
                 </td> 
-                <td>{{ c.thread_count }}</td>
-                <td>{{ c.post_count }}</td>
-                <td>{{ c.latest_thread_author }} &raquo; <small>{{ c.latest_thread_date|date:"H:i - d.m.y" }}</small></td> 
+                <td class="t_tnumb">{{ c.thread_count }}</td>
+                <td class="t_pnumb">{{ c.post_count }}</td>
+                <td class="t_last">
+                    {{ c.latest_thread_author }} &raquo; 
+                    <small>{{ c.latest_thread_date|date:"H:i - d.m.y" }}</small>
+                </td> 
             </tr>
             {% endfor %}
         </tbody>

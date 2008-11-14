@@ -1,10 +1,18 @@
 {% extends "forum/base.html" %}
 
+{% block css %}<link rel="stylesheet" type="text/css" href="/static/css/addform.css" />{% endblock %}
+
+
 {% block forumdata %}
+    <div class="wmd-preview"></div>    
     <form action="." method="POST">
-        {{ t_form.as_p }}
-        {{ p_form.as_p }}
-        <input type="submit" value="Submit" />
+        {{ t_form.title.errors }}
+        {{ t_form.title }}
+        {{ p_form.text.errors }}
+        {{ p_form.text }}
+        <div id="id_submit"><input type="submit" value="Wyślij" /></div>
     </form>
+    <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
+    <script type="text/javascript" src="/static/javascript/wmd.js"></script>
 {% endblock %}
 

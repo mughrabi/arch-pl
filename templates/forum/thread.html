@@ -2,6 +2,10 @@
 
 {% load markup %}
 
+{% block css %} 
+    {{ block.super }} 
+    <link rel="stylesheet" type="text/css" href="/static/css/addform.css" />
+{% endblock %}
 
 {% block title %}{{ block.super}} : {{ thread.title }}{% endblock %}
 
@@ -13,7 +17,13 @@
 
     {% if user.is_authenticated %}
     <div style="text-align: right">
-        {% ifequal user thread.author %} <a href="solved/">Oznacz jako rozwiązany</a> {% endifequal %}
+        {% ifequal user thread.author %} 
+            {% if thread.solved %} 
+                <a href="solved/">Usuń flagę "rozwiązany"</a> 
+            {% else %}
+                <a href="solved/">Oznacz jako rozwiązany</a> 
+            {% endif %}
+        {% endifequal %}
         {% ifnotequal user thread.latest_post.author %}&bull; <a href="reply/">Napisz odpowiedź</a> {% endifnotequal %}
     </div>
 
@@ -53,18 +63,20 @@
     {# quick post form #}
     {% if user.is_authenticated %}
         {% ifnotequal thread.latest_post.author user %}
+            <div class="wmd-preview"></div>    
             <div id="response">
                 <form action="reply/" method="POST">
-                    <p><em>Do formatowania składni możesz użyć <a href="http://en.wikipedia.org/wiki/Markdown">markdown</a></em></p>
-                    {{ form }}
-                    <input type="submit" value="Wyślij" />
+                    {{ form.text.errors }}
+                    {{ form.text }}
+                    <div id="id_submit"><input type="submit" value="Wyślij" /></div>
                 </form>
+                <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
+                <script type="text/javascript" src="/static/javascript/wmd.js"></script>
             </div>
         {% endifnotequal %}
     {% endif %}
     
     <div class="center">
-        {# <h2>{{ page.sitecount }}, {{ page.offset }}, {{ page.number }}, {{ thread.post_count }}</h2> #}
         {% for n in page.sitecount %}
             {% ifequal n page.offset_step %}
                 <strong>{{ n }}</strong>

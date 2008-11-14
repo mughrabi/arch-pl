@@ -15,31 +15,30 @@
     <table class="list">
         <thead>
             <tr>
-                <td class="topic-title">Tytuł</td>
-                <td class="topic-tag">Dział</td>
-                <td class="topic-posts">Odpowiedzi</td>
-                <td class="topic-view">Wyświetlenia</td>
-                <td class="topic-change">Ostatnia zmiana</td>
+                <td class="t_name">Tytuł</td>
+                <td class="t_category">Dział</td>
+                <td class="t_pnumb">Odpowiedzi</td>
+                <td class="t_vnumb">Wyświetlenia</td>
+                <td class="t_last">Ostatnia zmiana</td>
             </tr>
         </thead>
         <tbody>
             {% for t in thread %}
                 <tr>
-                    <td class="topic-title">
-                        {% if t.sticky %}<span class="topic-flag stick">Przyklejony</span> &bull; {% endif %}
-                        {% if t.is_new %}<span class="topic-flag topic-new">Nowy</span> &bull; {% endif %}
-                        {% if t.solved %}
-                            <span class="topic-flag solved">Rozwiązany</span> &bull; 
-                        {% else %} 
-                            {% if t.closed %}<span class="topic-flag closed">Zamknięty</span> &bull; {% endif %}
-                        {% endif %}
+                    <td class="t_name">
+                        {% if t.sticky %}<img src="/static/images/thread_sticky.png" alt="sticky!" />  {% endif %}
+                        {% if t.solved %}<img src="/static/images/thread_solved.png" alt="rozwiązany" /> {% endif %}
+                        {% if t.is_new %}<img src="/static/images/thread_new.png" alt="nowy" />  {% endif %}
+                        {% if t.closed %}<img src="/static/images/thread_closed.png" alt="zamknięty" /> {% endif %}
                         <a href="{{ t.get_absolute_url }}">{{ t.title }}</a>
                         <em><small> przez  {{ t.author }} </small></em>
                     </td> 
-                    <td class="topic-tag">{{ t.category }}</td>
-                    <td class="topic-posts">{{ t.post_count }}</td>
-                    <td class="topic-view">{{ t.view_count }}</td>
-                    <td class="topic-change">{{ t.latest_post_date|date:"d.m.y - H:i" }} &bull; {{ t.latest_post.author }}</td>
+                    <td class="t_category">{{ t.category }}</td>
+                    <td class="t_pnumb">{{ t.post_count }}</td>
+                    <td class="t_vnumb">{{ t.view_count }}</td>
+                    <td class="t_last">
+                        {{ t.latest_post_date|date:"D d M Y  --  H:i" }} &bull; {{ t.latest_post.author }}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

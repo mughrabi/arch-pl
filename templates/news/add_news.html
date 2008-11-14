@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
-{% block css %}<link rel="stylesheet" type="text/css" href="/static/css/addnews.css" />{% endblock %}
+{% block css %}<link rel="stylesheet" type="text/css" href="/static/css/addform.css" />{% endblock %}
 
 {% block middle %}
+    <div class="wmd-preview"></div>    
     <div class="formbox">
         <form action="." method="POST">
             {{ form.title.errors }}
@@ -14,7 +15,7 @@
             <div id="id_submit"><input type="submit" value="Wyślij" /></div>
         </form>
     </div>
-    <div class="wmd-preview"></div>    
+    <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
     <script type="text/javascript" src="/static/javascript/wmd.js"></script>
 {% endblock %}
 

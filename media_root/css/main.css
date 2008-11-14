@@ -2,8 +2,9 @@ body {
     min-width: 600px;
     margin: 0 auto;
     color: #46494d;
-    font-family: "DejaVu Sans", "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif;
-    font-size: 0.9em;
+    /* font-family: "DejaVu Sans", "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif; */
+    font-family: 'News Gothic MT', 'Trebuchet MS', Arial, Helvetica, sans-serif; 
+    font-size: 0.85em;
 }
 
 .center { text-align: center; }
@@ -22,6 +23,7 @@ a:hover {
 .header-menu {
     text-align: right;
     padding: 0;
+    font-family: "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif;
 }
 
 .header-menu ul.menu {
@@ -68,139 +70,3 @@ a:hover {
 
 
 
-/* table */
-.list thead{
-    background: #333333;
-    color: #ffffff;
-    font-weight: bold;
-    text-align: center;
-}
-
-table.list {
-    margin: 2em 5em;
-    border-collapse: collapse;
-    border: 1px solid #333333;
-    width: 90%;
-    line-height: 1.8em;
-}
-
-table.list td {
-    padding: 0 0.5em;
-}
-
-.list .forum {
-    line-height: 2em;
-}
-
-.forum td {
-    padding: 0.3em 1em;
-}
-
-
-/* table head & foot */
-thead.topic-header {
-    border: #0771A6;
-}
-
-thead.topic-header td {
-    border-bottom: 3px solid #98B3D5;
-}
-
-thead.topic-header, 
-tfoot.topic-footer {
-    border: 1px solid #98B3D5;
-    padding: 0.3em 1em;
-    background-color: #BDC9D8;
-    font-weight: bold;
-    font-size: 0.9em;
-    color: #5E5E5E;
-}
-
-tfoot.topic-footer {
-    border-top: 3px solid #98B3D5;
-}
-
-/* table body */
-
-tr.topic {
-    text-align: left;
-}
-
-tbody tr.topic:hover, 
-tbody tr.topic:hover a {
-    background-color: #EAF1FF;
-}
-
-td.topic-title,
-td.topic-author,
-td.topic-date {
-    padding: 0 1em;
-}
-
-td.topic-title {
-}
-
-td.topic-author {
-}
-
-td.topic-change,
-td.topic-date {
-    text-align: right;
-}
-
-.topic-flag {
-    font-size: 0.8em;
-    color: #3333333;
-}
-
-.topic-new {
-    font-weight: bold;
-}
-
-/* post */
-.topic-info {
-    font-size: 1.4em;
-    margin: 0.5em 2em;
-}
-
-.post {
-    clear: both;
-    margin: 0.4em 1em;
-    paC3C3;
-}
-
-.post .user-info {
-    margin: 1em;
-    text-align: center;
-}
-
-.leftnav {
-    min-width: 6em;
-    float: left;
-}
-
-.rightnav {
-}
-
-.post .text {
-    padding: 0.3em;
-    border: 1px solid #DCDCDC;
-}
-
-.user-name {
-    font-weight: bold;
-    text-align: center;
-    font-size: 1.1em;
-}
-
-.post .panel {
-    background: #DCDCDC;
-    margin: 0;
-    padding: 0 0.3em;
-    border-bottom: none;
-}
-
-.post .panel-right {
-    text-align: right;
-    float: right;
-}

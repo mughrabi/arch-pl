@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block css %} 
+    {{ block.super }} 
+    <link rel="stylesheet" type="text/css" href="/static/css/forum.css" />
+{% endblock %}
+
+
 {% block submenu %}
     {% if user.is_authenticated %}
         <li><a href="/forum/show_unreaded/">Pokaż nowe</a></li>

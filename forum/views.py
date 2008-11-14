@@ -14,6 +14,7 @@ from forms import PostForm, ThreadForm
 
 def category_list(request, template="forum/category_list.html"):
     "Show forums list"
+    # TODO - mark category that contain new posts
     category = Category.objects.all()
     return render_to_response(template, {
         "category" : category,
@@ -27,7 +28,6 @@ def thread_list(request, category_slug, offset_step=0, number=20,
     offset = offset_step * number
     # fetch from database
     c = get_object_or_404(Category, slug=category_slug)
-    thread = c.thread_set.all()[offset:offset+number]
     u = request.user
     # if possible, mark threads containing new messages
     if u.is_authenticated():
@@ -37,16 +37,21 @@ def thread_list(request, category_slug, offset_step=0, number=20,
             dt = dt if dt > allcv.date else allcv.date
         except AllCategoryVisit.DoesNotExist:
             pass
-        thread = list(thread)
-        vthread = list(VisitedThread.objects.filter(user=u))
-        for t in thread:
-            if t.latest_post_date < dt:
-                continue
-            t.is_new = True
-            for vt in vthread:
-                if t.id == vt.thread.id and t.latest_post_date < vt.date:
-                    t.is_new = False
-                    break
+        if offset == 0:
+            unreaded = list(Thread.objects.filter(
+                    latest_post_date__gt=dt, category=c
+                    ).exclude(visitedthread__user=u))
+            for u in unreaded:
+                u.is_new = True
+        else:
+            unreaded = []
+        unreaded_offset = number - len(unreaded)
+        threads = Thread.objects.filter(
+                category=c)[len(unreaded):unreaded_offset]
+        # join unreaded and old threads lists
+        thread = unreaded + list(threads)
+    else:
+        thread = c.thread_set.all()[offset:offset+number]
     # template data
     threadcount = c.thread_count // number
     if c.thread_count % number:
@@ -179,20 +184,11 @@ def show_unreaded(request, template="forum/thread_list.html"):
         dt = AllCategoryVisit.objects.get(user=u).date
     except AllCategoryVisit.DoesNotExist:
         dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
-    visited_th = VisitedThread.objects.filter(user=u)
-    all_th = Thread.objects.filter(latest_post_date__gt=dt)
-    # get unreaded posts
-    unreaded = []
-    for t in all_th:
-        is_new = True
-        for vt in visited_th:
-            if t.id == vt.thread.id and t.latest_post_date < vt.date:
-                is_new = False
-                break
-        if is_new:
-            unreaded.append(t)
+    unreaded = Thread.objects.filter(latest_post_date__gt=dt
+            ).exclude(visitedthread__user=u)
     return render_to_response(template, {
         "thread" : unreaded,
+        "page": { "sitecount" : [] },
         }, context_instance=RequestContext(request))
 
 @login_required
