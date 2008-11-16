@@ -19,8 +19,9 @@ def user_login(request, template="userprofile/login.html"):
             login(request, user)
             return HttpResponseRedirect(request.GET.get("next") or "/")
         info = "Zły login i/lub hasło"
+    f = LoginForm()
     return render_to_response(template, {
-        "form": LoginForm(),
+        "form": f,
         "info": info,
         })
 
@@ -32,10 +33,16 @@ def user_logout(request):
 
 def register(request, template="userprofile/registration.html"):
     if request.POST:
-        pass
-    form = RegistrationForm()
+        f = RegistrationForm(request.POST)
+        if f.is_valid():
+            user = User.objects.create_user(
+                    f.data['username'], f.data['mail'], f.data['password_pass0'])
+            user.save()
+            return HttpResponseRedirect(request.GET.get("next") or "/")
+    else:
+        f = RegistrationForm()
     return render_to_response(template, {
-        "form": form,
+        "form": f,
         })
 
 

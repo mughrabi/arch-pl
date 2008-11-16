@@ -15,6 +15,12 @@
 
 
 {% block middle %}
+    <div class="search-form">
+        <form action="/forum/search/" method="GET">
+            <input id="id_searchtext" name="searchtext" type="text" />
+            <input id="id_submit" type="submit" value="Szukaj">
+        </form>
+    </div>
     <div class="topic-info">
     {% block path %} 
         &bull; <a href="/forum/">Index</a> 

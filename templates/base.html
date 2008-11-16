@@ -2,7 +2,6 @@
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        {% block header %} {% endblock %}
         {% block javascript %} {% endblock %}
         {% block css %} {% endblock %}
         <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
@@ -12,6 +11,7 @@
     <body>
         <div class="header">
             <img src="/static/images/arch_logo.png" alt="" />
+            {% block header %} {% endblock %}
         </div>
         <div class="header-menu">
             <ul class="menu">
@@ -32,6 +32,12 @@
                 {% endblock %}
             </ul>
         </div>
+        {% if globalinfo %}
+            <div id="globalinfo">
+                {{ globalinfo }}
+            </div>
+        {% endif %}
+
         {% block middle %} {% endblock %}
     </body>
 </html>

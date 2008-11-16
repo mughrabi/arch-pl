@@ -2,6 +2,8 @@ from django.conf.urls.defaults import patterns
 
 urlpatterns = patterns("forum.views",
         (r"^/$",                                                                "category_list"),
+        (r"^/search/$",                                                         "quick_search"),
+        (r"^/search/(?P<searchtext>.+)/$",                                      "quick_search"),
         (r"^/all_readed/$",                                                     "mark_all_read"),
         (r"^/show_unreaded/$",                                                  "show_unreaded"),
         (r"^/thread/(?P<thread_slug>[\w-]+)/$",                                 "thread"),

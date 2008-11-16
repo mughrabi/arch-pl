@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import datetime
 
 from django.shortcuts import render_to_response, get_object_or_404
@@ -6,6 +8,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.template.defaultfilters import slugify
+from django.db.models import Q
 
 from settings import FORUM_MAX_DAY_MARK
 from models import Category, Thread, Post
@@ -219,3 +222,24 @@ def delete_post(request, thread_slug, post_id):
     if t.latest_post.id == p.id and p.author == u:
         p.delete()
     return HttpResponseRedirect(c_ulr)
+
+
+def quick_search(request, searchtext=None, template="forum/thread_list.html"):
+    if request.GET:
+        searchtext = request.GET.get("searchtext")
+    pageinfo = { "sitecount" : [] }
+    if not searchtext or \
+            len(searchtext.replace(" ", "")) < len(searchtext.split()) * 4:
+        return render_to_response(template, {
+            "globalinfo": "szukanie podanej frazy może zabić bazę!",
+            "page": pageinfo,
+            }, context_instance=RequestContext(request))
+    thread = Thread.objects.all()
+    for stext in searchtext.split():
+        thread = thread.filter(Q(post__text__contains=stext) | Q(title=stext))
+    thread = thread.distinct()[:100]
+    return render_to_response(template, {
+        "thread": thread,
+        "page": pageinfo,
+        }, context_instance=RequestContext(request))
+
