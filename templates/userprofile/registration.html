@@ -1,0 +1,16 @@
+{% extends "userprofile/base.html" %}
+
+
+{% block  middle %}
+    {% if info %}<div class="info center">{{ info }}</div>{% endif %}
+    
+    <div class="center" style="margin: 5em 0;">
+        <form action="." method="POST" style="margin: 4em">
+            <table style="margin: 2em auto;">
+                {{ form.as_table }}
+            </table>
+            <div id="id_submit"><input type="submit" value="Rejestruj użytkownika" /></div>
+        </form>
+        <a href="/accounts/login/">wróć do logowania</a>
+    </div>
+{% endblock %}

@@ -19,6 +19,9 @@ a:hover {
     color: #333333;
 }
 
+.header { padding: 0.5em; }
+
+
 /* menu */
 .header-menu {
     text-align: right;
@@ -60,12 +63,17 @@ a:hover {
 
 .header-menu ul.submenu {
     background: #1793D1;
+    line-height: 1.45em;
+    min-height: 1.45em;
+}
+
+.submenu a:hover {
+    color: #333333;
 }
 
 .header-menu ul.submenu li {
     display: inline;
     padding: 0 1em;
-    line-height: 1.4em;
 }
 
 

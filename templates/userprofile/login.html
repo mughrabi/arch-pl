@@ -1,0 +1,14 @@
+{% extends "userprofile/base.html" %}
+
+
+{% block  middle %}
+    {% if info %}<div class="info center">{{ info }}</div>{% endif %}
+    
+    <div class="center" style="margin: 10em 0;">
+        <form action="." method="POST" style="margin: 4em">
+            {{ form.as_p }}
+            <div id="id_submit"><input type="submit" value="Zaloguj" /></div>
+        </form>
+        <a href="/accounts/register/">zarejestruj nowe konto</a>
+    </div>
+{% endblock %}

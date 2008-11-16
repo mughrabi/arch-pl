@@ -10,23 +10,26 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     </head>
     <body>
+        <div class="header">
+            <img src="/static/images/arch_logo.png" alt="" />
+        </div>
         <div class="header-menu">
-            <h1>Placeholder</h1>
             <ul class="menu">
                 {% block menu %}
                 <li><a href="/">Strona główna</a></li>
                 <li><a href="/forum/">Forum</a></li>
                 {% if user %}
                     {% if user.is_authenticated %}
-                        <li><a href="#">Wyloguj się</a></li>
+                        <li><a href="/accounts/logout/">Wyloguj się</a></li>
                     {% else %}
-                        <li><a href="#">Zaloguj się</a></li>
+                        <li><a href="/accounts/login/">Zaloguj się</a></li>
                     {% endif %}
                 {% endif %}
                 {% endblock %}
             </ul>
             <ul class="submenu">
-                {% block submenu %} {% endblock %}
+                {% block submenu %}
+                {% endblock %}
             </ul>
         </div>
         {% block middle %} {% endblock %}

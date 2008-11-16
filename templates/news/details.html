@@ -12,7 +12,7 @@
             <div class="date">{{ news.author }} - {{ news.date|date:"D d M Y" }}</div>
         </div>
         <div class="text">
-            {{ news.text|markdown }}
+            {{ news.text|escape|markdown }}
         </div>
     </div>
 {% endblock %}

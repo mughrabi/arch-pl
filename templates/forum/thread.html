@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="text rightnav">
-                {{ p.text|markdown }}
+                {{ p.text|escape|urlize|markdown }}
             </div>
             <div style="clear:both"><!-- sentry --></div>
         </div>
@@ -71,6 +71,8 @@
                     <div id="id_submit"><input type="submit" value="Wyślij" /></div>
                 </form>
                 <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
+
+                <script type="text/javascript"> wmd_options = { output: "Markdown", autostart: true }; </script>
                 <script type="text/javascript" src="/static/javascript/wmd.js"></script>
             </div>
         {% endifnotequal %}

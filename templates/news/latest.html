@@ -12,7 +12,7 @@
                 <div class="date">{{ n.author }} - {{ n.date|date:"D d M Y" }}</div>
             </div>
             <div class="text">
-                {{ n.text|markdown|truncatewords_html:100 }}
+                {{ n.text|escape|markdown|truncatewords_html:100 }}
             </div>
         </div>
     {% endfor %}

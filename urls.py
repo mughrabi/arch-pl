@@ -9,8 +9,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     (r'^$',                 'news.views.latest'),
     (r'^news',              include('news.urls')),
-    (r'^uzytkownicy/',      include('registration.urls')),
     (r'^forum',             include('forum.urls')),
+    (r'^accounts/',            include('userprofile.urls')),
     (r'^admin/(.*)',        admin.site.root),
 )
 
