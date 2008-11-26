@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block css %} 
+    {{ block.super }} 
+    <link rel="stylesheet" type="text/css" href="/static/css/bugtracker.css" />
+{% endblock %}
+
+
+{% block submenu %}
+    {% if user.is_authenticated %}
+        <li><a href="/bugs/report/">Zgłoś buga</a></li>
+    {% endif %}
+{% endblock %}
+
+
+{% block middle %}
+    {% block bugdata %}
+    {% endblock %}
+{% endblock %}

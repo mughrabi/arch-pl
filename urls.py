@@ -10,7 +10,8 @@ urlpatterns = patterns('',
     (r'^$',                 'news.views.latest'),
     (r'^news',              include('news.urls')),
     (r'^forum',             include('forum.urls')),
-    (r'^accounts/',            include('userprofile.urls')),
+    (r'^accounts/',         include('userprofile.urls')),
+    (r'^bugs/',             include('bugtracker.urls')),
     (r'^admin/(.*)',        admin.site.root),
 )
 

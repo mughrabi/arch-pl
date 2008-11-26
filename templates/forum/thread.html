@@ -44,7 +44,7 @@
                             &bull; <a href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
                         {% endifequal %}
                     {% endifequal %}
-                    &bull; <a href="#">cytuj</a>
+                    &bull; <a href="reply/quote/{{ p.id }}/">cytuj</a>
                 </div>
                 <div>
                     <a href="#{{ forloop.counter|add:page.offset }}" id="{{ forloop.counter|add:page.offset }}">

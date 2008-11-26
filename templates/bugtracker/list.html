@@ -1,0 +1,30 @@
+{% extends "bugtracker/base.html" %}
+
+{% block bugdata %}
+    <table>
+        <thead>
+            <tr>
+                <td>Tytuł</td>
+                <td>zgłoszone przez</td>
+                <td>data zgłoszenia</td>
+                {% if b.closed %}
+                    <td>zamknięty przez</td>
+                    <td>data zamknięcia</td>
+                {% endif %}
+            </tr>
+        </thead>
+        {% for b in buglist %}
+        <tbody>
+            <tr>
+                <td><a href="{{ b.get_absolute_url }}">{{ b.title }}</a></td>
+                <td>{{ b.reported_by }}</td>
+                <td>{{ b.date_reported }}</td>
+                {% if b.closed %}
+                    <td>{{ b.closed_by }}</td>
+                    <td>{{ b.closed_date }}</td>
+                {% endif %}
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+{% endblock %}

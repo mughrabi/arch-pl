@@ -106,7 +106,8 @@ def thread(request, thread_slug, offset_step=0, number=20,
 
 @login_required
 @user_passes_test(lambda u: u.has_perm("forum.add_post"))
-def add_post(request, thread_slug, template="forum/add_post.html"):
+def add_post(request, thread_slug, post_id=None, 
+        template="forum/add_post.html"):
     t = get_object_or_404(Thread, slug=thread_slug)
     u = request.user
     if t.latest_post.author == u:
@@ -117,7 +118,12 @@ def add_post(request, thread_slug, template="forum/add_post.html"):
             f.save()
             return HttpResponseRedirect(t.get_absolute_url())
     else:
-        f = PostForm()
+        data = {}
+        if post_id:
+            # TODO - add quote mark
+            data['text'] = "> ".join(
+                    t.post_set.get(id=post_id).text.split("\n"))
+        f = PostForm(data)
     return render_to_response(template, {
         "topic": t,
         "form": f,
@@ -169,7 +175,7 @@ def mark_all_read(request):
     if not created:
         obj.date = datetime.datetime.now()
         obj.save()
-    return HttpResponseRedirect("/forum/")
+    return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
 
 @login_required
 def toggle_solved(request, thread_slug):
@@ -177,7 +183,7 @@ def toggle_solved(request, thread_slug):
     if t.author == request.user:
         t.solved = not t.solved
         t.save()
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
 
 
 @login_required
