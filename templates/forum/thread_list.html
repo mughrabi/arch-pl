@@ -7,7 +7,6 @@
             <thead>
                 <tr>
                     <td class="t_name">Tytuł</td>
-                    <td class="t_keywords">Słowa kluczowe</td>
                     <td class="t_pnumb">Odpowiedzi</td>
                     <td class="t_vnumb">Wyświetlenia</td>
                     <td class="t_last">Ostatnia zmiana</td>
@@ -24,7 +23,6 @@
                             <a href="{{ t.get_absolute_url }}">{{ t.title }}</a>
                             <em><small> przez  {{ t.author }} </small></em>
                         </td> 
-                        <td class="t_keywords"><em>{{ t.keywords }}</em></td>
                         <td class="t_pnumb">{{ t.post_count }}</td>
                         <td class="t_vnumb">{{ t.view_count }}</td>
                         <td class="t_last">
@@ -45,6 +43,6 @@
             </div>
         {% endif %}
     {% else %}
-        <div class="info">Brak postów do wyświetlenia</div>
+        <div class="infobox center">Brak postów do wyświetlenia</div>
     {% endif %}
 {% endblock %}

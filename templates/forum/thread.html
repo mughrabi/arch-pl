@@ -55,8 +55,14 @@
                     &bull; autor : <strong><a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a></strong>
                 </div>
             </div>
-            <div class="text rightnav">
-                {{ p.text|escape|urlize|markdown }}
+            <div>
+                <div style="margin: 0.5em 0.5em 0.5em 2em; float: right; max-height: 80px;">
+                    <img src="{{ p.author.get_profile.avatar }}" alt="" />
+                </div>
+                <div class="text">{{ p.text|escape|urlize|markdown }}</div>
+                {% if p.author.get_profile.signature %}
+                    <div class="signature">{{ p.author.get_profile.signature|markdown }}</div>
+                {% endif %}
             </div>
             <div style="clear:both"><!-- sentry --></div>
         </div>
@@ -66,7 +72,7 @@
     {% if user.is_authenticated %}
         {% ifnotequal thread.latest_post.author user %}
             <div id="response">
-                <form action="reply/" method="POST">
+                <form action="reply/" method="POST" class="center">
                     {{ form.text.errors }}
                     {{ form.text }}
                     <div id="id_submit"><input type="submit" value="Wyślij" /></div>

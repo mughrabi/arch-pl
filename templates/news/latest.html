@@ -5,6 +5,18 @@
 {% block title %} {{ block.super }} - wiadomości {% endblock %}
 
 {% block middle %}
+    <div class="infobox" style="font-size: 0.9em;">
+        <h2>Witaj na polskiej stronie Archa!</h2>
+
+        <p>Znalazłeś się na stronie poświęconej Arch Linuksowi, lekkiej i
+        elastycznej dystrybucji Linuksa®, która coraz mniej stara się trzymać zasady 
+        <em>Keep It Simple.</em></p>
+
+        <p>Posiadamy oficialne repozytoria dla pakietów optymalizowanych dla
+        architektur i686 oraz x86-64. Bla bla bla.. jesteśmy fajni.</p>
+    </div>
+
+
     {% for n in news %}
         <div class="news">
             <div class="header">

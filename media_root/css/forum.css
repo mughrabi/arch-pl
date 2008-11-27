@@ -61,13 +61,9 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
     float: left;
 }
 
-.rightnav {
-}
-
-.post .text {
-    padding: 0.3em;
-    border: 1px solid #DCDCDC;
-}
+.rightnav { } 
+.post { border: 1px solid #DCDCDC; }
+.text { padding: 0.3em; }
 
 .user-name {
     font-weight: bold;
@@ -79,11 +75,24 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
     background-color: #EFEFEF;
     margin: 0;
     padding: 0.1em 1em;
-    border: 1px solid #D2D2D2;
-    border-bottom: none;
+    border-bottom: 1px solid #D2D2D2;
 }
 
 .post .panel-right {
     text-align: right;
     float: right;
 }
+
+.signature {
+    margin: 0;
+    padding: 0.1em 1em;
+    font-size: 0.7em;
+    /* background: #EFEFEF; */
+    border-top: 1px solid #DCDCDC;
+    min-width: 40em;
+    color: #8E8E8E;
+    text-align: right;
+    float: right;
+}
+.signature a { color: #8E8E8E; }
+.signature p { margin: 0; padding: 0 }

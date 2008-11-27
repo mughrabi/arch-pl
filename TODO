@@ -1,13 +1,15 @@
 Hot stuff
 ---------
-* avatary z gravatar zamiast statycznie hostowanych
+* podgląd pisanej wiadomości
+* statyczne strony (regulamin, FAQ)
+* konfiguracja profilu użytkownika
 
 Not so hot
 ----------
-* dopracować "nowe" posty
-    - optymalizacja
-
+* zaawansowane opcje dla moderatora
+* połączenie z kontami dla planety i wiki
 
 Future Feature
 --------------
 * internacionalizacjia
+* javascript

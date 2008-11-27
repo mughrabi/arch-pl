@@ -10,8 +10,6 @@ class Thread(models.Model):
     author = models.ForeignKey(User)
     title = models.CharField(max_length=128)
     slug = models.SlugField(unique=True, max_length=128)
-    keywords = models.CharField(max_length=64,
-            help_text="Split keywords with signgle space")
     # special flags
     closed = models.BooleanField(default=False)
     sticky = models.BooleanField(default=False)

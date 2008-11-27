@@ -218,7 +218,7 @@ def quick_search(request, searchtext=None, template="forum/thread_list.html"):
     if not searchtext or \
             len(searchtext.replace(" ", "")) < len(searchtext.split()) * 4:
         return render_to_response(template, {
-            "globalinfo": "szukanie podanej frazy może zabić bazę!",
+            "globalinfo": "podana fraza składa się ze zbyt krótkich haseł",
             "page": pageinfo,
             }, context_instance=RequestContext(request))
     thread = Thread.objects.all()
