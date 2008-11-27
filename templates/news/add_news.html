@@ -3,7 +3,6 @@
 {% block css %}<link rel="stylesheet" type="text/css" href="/static/css/addform.css" />{% endblock %}
 
 {% block middle %}
-    <div class="wmd-preview"></div>    
     <div class="formbox">
         <form action="." method="POST">
             {{ form.title.errors }}
@@ -16,9 +15,6 @@
         </form>
     </div>
     <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
-
-    <script type="text/javascript"> wmd_options = { output: "Markdown", autostart: true }; </script>
-    <script type="text/javascript" src="/static/javascript/wmd.js"></script>
 {% endblock %}
 
     

@@ -1,33 +1,17 @@
 # -*- coding: utf-8 -*-
 
-import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
-class Category(models.Model):
-    slug = models.SlugField(_("Slug field"), max_length=24)
-    name = models.CharField(_("Name"), max_length=24)
-    description = models.TextField(_("Description"))
-    thread_count = models.PositiveIntegerField(_("Topics"), default=0)
-    post_count = models.PositiveIntegerField(_("Posts"), default=0)
-    latest_thread_date = models.DateTimeField(auto_now=True)
-    latest_thread_author = models.ForeignKey(User, default=1)
-
-    def __unicode__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return "/forum/%s/" % self.slug
-
-
 class Thread(models.Model):
     author = models.ForeignKey(User)
-    title = models.CharField(max_length=120)
-    slug = models.SlugField(unique=True, max_length=122)
-    category = models.ForeignKey(Category)
+    title = models.CharField(max_length=128)
+    slug = models.SlugField(unique=True, max_length=128)
+    keywords = models.CharField(max_length=64,
+            help_text="Split keywords with signgle space")
     # special flags
     closed = models.BooleanField(default=False)
     sticky = models.BooleanField(default=False)
@@ -59,24 +43,6 @@ class Thread(models.Model):
         return self.__latest_post
     latest_post = property(_get_latest_post)
 
-    def save(self, force_insert=False, force_update=False):
-        c = self.category
-        c.post_count = c.thread_set.count()
-        c.latest_thread_date = datetime.datetime.now()
-        c.latest_thread_author = self.author
-        super(Thread, self).save(force_insert, force_update)
-
-    def delete(self):
-        super(Thread, self).delete()
-        c = self.category
-        c.threads = c.thread_set.count()
-        c.posts = Post.objects.filter(
-                thread__category__pk=c.id).count()
-        latest_post = Post.objects.latest("date")
-        c.latest_thread_date = latest_post.date
-        c.latest_thread_author = latest_post.author
-        c.save()
-
 
 class Post(models.Model):
     thread = models.ForeignKey(Thread)
@@ -95,15 +61,8 @@ class Post(models.Model):
         super(Post, self).save(force_insert, force_update)
         t = self.thread
         t.latest_post_time = t.post_set.latest("date").date
-        t.post_count = t.post_set.count()
+        t.post_count = t.post_set.count() - 1
         t.save()
-        c = self.thread.category
-        c.thread_count = c.thread_set.count()
-        c.post_count = Post.objects.filter(
-                thread__category__pk=c.id).count()
-        c.latest_thread_date = datetime.datetime.now()
-        c.latest_thread_author = t.author
-        c.save()
 
     def delete(self):
         try:
@@ -112,10 +71,6 @@ class Post(models.Model):
         except Post.DoesNotExist:
             latest_post_date = None
         t = self.thread
-        c = self.thread.category
-        c.post_count = Post.objects.filter(
-                thread__category__pk=c.id).exclude(pk=self.id).count()
-        c.save()
         # if this one is last, delete thread
         t.post_count = t.post_set.exclude(pk=self.id).count()
         t.latest_post_date = latest_post_date
@@ -134,7 +89,7 @@ class VisitedThread(models.Model):
         return "%s @ %s" % (self.user, self.thread)
 
 
-class AllCategoryVisit(models.Model):
+class AllVisited(models.Model):
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True)
 

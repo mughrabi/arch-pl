@@ -12,25 +12,27 @@
         <div class="header">
             <img src="/static/images/arch_logo.png" alt="" />
             {% block header %} {% endblock %}
-        </div>
-        <div class="header-menu">
-            <ul class="menu">
-                {% block menu %}
-                <li><a href="/">Strona główna</a></li>
-                <li><a href="/forum/">Forum</a></li>
-                {% if user %}
-                    {% if user.is_authenticated %}
-                        <li><a href="/accounts/logout/">Wyloguj się</a></li>
-                    {% else %}
-                        <li><a href="/accounts/login/">Zaloguj się</a></li>
+            <div class="header-menu">
+                <ul class="menu">
+                    {% block menu %}
+                    <li><a href="/">Strona główna</a></li>
+                    <li><a href="/forum/">Forum</a></li>
+                    <li><a href="#">Wiki</a></li>
+                    <li><a href="#">Planeta</a></li>
+                    {% if user %}
+                        {% if user.is_authenticated %}
+                            <li><a href="/accounts/logout/">Wyloguj się</a></li>
+                        {% else %}
+                            <li><a href="/accounts/login/">Zaloguj się</a></li>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-                {% endblock %}
-            </ul>
-            <ul class="submenu">
-                {% block submenu %}
-                {% endblock %}
-            </ul>
+                    {% endblock %}
+                </ul>
+                <ul class="submenu">
+                    {% block submenu %}
+                    {% endblock %}
+                </ul>
+            </div>
         </div>
         {% if globalinfo %}
             <div id="globalinfo">

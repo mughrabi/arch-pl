@@ -1,7 +1,9 @@
 form { 
-    text-align: center; 
+    text-align: left; 
     font-family: "DejaVu Sans", "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif;
 }
+
+form p { margin: 1em 1em; }
 
 textarea {
     width: 95%;
@@ -14,11 +16,12 @@ div#id_submit {
     margin: 0.2em 3em;
 }
 
-input#id_title { font-size: 1.4em; font-weight: bold; }
+input#id_title { font-size: 1.2em }
 
 div#id_submit input { min-width: 20em; }
 
 input#id_title { width: 95%; }
+input#id_keywords { min-width: 40em; }
 
 .wmd-preview { margin: 2em; }
 

@@ -7,23 +7,24 @@
 
 
 {% block submenu %}
-    {% if user.is_authenticated %}
-        <li><a href="/forum/show_unreaded/">Pokaż nowe</a></li>
-        <li><a href="/forum/all_readed/">Oznacz wszystkie jako przeczytane</a></li>
-    {% endif %}
-{% endblock %}
-
-
-{% block middle %}
     <div class="search-form">
         <form action="/forum/search/" method="GET">
             <input id="id_searchtext" name="searchtext" type="text" />
             <input id="id_submit" type="submit" value="Szukaj">
         </form>
     </div>
+    {% if user.is_authenticated %}
+        <li><a href="/forum/show_unreaded/">Pokaż nowe</a></li>
+        <li><a href="/forum/all_readed/">Oznacz wszystkie jako przeczytane</a></li>
+        <li><a href="/forum/new_thread/">Stwórz nowy temat</a></li>
+        <li><a href="/forum/advanced_search/">Zaawansowane szukanie</a></li>
+    {% endif %}
+{% endblock %}
+
+
+{% block middle %}
     <div class="topic-info">
     {% block path %} 
-        &bull; <a href="/forum/">Index</a> 
     {% endblock %}
     </div>
 

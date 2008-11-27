@@ -1,17 +1,18 @@
 table.list {
     margin: 2em auto;
     border-collapse: collapse;
-    border: 1px solid #333333;
+    border: 1px solid #D2D2D2;
     width: 96%;
     min-width: 60em;
-    line-height: 1.8em;
+    line-height: 2.5em;
 }
 
 table.list td { padding: 0 1em; }
 
 .list thead{
-    background: #333333;
-    color: #ffffff;
+    background: #EFEFEF;
+    border-bottom: 1px solid #D2D2D2;
+    color: #333333;
     font-weight: bold;
     text-align: center;
 }
@@ -21,9 +22,9 @@ thead.topic-header { border: #0771A6; }
 thead.topic-header td { border-bottom: 3px solid #98B3D5; }
 
 thead.topic-header {
-    border: 1px solid #98B3D5;
     padding: 0.3em 1em;
-    background-color: #BDC9D8;
+    background-color: #EFEFEF;
+    border: 1px solid #D2D2D2;
     font-weight: bold;
     font-size: 0.9em;
     color: #5E5E5E;
@@ -75,9 +76,10 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 }
 
 .post .panel {
-    background: #DCDCDC;
+    background-color: #EFEFEF;
     margin: 0;
-    padding: 0 0.3em;
+    padding: 0.1em 1em;
+    border: 1px solid #D2D2D2;
     border-bottom: none;
 }
 

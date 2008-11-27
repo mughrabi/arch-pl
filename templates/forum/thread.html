@@ -10,10 +10,12 @@
 {% block title %}{{ block.super}} : {{ thread.title }}{% endblock %}
 
 {% block path %}
-    {{ block.super }} &raquo; 
-        <a href="{{ thread.category.get_absolute_url }}">{{ thread.category }}</a> 
+        &bull; <a href="/forum/">Index</a>
         &raquo; {{ thread.title }} 
-        {% if thread.solved %} &bull; <strong>Solved</strong> {% endif %}
+        {% if thread.is_new %} &bull; <strong>Nowy</strong>{% endif %}
+        {% if thread.sticky %} &bull; <strong>Przyklejony</strong>{% endif %}
+        {% if thread.solved %} &bull; <strong>Rozwiązany</strong>{% endif %}
+        {% if thread.closed %} &bull; <strong>Zamknięty</strong>{% endif %}
 
     {% if user.is_authenticated %}
     <div style="text-align: right">
@@ -63,7 +65,6 @@
     {# quick post form #}
     {% if user.is_authenticated %}
         {% ifnotequal thread.latest_post.author user %}
-            <div class="wmd-preview"></div>    
             <div id="response">
                 <form action="reply/" method="POST">
                     {{ form.text.errors }}
@@ -71,9 +72,6 @@
                     <div id="id_submit"><input type="submit" value="Wyślij" /></div>
                 </form>
                 <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
-
-                <script type="text/javascript"> wmd_options = { output: "Markdown", autostart: true }; </script>
-                <script type="text/javascript" src="/static/javascript/wmd.js"></script>
             </div>
         {% endifnotequal %}
     {% endif %}

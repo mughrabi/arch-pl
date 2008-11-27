@@ -37,6 +37,7 @@ def register(request, template="userprofile/registration.html"):
         if f.is_valid():
             user = User.objects.create_user(
                     f.data['username'], f.data['mail'], f.data['password_pass0'])
+            user.groups.add("Users")
             user.save()
             return HttpResponseRedirect(request.GET.get("next") or "/")
     else:

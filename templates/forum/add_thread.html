@@ -4,19 +4,12 @@
 
 
 {% block forumdata %}
-    <div class="wmd-preview"></div>    
     <form action="." method="POST">
-        {{ t_form.title.errors }}
-        {{ t_form.title }}
-        {{ p_form.text.errors }}
-        {{ p_form.text }}
+        {{ t_form.as_p }}
+        {{ p_form.as_p }}
         <div id="id_submit"><input type="submit" value="Wyślij" /></div>
     </form>
     <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
-
-    <script type="text/javascript"> wmd_options = { output: "Markdown", autostart: true }; </script>
-    <script type="text/javascript" src="/static/javascript/wmd.js"></script>
-
 
 {% endblock %}
 
