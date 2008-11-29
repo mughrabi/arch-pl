@@ -4,7 +4,11 @@ import time
 
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.forms import ModelForm
 from django import forms
+
+from models import UserProfile
+
 
 class LoginForm(forms.Form):
     username = forms.CharField(label=_("Login"), max_length=30)
@@ -78,4 +82,9 @@ class RegistrationForm(forms.Form):
         if self.cleaned_data['botprotect2'] == time.gmtime().tm_year + 2:
             return True
         raise forms.ValidationError(_("poo"))
+
+
+class UserProfileForm(ModelForm):
+    class Meta:
+        model  = UserProfile
 

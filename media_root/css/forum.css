@@ -48,7 +48,8 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 
 .post {
     clear: both;
-    margin: 0.4em 1em;
+    margin: 1.5em 1em;
+    background: #EFEFEF;
 }
 
 .post .user-info {
@@ -75,7 +76,6 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
     background-color: #EFEFEF;
     margin: 0;
     padding: 0.1em 1em;
-    border-bottom: 1px solid #D2D2D2;
 }
 
 .post .panel-right {
@@ -88,11 +88,42 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
     padding: 0.1em 1em;
     font-size: 0.7em;
     /* background: #EFEFEF; */
-    border-top: 1px solid #DCDCDC;
     min-width: 40em;
+    height: 1em;
     color: #8E8E8E;
     text-align: right;
-    float: right;
 }
 .signature a { color: #8E8E8E; }
 .signature p { margin: 0; padding: 0 }
+
+.lnav { 
+    position: absolute;
+    width: 100px;
+}
+
+.rnav {
+    border: 1px solid #D2D2D2;
+    border-right: none;
+    background: #ffffff;
+    padding: 0 1em;
+    margin-left: 100px;
+    min-height: 70px;
+}
+
+.avatar img { max-height: 80px; padding: 0 0.8em; }
+
+/* search form */
+.search-form {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    text-align: right;
+    margin: 1em 2em 0 2em;
+}
+.search-form input {
+    border: 1px solid #D2D2D2;
+    background: #EFEFEF;
+    padding: 0.2em 0.5em;
+}
+
+.search-form #id_searchtext { min-width: 20em; }

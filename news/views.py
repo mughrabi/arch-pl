@@ -20,7 +20,7 @@ def latest(request, offset=0, number=10, template="news/latest.html"):
             "offset": offset,
             "number": number,
             "offset_step": offset_step,
-            "newsrange": range(newscount),
+            "newsrange": range(newscount) if newscount is not 1 else [],
             }
     n = News.objects.exclude(show=False)[offset_step:offset_step+number]
     return render_to_response(template, {

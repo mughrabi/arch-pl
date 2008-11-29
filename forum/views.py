@@ -20,9 +20,7 @@ def thread_list(request, offset_step=0, number=20,
     offset_step = int(offset_step)
     number = int(number)
     offset = offset_step * number
-    # fetch from database
     u = request.user
-    # if possible, mark threads containing new messages
     if u.is_authenticated():
         dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
         try:
@@ -30,19 +28,14 @@ def thread_list(request, offset_step=0, number=20,
             dt = dt if dt > allcv.date else allcv.date
         except AllVisited.DoesNotExist:
             pass
-        if offset == 0:
-            unreaded = list(Thread.objects.filter(
-                    latest_post_date__gt=dt).exclude(visitedthread__user=u))
-            for u in unreaded:
-                u.is_new = True
-        else:
-            unreaded = []
+        # get unreaded, and fill thread list with old one
+        unreaded = Thread.objects.filter(latest_post_date__gt=dt
+                ).exclude(visitedthread__user=u)[offset:offset + number]
         unreaded_offset = number - len(unreaded)
         threads = Thread.objects.all()[len(unreaded):unreaded_offset]
-        # join unreaded and old threads lists
-        thread = unreaded + list(threads)
     else:
-        thread = Thread.objects.all()[offset:offset+number]
+        # fetch latest threads
+        thread = Thread.objects.all()[offset:offset + number]
     # template data
     pageinfo = {
             "offset": offset,
@@ -51,7 +44,8 @@ def thread_list(request, offset_step=0, number=20,
             "sitecount": [],
             }
     return render_to_response(template, {
-        "thread": thread,
+        "unreaded_threads": unreaded,
+        "old_threads": threads,
         "page": pageinfo,
         }, context_instance=RequestContext(request))
 

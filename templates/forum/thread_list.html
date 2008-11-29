@@ -2,36 +2,61 @@
 
 
 {% block forumdata %}
-    {% if thread %}
-        <table class="list">
-            <thead>
-                <tr>
-                    <td class="t_name">Tytuł</td>
-                    <td class="t_pnumb">Odpowiedzi</td>
-                    <td class="t_vnumb">Wyświetlenia</td>
-                    <td class="t_last">Ostatnia zmiana</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for t in thread %}
-                    <tr>
-                        <td class="t_name">
-                            {% if t.is_new %}<strong>Nowy</strong> &bull; {% endif %}
-                            {% if t.sticky %}<strong>Przyklejony</strong> &bull; {% endif %}
-                            {% if t.solved %}<strong>Rozwiązany</strong> &bull; {% endif %}
-                            {% if t.closed %}<strong>Zamknięty</strong> &bull; {% endif %}
-                            <a href="{{ t.get_absolute_url }}">{{ t.title }}</a>
-                            <em><small> przez  {{ t.author }} </small></em>
-                        </td> 
-                        <td class="t_pnumb">{{ t.post_count }}</td>
-                        <td class="t_vnumb">{{ t.view_count }}</td>
-                        <td class="t_last">
-                            {{ t.latest_post_date|date:"D d M Y  --  H:i" }} &bull; {{ t.latest_post.author }}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+{% if unreaded_threads or old_threads %}
+    <table class="list">
+        <thead>
+            <tr>
+                <td class="t_name">Tytuł</td>
+                <td class="t_pnumb">Odpowiedzi</td>
+                <td class="t_vnumb">Wyświetlenia</td>
+                <td class="t_last">Ostatnia zmiana</td>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for t in unreaded_threads %}
+            <tr>
+                <td class="t_name">
+                    {% if t.sticky %}<strong>Przyklejony</strong> &bull; {% endif %}
+                    {% if t.solved %}<strong>Rozwiązany</strong> &bull; {% endif %}
+                    {% if t.closed %}<strong>Zamknięty</strong> &bull; {% endif %}
+                    <strong><a href="{{ t.get_absolute_url }}">{{ t.title }}</a></strong>
+                    <em><small> przez  {{ t.author }} </small></em>
+                </td> 
+                <td class="t_pnumb">{{ t.post_count }}</td>
+                <td class="t_vnumb">{{ t.view_count }}</td>
+                <td class="t_last">
+                    {{ t.latest_post_date|date:"D d M Y  --  H:i" }} &bull; {{ t.latest_post.author }}
+                </td>
+            </tr>
+        {% endfor %}
+
+
+        {% for t in old_threads %}
+            <tr>
+                <td class="t_name">
+                    {% if t.sticky %}<strong>Przyklejony</strong> &bull; {% endif %}
+                    {% if t.solved %}<strong>Rozwiązany</strong> &bull; {% endif %}
+                    {% if t.closed %}<strong>Zamknięty</strong> &bull; {% endif %}
+                    <a href="{{ t.get_absolute_url }}">{{ t.title }}</a>
+                    <em><small> przez  {{ t.author }} </small></em>
+                </td> 
+                <td class="t_pnumb">{{ t.post_count }}</td>
+                <td class="t_vnumb">{{ t.view_count }}</td>
+                <td class="t_last">
+                    {{ t.latest_post_date|date:"D d M Y  --  H:i" }} &bull; {{ t.latest_post.author }}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% else %}
+    <div class="infobox center">Brak postów do wyświetlenia</div>
+{% endif %}
+
+
         {% if not page.sitecount|length_is:"1" %}
             <div class="center">
                 {% for n in page.sitecount %}
@@ -42,7 +67,4 @@
                 {% endfor %}
             </div>
         {% endif %}
-    {% else %}
-        <div class="infobox center">Brak postów do wyświetlenia</div>
-    {% endif %}
 {% endblock %}

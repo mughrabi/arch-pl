@@ -54,18 +54,28 @@
                     </a> 
                     &bull; autor : <strong><a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a></strong>
                 </div>
-            </div>
+            </div> <!-- class="panel" -->
+
             <div>
-                <div style="margin: 0.5em 0.5em 0.5em 2em; float: right; max-height: 80px;">
-                    <img src="{{ p.author.get_profile.avatar }}" alt="" />
+                <div class="lnav">
+                    <div class="avatar">
+                        <img src="{{ p.author.get_profile.avatar }}" alt="" />
+                        <!-- <img src="/static/images/default_avatar.jpg" alt="" /> -->
+                    </div>
                 </div>
-                <div class="text">{{ p.text|escape|urlize|markdown }}</div>
+
+                <div class="rnav">
+                    {{ p.text|escape|urlize|markdown }}
+                </div>
+            </div>
+
+            <div class="signature">
                 {% if p.author.get_profile.signature %}
-                    <div class="signature">{{ p.author.get_profile.signature|markdown }}</div>
+                    {{ p.author.get_profile.signature|markdown }}
                 {% endif %}
             </div>
-            <div style="clear:both"><!-- sentry --></div>
-        </div>
+
+        </div> <!-- class="post" -->
     {% endfor %}
 
     {# quick post form #}

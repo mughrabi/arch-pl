@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, RegistrationForm, UserProfileForm
 
 def user_login(request, template="userprofile/login.html"):
     info = None
@@ -36,7 +36,7 @@ def register(request, template="userprofile/registration.html"):
         f = RegistrationForm(request.POST)
         if f.is_valid():
             user = User.objects.create_user(
-                    f.data['username'], f.data['mail'], 
+                    f.data['username'], f.data['mail'],
                     f.data['password_pass0'])
             # this group should have been created with yaml datafile
             g = Group.objects.get(name="SimpleUser")
@@ -58,4 +58,7 @@ def userinfo(request, username, template="userprofile/userinfo.html"):
 
 @login_required
 def preferences(request, template="userprofile/preferences.html"):
-    pass
+    f = UserProfileForm()
+    return render_to_response(template, {
+        "form": f,
+        }, context_instance=RequestContext(request))
