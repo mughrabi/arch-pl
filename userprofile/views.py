@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 
+from models import UserProfile
 from forms import LoginForm, RegistrationForm, UserProfileForm
 
 def user_login(request, template="userprofile/login.html"):
@@ -52,13 +53,20 @@ def register(request, template="userprofile/registration.html"):
 
 @login_required
 def userinfo(request, username, template="userprofile/userinfo.html"):
-    user = get_object_or_404(User, name=username)
+    user = get_object_or_404(User, username=username)
     return render_to_response(template, {
+        "user": user,
         }, context_instance=RequestContext(request))
 
 @login_required
-def preferences(request, template="userprofile/preferences.html"):
-    f = UserProfileForm()
+def user_preferences(request, template="userprofile/preferences.html"):
+    profile = UserProfile.objects.get_or_create(
+            user=request.user, defaults={})
+    form = UserProfileForm(instance=profile)
+    if request.POST:
+        if form.is_valid():
+            form = form.save()
+            return HttpResponseRedirect(form.get_absolute_url())
     return render_to_response(template, {
-        "form": f,
+        "form": form,
         }, context_instance=RequestContext(request))

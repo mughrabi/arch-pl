@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load markup %}
+
+{% block title %} 
+    {{ block.super }} # {{ pag.title }} 
+{% endblock %}
+
+
+{% block middle %}
+    {{ page.text|markdown }}
+{% endblock %}

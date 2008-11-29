@@ -64,6 +64,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media"
 )
 
-FORUM_MAX_DAY_MARK = 10
-
 APPEND_SLASH = False
+
+FORUM_MAX_DAY_MARK = 10

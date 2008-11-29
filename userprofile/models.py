@@ -11,7 +11,7 @@ class UserProfile(models.Model):
     jabber = models.EmailField(blank=True)
     jabber_notify = models.BooleanField(
             _('Jabber notifycation'), default=False)
-    signature = models.CharField(max_length=256)
+    signature = models.CharField(max_length=256, blank=True)
 
     def avatar(self):
         if not hasattr(self, "__avatar"):
