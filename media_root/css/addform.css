@@ -6,8 +6,8 @@ form {
 form p { margin: 1em 1em; }
 
 textarea {
-    width: 95%;
-    min-height: 25em;
+    width: 70%;
+    min-height: 10em;
     margin: 0.5em auto;
 }
 
