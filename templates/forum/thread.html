@@ -88,7 +88,16 @@
                     {{ form.text }}
                     <div id="id_submit"><input type="submit" value="Wyślij" /></div>
                 </form>
-                <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
+		<div id="help">
+		    <p>Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a> (podstawowe formatowanie):</p>
+		    <ul>
+			<li>*emfaza* (<em>emfaza</em>)</li>
+			<li>**silna emfaza** (<strong>silna emfaza</strong>)</li>
+			<li>`kod` (<code>kod</code>)</li>
+			<li>[nazwa_linka](adres_linka "tytuł")</li>
+			<li>![nazwa_obrazka](link_obrazka "tytuł_obrazka")</li>
+		    </ul>
+		</div>	
             </div>
         {% endifnotequal %}
     {% endif %}
