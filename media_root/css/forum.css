@@ -45,6 +45,14 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
     margin: 1.5em 1em;
 }
 
+#response form {
+    float: left;
+}
+
+#help {
+    padding: 10px;
+    float: right;
+}
 
 /* post */
 .topic-info {
