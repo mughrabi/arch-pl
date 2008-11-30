@@ -83,11 +83,13 @@
     {% if user.is_authenticated %}
         {% ifnotequal thread.latest_post.author user %}
             <div id="response">
-                <form action="reply/" method="POST" class="center">
-                    {{ form.text.errors }}
-                    {{ form.text }}
-                    <div id="id_submit"><input type="submit" value="Wyślij" /></div>
-                </form>
+                <div id="form">
+		    <form action="reply/" method="POST" class="center">
+			{{ form.text.errors }}
+			{{ form.text }}
+			<div id="id_submit"><input type="submit" value="Wyślij" /></div>
+		    </form>
+		</div>
 		<div id="help">
 		    <p>Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">Markdown</a> (podstawowe formatowanie):</p>
 		    <ul>
