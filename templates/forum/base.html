@@ -5,6 +5,11 @@
     <link rel="stylesheet" type="text/css" href="/static/css/forum.css" />
 {% endblock %}
 
+{% block title %}
+    {{ block.super }} # forum 
+{% endblock %}
+
+
 
 {% block submenu %}
     {% if user.is_authenticated %}

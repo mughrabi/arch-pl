@@ -42,7 +42,9 @@ def register(request, template="userprofile/registration.html"):
             # this group should have been created with yaml datafile
             g = Group.objects.get(name="SimpleUser")
             user.groups.add(g)
-            user.save()
+            u = user.save()
+            up = UserProfile(user=user)
+            up.save()
             return HttpResponseRedirect(request.GET.get("next") or "/")
     else:
         f = RegistrationForm()

@@ -18,7 +18,7 @@ class News(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return "/news/show/%s/" % self.slug
+        return "/news/%s/" % self.slug
 
     def save(self, force_insert=False, force_update=False):
         super(News, self).save(force_insert, force_update)

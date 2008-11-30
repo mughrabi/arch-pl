@@ -19,9 +19,17 @@
 
     {% for n in news %}
         <div class="news">
-            <div class="header">
-                <div class="title"><a href="{{ n.get_absolute_url }}">{{ n.title|capfirst }}</a></div>
-                <div class="date">{{ n.author }} - {{ n.date|date:"D d M Y" }}</div>
+            <div class="news-header">
+                <div class="title">
+                    {% if not n.show %}
+                        <strong>Propozycja</strong> &bull;
+                    {% endif %}
+                    <a href="{{ n.get_absolute_url }}show/">{{ n.title|capfirst }}</a>
+                </div>
+                <div class="date">
+                    {{ n.date|date:"D d M Y" }} &bull; 
+                    <em><a href="{{ n.author.get_absolute_url }}">{{ n.author }}</a></em>
+                </div>
             </div>
             <div class="text">
                 {{ n.text|escape|markdown|truncatewords_html:100 }}

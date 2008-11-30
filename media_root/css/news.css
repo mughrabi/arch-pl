@@ -2,21 +2,27 @@
     margin: 5em 2em;
 }
 
-.news .header { 
+.news .news-header { 
     border-bottom: 1px dotted #1793D1; 
     line-height: 1.5em;
+    padding: 0 0.5em;
 }
 
-.news .header .title { 
+.news .news-header .title { 
     float: left; 
-    font-size: 1.5em;
+    font-size: 1.7em;
 }
 
-.news .header .date {
+.news .news-header .date {
     font-size: 0.8em;
     text-align: right;
 }
 
 .news .text {
 
+}
+
+.news .news-pref {
+    text-align: right;
+    margin: 0.5em;
 }

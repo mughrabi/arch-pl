@@ -7,10 +7,40 @@
 
 {% block middle %}
     <div class="news">
-        <div class="header">
-            <div class="title">{{ news.title|capfirst }}</a></div>
+        <div class="news-header">
+            <div class="title">
+                {% if not news.show %}
+                    <strong>Propozycja</strong> &bull;
+                {% endif %}
+                {{ news.title|capfirst }}
+        </div>
             <div class="date">{{ news.author }} - {{ news.date|date:"D d M Y" }}</div>
         </div>
+{% if perms.news.can_delete or perms.news.can_edit %}
+        <div class="news-pref">
+            <strong>zarządzaj artykułem: </strong>
+            {% if perms.news.can_edit %}
+                {% if not news.show %}
+                    <a href="{{ news.get_absolute_url }}confirm/">zatwierdź</a> &bull;
+                {% endif %}
+                <a href="{{ news.get_absolute_url }}edit/">edytuj</a> &bull;
+            {% endif %}
+            {% if perms.news.can_delete %}
+                <a href="{{ news.get_absolute_url }}delete/">usuń</a> 
+            {% endif %}
+        </div>
+{% else %}
+    {% ifequal news.author user %}
+        {% if not news.show %}
+                <div class="news-pref">
+                    <strong>zarządzaj artykułem: </strong>
+                    <a href="{{ news.get_absolute_url }}edit/">edytuj</a> 
+                    &bull;
+                    <a href="{{ news.get_absolute_url }}delete/">usuń</a> 
+                </div>
+        {% endif %}
+    {% endifequal %}
+{% endif %}
         <div class="text">
             {{ news.text|escape|markdown }}
         </div>

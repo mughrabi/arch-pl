@@ -35,7 +35,8 @@ def thread_list(request, offset_step=0, number=20,
         threads = Thread.objects.all()[len(unreaded):unreaded_offset]
     else:
         # fetch latest threads
-        thread = Thread.objects.all()[offset:offset + number]
+        unreaded = []
+        threads = Thread.objects.all()[offset:offset + number]
     # template data
     pageinfo = {
             "offset": offset,
@@ -89,7 +90,8 @@ def add_post(request, thread_slug, post_id=None,
     t = get_object_or_404(Thread, slug=thread_slug)
     u = request.user
     if t.latest_post.author == u:
-        return HttpResponseRedirect(t.get_absolute_url())
+        return edit_post(request, thread_slug, t.latest_post.id)
+        #return HttpResponseRedirect(t.get_absolute_url())
     if request.POST:
         f = PostForm(request.POST, instance=Post(thread=t, author=u))
         if f.is_valid():
@@ -98,9 +100,12 @@ def add_post(request, thread_slug, post_id=None,
     else:
         data = {}
         if post_id:
-            # TODO - add quote mark
-            data['text'] = "> ".join(
-                    t.post_set.get(id=post_id).text.split("\n"))
+            q_post = t.post_set.get(id=post_id)
+            q_info = u"\n\n > *%s*, **%s** powiedział:" % \
+                    (q_post.date, q_post.author.username)
+            q_info = [q_info, ]
+            q_msg = [' \n\n > ' + l for l in q_post.text.split("\n") if l.strip()]
+            data['text'] = " ".join(q_info + q_msg)
         f = PostForm(data)
     return render_to_response(template, {
         "topic": t,
@@ -202,7 +207,7 @@ def delete_post(request, thread_slug, post_id):
     u = request.user
     if t.latest_post.id == p.id and p.author == u:
         p.delete()
-    return HttpResponseRedirect("/forum/")
+    return HttpResponseRedirect(t.get_absolute_url())
 
 
 def quick_search(request, searchtext=None, template="forum/thread_list.html"):

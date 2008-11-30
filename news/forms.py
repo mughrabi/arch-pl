@@ -7,3 +7,5 @@ class NewsForm(ModelForm):
     class Meta:
         model = News
         fields = ('title', 'text')
+
+
