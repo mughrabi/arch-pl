@@ -27,7 +27,7 @@
             {% endif %}
         {% endifequal %}
         {# {% ifnotequal user thread.latest_post.author %}&bull; <a href="reply/">Napisz odpowiedź</a> {% endifnotequal %} #}
-        &bull; <a href="reply/">Napisz odpowiedź</a>
+        {% if not thread.closed %}&bull; <a href="reply/">Napisz odpowiedź</a> {% endif %}
     </div>
 
     {% endif %}

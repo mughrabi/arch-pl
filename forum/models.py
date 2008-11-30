@@ -19,10 +19,12 @@ class Thread(models.Model):
     view_count = models.PositiveIntegerField(_("Views"), default=0)
     # info about last post
     latest_post_date = models.DateTimeField(
-            _("Latest Post Time"), auto_now=True)
+            _("Latest Post time"), auto_now_add=True)
+    latest_post_author = models.DateTimeField(
+            _("Latest Post author"))
 
     class Meta:
-        ordering = ("-sticky", "latest_post_date")
+        ordering = ("-sticky", "-latest_post_date")
 
     def get_absolute_url(self):
         return "/forum/thread/%s/" % self.slug
@@ -55,27 +57,27 @@ class Post(models.Model):
         return "post by " + self.author.username
 
     def save(self, force_insert=False, force_update=False):
-        new_post = False
         super(Post, self).save(force_insert, force_update)
         t = self.thread
-        t.latest_post_time = t.post_set.latest("date").date
+        lp = t.post_set.latest("date")
+        t.latest_post_time = lp.date
+        t.latest_post_author = lp.author
         t.post_count = t.post_set.count() - 1
         t.save()
 
     def delete(self):
-        try:
-            latest_post_date = Post.objects.exclude(
-                    pk=self.id).latest("date").date
-        except Post.DoesNotExist:
-            latest_post_date = None
         t = self.thread
-        # if this one is last, delete thread
         t.post_count = t.post_set.exclude(pk=self.id).count()
-        t.latest_post_date = latest_post_date
-        t.save()
-        if not t.post_count:
+        try:
+            lp = Post.objects.exclude(pk=self.id).latest("date")
+            t.latest_post_date = lp.date
+            t.latest_post_author = lp.author
+        except Post.DoesNotExist:
             t.delete()
-        super(Post, self).delete()
+        else:
+            t.save()
+        finally:
+            super(Post, self).delete()
 
 
 class VisitedThread(models.Model):

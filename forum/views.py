@@ -89,11 +89,14 @@ def add_post(request, thread_slug, post_id=None,
         template="forum/add_post.html"):
     t = get_object_or_404(Thread, slug=thread_slug)
     u = request.user
+    if t.closed:
+        return HttpResponseRedirect(t.get_absolute_url())
     if t.latest_post.author == u:
         return edit_post(request, thread_slug, t.latest_post.id)
         #return HttpResponseRedirect(t.get_absolute_url())
     if request.POST:
-        f = PostForm(request.POST, instance=Post(thread=t, author=u))
+        p = Post(thread=t, author=u)
+        f = PostForm(request.POST, instance=p)
         if f.is_valid():
             f.save()
             return HttpResponseRedirect(t.get_absolute_url())
@@ -207,6 +210,8 @@ def delete_post(request, thread_slug, post_id):
     u = request.user
     if t.latest_post.id == p.id and p.author == u:
         p.delete()
+        if not t.post_set.count():
+            return HttpResponseRedirect("/forum/")
     return HttpResponseRedirect(t.get_absolute_url())
 
 
