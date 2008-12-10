@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -17,11 +18,10 @@ class Thread(models.Model):
     # thread info
     post_count = models.PositiveIntegerField(_("Posts"), default=0)
     view_count = models.PositiveIntegerField(_("Views"), default=0)
-    # info about last post
-    latest_post_date = models.DateTimeField(
-            _("Latest Post time"), auto_now_add=True)
-    latest_post_author = models.DateTimeField(
-            _("Latest Post author"))
+    # info about latest post
+    latest_post_date = models.DateTimeField(_("Latest Post time"),
+            default=datetime.datetime.now())
+    latest_post_author = models.ForeignKey(User, related_name="User")
 
     class Meta:
         ordering = ("-sticky", "-latest_post_date")
@@ -60,8 +60,7 @@ class Post(models.Model):
         super(Post, self).save(force_insert, force_update)
         t = self.thread
         lp = t.post_set.latest("date")
-        t.latest_post_time = lp.date
-        t.latest_post_author = lp.author
+        # TODO - this doesn't save the date
         t.post_count = t.post_set.count() - 1
         t.save()
 
@@ -69,7 +68,7 @@ class Post(models.Model):
         t = self.thread
         t.post_count = t.post_set.exclude(pk=self.id).count()
         try:
-            lp = Post.objects.exclude(pk=self.id).latest("date")
+            lp = t.post_set.exclude(pk=self.id).latest("date")
             t.latest_post_date = lp.date
             t.latest_post_author = lp.author
         except Post.DoesNotExist:

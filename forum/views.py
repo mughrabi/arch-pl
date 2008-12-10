@@ -56,6 +56,7 @@ def thread(request, thread_slug, offset_step=0, number=20,
     number = int(number)
     offset = offset_step * number
     t = get_object_or_404(Thread, slug=thread_slug)
+    # TODO - why this is +2; _NOT_ +1 ?!
     t.view_count += 1
     t.save()
     p = t.post_set.all()[offset:offset+number]
@@ -101,6 +102,7 @@ def add_post(request, thread_slug, post_id=None,
             f.save()
             return HttpResponseRedirect(t.get_absolute_url())
     else:
+        # quote - TODO
         data = {}
         if post_id:
             q_post = t.post_set.get(id=post_id)
@@ -130,7 +132,8 @@ def add_thread(request, template="forum/add_thread.html"):
         return s
     u = request.user
     if request.POST:
-        t = Thread(author=u, slug=get_slug(request.POST['title']))
+        t = Thread(author=u, latest_post_author=u,
+                slug=get_slug(request.POST['title']))
         tf = ThreadForm(request.POST, instance=t)
         if tf.is_valid():
             tfins = tf.save()

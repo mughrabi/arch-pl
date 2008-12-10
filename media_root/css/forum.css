@@ -42,15 +42,13 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 /* response container */
 
 #response {
-    margin: 1.5em 1em;
-    height: 250px;
+    margin: 1em 0.3em;
 }
 
 #form {
     float: left;
-    width: 45%;
-    height: 240px;
-    margin: 5px 0px;
+    min-width: 45em;
+    margin: 2px 0px;
 }
 
 #help {
@@ -148,3 +146,5 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 }
 
 .search-form #id_searchtext { min-width: 20em; }
+
+.closed, .closed a { color: #8A8A8A; }

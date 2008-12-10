@@ -1,7 +1,7 @@
 body {
     min-width: 600px;
     margin: 0 auto;
-    color: #46494d;
+    color: #333333;
     /* font-family: "DejaVu Sans", "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif; */
     font-family: 'News Gothic MT', 'Trebuchet MS', Arial, Helvetica, sans-serif; 
     font-size: 0.85em;
@@ -20,8 +20,10 @@ a:hover {
 
 .header { 
     padding: 1em 0; 
+    /*
     background: #EFEFEF;
     border-bottom: 1px solid #D2D2D2;
+    */
 }
 
 
@@ -30,14 +32,15 @@ a:hover {
     text-align: right;
     padding: 0;
     font-family: "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif;
-    background: #ffffff;
+    background: #333333;
     margin: 0.5em 0;
 }
 
 .header-menu ul.menu {
     /* background: #333333; */
-    line-height: 1.4em;
-    border-top: 1px solid #A2A2A2;
+    line-height: 1.6em;
+    font-size: 1.1em;
+    /* border-top: 1px solid #A2A2A2; */
 }
 
 .header-menu ul {
@@ -48,11 +51,14 @@ a:hover {
 .header-menu a {
     font-weight: bold;
     text-decoration: none;
-    color: #505050;
+    color: #ffffff;
     padding: 0.3em 0.6em;
 }
 
-.menu a:hover { background: #C74545; color: #ffffff; }
+.menu a:hover {  
+    color: #ffffff; 
+    background: #1793D1;
+}
 
 .header-menu ul.menu {
     display: block;
@@ -65,15 +71,19 @@ a:hover {
 }
 
 ul.submenu {
-    background: #C74545;
-    line-height: 1.4em;
-    min-height: 1.4em;
-    border-bottom: 1px solid #A2A2A2;
+    background: #1793D1;
+    /* background: #C74545; */
+    line-height: 1.6em;
+    min-height: 1.6em;
+    font-size: 1.1em;
 }
 
 ul.submenu a { color: #ffffff; }
 
-.submenu a:hover { color: #151515; }
+.submenu a:hover { 
+    color: #ffffff;
+    background: #333333;
+}
 
 ul.submenu li {
     display: inline;

@@ -18,6 +18,7 @@
         {% for t in unreaded_threads %}
             <tr>
                 <td class="t_name">
+                    <strong>Nowy</strong> &bull;
                     {% if t.sticky %}<strong>Przyklejony</strong> &bull; {% endif %}
                     {% if t.solved %}<strong>Rozwiązany</strong> &bull; {% endif %}
                     {% if t.closed %}<strong>Zamknięty</strong> &bull; {% endif %}
@@ -27,7 +28,7 @@
                 <td class="t_pnumb">{{ t.post_count }}</td>
                 <td class="t_vnumb">{{ t.view_count }}</td>
                 <td class="t_last">
-                    {{ t.latest_post_date|date:"D d M Y  --  H:i" }} &bull; {{ t.latest_post.author }}
+                    {{ t.latest_post_date|date:"D d M Y  --  H:i" }} &bull; {{ t.latest_post_author }}
                 </td>
             </tr>
         {% endfor %}
@@ -35,7 +36,7 @@
 
         {% for t in old_threads %}
             <tr>
-                <td class="t_name">
+                <td class="t_name {% if t.closed %}closed{% endif %}">
                     {% if t.sticky %}<strong>Przyklejony</strong> &bull; {% endif %}
                     {% if t.solved %}<strong>Rozwiązany</strong> &bull; {% endif %}
                     {% if t.closed %}<strong>Zamknięty</strong> &bull; {% endif %}
@@ -45,7 +46,7 @@
                 <td class="t_pnumb">{{ t.post_count }}</td>
                 <td class="t_vnumb">{{ t.view_count }}</td>
                 <td class="t_last">
-                    {{ t.latest_post_date|date:"D d M Y  --  H:i" }} &bull; {{ t.latest_post.author }}
+                    {{ t.latest_post_date|date:"D d M Y  --  H:i" }} &bull; {{ t.latest_post_author }}
                 </td>
             </tr>
         {% endfor %}

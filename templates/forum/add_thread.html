@@ -1,7 +1,16 @@
 {% extends "forum/base.html" %}
 
-{% block css %}<link rel="stylesheet" type="text/css" href="/static/css/addform.css" />{% endblock %}
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="/static/css/addform.css" />
+{% endblock %}
 
+{% block javascript %}
+    <script type="text/javascript" src="/static/javascript/jquery.js"></script>
+    <script type="text/javascript" src="/static/javascript/jquery.autogrow.js"></script>
+    <script type="text/javascript" src="/static/javascript/markdown.js"></script>
+    <script type="text/javascript" src="/static/javascript/textareagrow.js"></script>
+{% endblock %}
 
 {% block forumdata %}
     <form action="." method="POST">
@@ -10,6 +19,7 @@
         <div id="id_submit"><input type="submit" value="Wyślij" /></div>
     </form>
     <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
+    <div id="markdown_info"></div>
 
 {% endblock %}
 
