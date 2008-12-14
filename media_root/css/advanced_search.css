@@ -1,0 +1,13 @@
+.advanced_search {
+    margin: 1em auto;
+    width: 40em;
+}
+
+.advanced_search p { margin: 2em; }
+
+.advanced_search label { color: #757575; }
+.advanced_search input { width: 40em; border: 1px solid #757575; padding: 0.5em 1em; float: right; }
+
+
+#id_submit { text-align: right; }
+#id_submit input { width: 15em; }

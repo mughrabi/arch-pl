@@ -3,119 +3,107 @@
 {% load markup %}
 
 {% block css %} 
-    {{ block.super }} 
-    <link rel="stylesheet" type="text/css" href="/static/css/addform.css" />
+{{ block.super }} 
+<link rel="stylesheet" type="text/css" href="/static/css/addform.css" />
 {% endblock %}
 
 {% block javascript %}
-    <script type="text/javascript" src="/static/javascript/jquery.js"></script>
-    <script type="text/javascript" src="/static/javascript/jquery.autogrow.js"></script>
-    <script type="text/javascript" src="/static/javascript/markdown.js"></script>
-    <script type="text/javascript" src="/static/javascript/textareagrow.js"></script>
+<script type="text/javascript" src="/static/javascript/jquery.autogrow.js"></script>
+<script type="text/javascript" src="/static/javascript/markdown.js"></script>
+<script type="text/javascript" src="/static/javascript/textareagrow.js"></script>
 {% endblock %}
 
 
 {% block title %}{{ block.super}} : {{ thread.title }}{% endblock %}
 
 {% block path %}
-        &bull; <a href="/forum/">Index</a>
-        &raquo; {{ thread.title }} 
-        {% if thread.is_new %} &bull; <strong>Nowy</strong>{% endif %}
-        {% if thread.sticky %} &bull; <strong>Przyklejony</strong>{% endif %}
-        {% if thread.solved %} &bull; <strong>Rozwiązany</strong>{% endif %}
-        {% if thread.closed %} &bull; <strong>Zamknięty</strong>{% endif %}
+&bull; <a href="/forum/">Index</a>
+&raquo; {{ thread.title }} 
+{% if thread.is_new %} &bull; <strong>Nowy</strong>{% endif %}
+{% if thread.sticky %} &bull; <strong>Przyklejony</strong>{% endif %}
+{% if thread.solved %} &bull; <strong>Rozwiązany</strong>{% endif %}
+{% if thread.closed %} &bull; <strong>Zamknięty</strong>{% endif %}
 
-    {% if user.is_authenticated %}
-    <div style="text-align: right">
-        {% ifequal user thread.author %} 
-            {% if thread.solved %} 
-                <a href="solved/">Usuń flagę "rozwiązany"</a> 
-            {% else %}
-                <a href="solved/">Oznacz jako rozwiązany</a> 
-            {% endif %}
-        {% endifequal %}
-        {# {% ifnotequal user thread.latest_post.author %}&bull; <a href="reply/">Napisz odpowiedź</a> {% endifnotequal %} #}
-        {% if not thread.closed %}&bull; <a href="reply/">Napisz odpowiedź</a> {% endif %}
-    </div>
+{% if user.is_authenticated %}
+<div style="text-align: right">
+    {% ifequal user thread.author %} 
+        {% if not thread.solved %} <a href="solved/">Oznacz temat jako &bdquo;rozwiązany&rdquo; </a> {% endif %}
+    {% endifequal %}
+</div>
 
-    {% endif %}
+{% endif %}
 
 {% endblock %}
 
 
 {% block forumdata %}
-    {% for p in post %}
-        <div class="post">
-            <div class="panel">
-                <div class="panel-right">
-                    <small>{{ p.date }}</small>
-                    {% ifequal p.author.username user.username %}
-                        {% ifequal p thread.latest_post %}
-                            &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
-                            &bull; <a href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
-                        {% endifequal %}
-                    {% endifequal %}
-                    &bull; <a href="reply/quote/{{ p.id }}/">cytuj</a>
-                </div>
-                <div>
-                    <a href="#{{ forloop.counter|add:page.offset }}" id="{{ forloop.counter|add:page.offset }}">
-                        #{{ forloop.counter|add:page.offset }} 
-                    </a> 
-                    &bull; autor : <strong><a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a></strong>
-                </div>
-            </div> <!-- class="panel" -->
-
-            <div>
-                <div class="lnav">
-                    <div class="avatar">
-                        <img src="{{ p.author.get_profile.avatar }}" alt="" />
-                        <!-- <img src="/static/images/default_avatar.jpg" alt="" /> -->
-                    </div>
-                </div>
-
-                <div class="rnav">
-                    {{ p.text|escape|urlize|markdown }}
-                </div>
-            </div>
-
-            <div class="signature">
-                {% if p.author.get_profile.signature %}
-                    {{ p.author.get_profile.signature|markdown }}
-                {% endif %}
-            </div>
-
-        </div> <!-- class="post" -->
-    {% endfor %}
-
-    {# quick post form #}
-    {% if user.is_authenticated and not thread.closed %}
-        {% ifnotequal thread.latest_post.author user %}
-        <div id="response">
-            <div id="form">
-                <form action="reply/" method="POST" class="center">
-                    {{ form.text.errors }}
-                    {{ form.text }}
-                    <div id="id_submit"><input type="submit" value="Wyślij" /></div>
-                </form>
-            </div>
-            <div style="text-align:right; margin: 1em 3em;">
-                Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a>
-            </div>
-            <div id="markdown_info"></div>
-        </div>
-        {% endifnotequal %}
-    {% endif %}
-    
-    <div class="center" style="clear: both;">
-        {% for n in page.sitecount %}
-            {% ifequal n page.offset_step %}
-                <strong>{{ n }}</strong>
-            {% else %}
-                <a href="{{ thread.get_absolute_url }}offset/{{n}}/">{{ n }}</a>
+{% for p in post %}
+<div class="post">
+    <div class="panel">
+        <div class="panel-right">
+            <small>{{ p.date }}</small>
+            {% ifequal p.author.username user.username %}
+            {% ifequal p thread.latest_post %}
+            &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
+            &bull; <a href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
             {% endifequal %}
-            {% if not forloop.last %}&bull;{% endif %}
-        {% endfor %}
+            {% endifequal %}
+            &bull; <a href="reply/quote/{{ p.id }}/">cytuj</a>
+        </div>
+        <div>
+            <a href="#{{ forloop.counter|add:page.offset }}" id="{{ forloop.counter|add:page.offset }}">
+                #{{ forloop.counter|add:page.offset }} 
+            </a> 
+            &bull; autor : 
+            <strong> <a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a> </strong>
+        </div>
     </div>
+
+    <div>
+        <div class="lnav">
+            <div class="avatar">
+                <img src="{{ p.author.get_profile.avatar }}" alt="" />
+                <!-- <img src="/static/images/default_avatar.jpg" alt="" /> -->
+            </div>
+        </div>
+
+        <div class="rnav">
+            {{ p.text|escape|urlize|markdown }}
+        </div>
+    </div>
+</div> <!-- class="post" -->
+{% endfor %}
+
+
+{% if user.is_authenticated and not thread.closed %}
+    {% ifnotequal thread.latest_post.author user %}
+    <div id="response">
+        <div id="form">
+            <form action="reply/" method="POST" class="center">
+                {{ form.text.errors }}
+                {{ form.text }}
+                <div id="id_submit"><input type="submit" value="Wyślij" /></div>
+            </form>
+        </div>
+    </div>
+
+    <div style="float: right;">
+        <div> Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a> </div>
+        <div id="markdown_info"></div>
+    </div>
+    {% endifnotequal %}
+{% endif %}
+
+<div class="center" style="clear: both;">
+    {% for n in page.sitecount %}
+        {% ifequal n page.offset_step %}
+            <strong>{{ n }}</strong>
+        {% else %}
+            <a href="{{ thread.get_absolute_url }}offset/{{n}}/">{{ n }}</a>
+        {% endifequal %}
+        {% if not forloop.last %}&bull;{% endif %}
+    {% endfor %}
+</div>
 
 
 {% endblock %}

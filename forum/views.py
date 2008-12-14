@@ -15,8 +15,8 @@ from models import Thread, Post
 from models import VisitedThread, AllVisited
 from forms import PostForm, ThreadForm, AdvancedSearchForm
 
-def thread_list(request, offset_step=0, number=20,
-        template="forum/thread_list.html"):
+def thread_list(request, offset_step=0, number=40,
+        popupinfo=None, template="forum/thread_list.html"):
     offset_step = int(offset_step)
     number = int(number)
     offset = offset_step * number
@@ -48,6 +48,7 @@ def thread_list(request, offset_step=0, number=20,
         "unreaded_threads": unreaded,
         "old_threads": threads,
         "page": pageinfo,
+        "popupinfo": popupinfo,
         }, context_instance=RequestContext(request))
 
 def thread(request, thread_slug, offset_step=0, number=20,
@@ -56,7 +57,7 @@ def thread(request, thread_slug, offset_step=0, number=20,
     number = int(number)
     offset = offset_step * number
     t = get_object_or_404(Thread, slug=thread_slug)
-    # TODO - why this is +2; _NOT_ +1 ?!
+    # why this is +2 _NOT_ +1 ?!
     t.view_count += 1
     t.save()
     p = t.post_set.all()[offset:offset+number]
@@ -68,7 +69,7 @@ def thread(request, thread_slug, offset_step=0, number=20,
         vt.save()
     # template data
     sitecount = t.post_count // number
-    if t.post_count % number:
+    if sitecount and t.post_count % number:
         sitecount += 1
     pageinfo = {
             "offset": offset,
@@ -162,7 +163,9 @@ def mark_all_read(request):
     if not created:
         obj.date = datetime.datetime.now()
         obj.save()
-    return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
+    #return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
+    return thread_list(request, 
+            popupinfo="Wszystkie posty zostały oznaczone jako przeczytane")
 
 @login_required
 def toggle_solved(request, thread_slug):
@@ -224,10 +227,8 @@ def quick_search(request, searchtext=None, template="forum/thread_list.html"):
     pageinfo = { "sitecount" : [] }
     if not searchtext or \
             len(searchtext.replace(" ", "")) < len(searchtext.split()) * 4:
-        return render_to_response(template, {
-            "globalinfo": "podana fraza składa się ze zbyt krótkich haseł",
-            "page": pageinfo,
-            }, context_instance=RequestContext(request))
+        return thread_list(request, 
+                popupinfo="podana fraza składa się ze zbyt krótkich haseł")
     thread = Thread.objects.all()
     for stext in searchtext.split():
         thread = thread.filter(Q(post__text__contains=stext) | Q(title=stext))
@@ -240,8 +241,13 @@ def quick_search(request, searchtext=None, template="forum/thread_list.html"):
 
 def advanced_search(request, template="forum/advanced_search.html"):
     if request.GET:
-        pass
-    f = AdvancedSearchForm()
+        f = AdvancedSearchForm(request.GET)
+        if f.is_valid():
+            pass
+#            Thread.objects.filter(solved=f.cleaned_data['solved'],
+#                    closed=f.cleaned_data['closed']).post_set.filter(text
+    else:
+        f = AdvancedSearchForm()
     return render_to_response(template, {
         "form": f,
         }, context_instance=RequestContext(request))

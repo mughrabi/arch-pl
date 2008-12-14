@@ -2,5 +2,10 @@
 
 
 {% block  middle %}
-    {{ form }}
+    <div style="margin: 1em auto; width: 40em;">
+        <form action="." method="POST">
+            {{ form.as_p }}
+            <div id="id_submit" style="text-align: right;"><input type="submit" value="Zapisz zmiany" /></div>
+        </form>
+    </div>
 {% endblock %}

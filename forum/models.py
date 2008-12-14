@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class Thread(models.Model):
     author = models.ForeignKey(User)
-    title = models.CharField(max_length=128)
+    title = models.CharField("", max_length=128)
     slug = models.SlugField(unique=True, max_length=128)
     # special flags
     closed = models.BooleanField(default=False)
@@ -47,7 +47,7 @@ class Thread(models.Model):
 class Post(models.Model):
     thread = models.ForeignKey(Thread)
     author = models.ForeignKey(User)
-    text = models.TextField()
+    text = models.TextField("")
     date = models.DateTimeField(_("Last modification"), auto_now=True)
 
     class Meta:
@@ -60,7 +60,6 @@ class Post(models.Model):
         super(Post, self).save(force_insert, force_update)
         t = self.thread
         lp = t.post_set.latest("date")
-        # TODO - this doesn't save the date
         t.post_count = t.post_set.count() - 1
         t.save()
 

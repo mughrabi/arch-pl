@@ -1,9 +1,15 @@
 {% extends "forum/base.html" %}
 
+{% block css %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="/static/css/advanced_search.css" />
+{% endblock %}
 
 {% block forumdata %}
-    <form action="." method="GET">
-        {{ form.as_p }}
-        <div id="id_submit"><input type="submit" value="Szukaj" /></div>
-    </form>
+    <div class="advanced_search">
+        <form action="." method="GET">
+            {{ form.as_p }}
+            <div id="id_submit"><input type="submit" value="Szukaj" /></div>
+        </form>
+    </div>
 {% endblock %}

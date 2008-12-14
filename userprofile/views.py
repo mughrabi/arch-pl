@@ -63,12 +63,15 @@ def userinfo(request, username, template="userprofile/userinfo.html"):
 @login_required
 def user_preferences(request, template="userprofile/preferences.html"):
     profile = UserProfile.objects.get_or_create(
-            user=request.user, defaults={})
-    form = UserProfileForm(instance=profile)
+            user=request.user, defaults={})[0]
     if request.POST:
+        form = UserProfileForm(request.POST)
         if form.is_valid():
+            # TODO
             form = form.save()
-            return HttpResponseRedirect(form.get_absolute_url())
+            return HttpResponseRedirect(profile.user.get_absolute_url())
+    else:
+        form = UserProfileForm(instance=profile)
     return render_to_response(template, {
         "form": form,
         }, context_instance=RequestContext(request))

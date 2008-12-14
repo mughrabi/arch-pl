@@ -79,15 +79,10 @@ ul.submenu {
 }
 
 ul.submenu a { color: #ffffff; }
-
-.submenu a:hover { 
-    color: #ffffff;
-    background: #333333;
-}
-
-ul.submenu li {
-    display: inline;
-    padding: 0 1em;
+.submenu a:hover { color: #ffffff; background: #333333; }
+ul.submenu li { 
+    display: inline; 
+    padding: 0 0.4em; 
 }
 
 .infobox {
@@ -98,3 +93,15 @@ ul.submenu li {
     width: 80%;
 }
 
+#popupinfo {
+    position: absolute;
+    width: 100%;
+    background: #DEEB83;
+    border-bottom: 2px solid #333333;
+    font-size: 1.4em;
+    color: #333333;
+    padding: 0.6em;
+    text-align: center;
+}
+#popupinfo .closebox {
+}

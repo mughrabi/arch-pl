@@ -64,7 +64,6 @@ class RegistrationForm(forms.Form):
     botprotect1 = forms.CharField(label="Jak ma na imię Alan Cox?")
     botprotect2 = forms.IntegerField(label="Który będziemy mieli rok za dwa lata?")
 
-
     def clean_username(self):
         u = self.cleaned_data['username']
         try:
@@ -87,4 +86,5 @@ class RegistrationForm(forms.Form):
 class UserProfileForm(ModelForm):
     class Meta:
         model  = UserProfile
+        exclude = ('user', )
 

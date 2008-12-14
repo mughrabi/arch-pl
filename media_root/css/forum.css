@@ -1,18 +1,20 @@
 table.list {
     margin: 2em auto;
     border-collapse: collapse;
-    border: 1px solid #D2D2D2;
+    /* border: 1px solid #D2D2D2; */
+    border: 1px solid #333333;
     width: 96%;
     min-width: 60em;
-    line-height: 2.5em;
+    line-height: 2.1em;
 }
 
 table.list td { padding: 0 1em; }
 
 .list thead{
-    background: #EFEFEF;
-    border-bottom: 1px solid #D2D2D2;
-    color: #333333;
+    /* background: #EFEFEF; */
+    background: #333333;
+    border-bottom: 1px solid #333333;
+    color: #ffffff;
     font-weight: bold;
     text-align: center;
 }
@@ -42,7 +44,8 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 /* response container */
 
 #response {
-    margin: 1em 0.3em;
+    margin: 0 1em;
+    float: right;
 }
 
 #form {
@@ -60,41 +63,24 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 }
 
 /* post */
-.topic-info {
-    font-size: 1.4em;
-    margin: 0.5em 2em;
-}
+.topic-info { font-size: 1.4em; margin: 0.5em 2em; }
 
-.post {
-    clear: both;
-    margin: 1.5em 1em;
-    background: #EFEFEF;
-}
-
-.post .user-info {
-    margin: 1em;
-    text-align: center;
-}
-
-.leftnav {
-    min-width: 6em;
-    float: left;
-}
-
-.rightnav { } 
-.post { border: 1px solid #DCDCDC; }
-.text { padding: 0.3em; }
-
-.user-name {
-    font-weight: bold;
-    text-align: center;
-    font-size: 1.1em;
+.post { clear: both; margin: 1.5em 1em; }
+.post .user-info { margin: 1em; text-align: center; }
+.post { 
+    /* border: 1px solid #DCDCDC;   */
+    border: 1px solid #C1C1C1;  
+    background: #ffffff;
+    min-height: 95px;
 }
 
 .post .panel {
-    background-color: #EFEFEF;
+    /* background-color: #EFEFEF; */
+    background-color: #E0E0E0;
     margin: 0;
     padding: 0.1em 1em;
+    /* border-bottom: 1px solid #DCDCDC; */
+    border-bottom: 1px solid #C5C5C5;
 }
 
 .post .panel-right {
@@ -102,49 +88,33 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
     float: right;
 }
 
-.signature {
-    margin: 0;
-    padding: 0.1em 1em;
-    font-size: 0.7em;
-    /* background: #EFEFEF; */
-    min-width: 40em;
-    height: 1em;
-    color: #8E8E8E;
-    text-align: right;
-}
-.signature a { color: #8E8E8E; }
-.signature p { margin: 0; padding: 0 }
-
-.lnav { 
-    position: absolute;
-    width: 100px;
-}
 
 .rnav {
-    border: 1px solid #D2D2D2;
     border-right: none;
-    background: #ffffff;
     padding: 0 1em;
-    margin-left: 100px;
-    min-height: 70px;
+    margin-left: 80px;
 }
 
-.avatar img { max-height: 80px; padding: 0 0.8em; }
+.lnav { position: absolute; }
+.avatar img { 
+    max-height: 70px; 
+    padding: 0 0.5em; 
+    margin: -0.9em 0;
+}
 
 /* search form */
 .search-form {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: 80px;
+    right: 2px;
     text-align: right;
-    margin: 1em 2em 0 2em;
+    margin: 1em 1em 0 1em;
 }
 .search-form input {
     border: 1px solid #D2D2D2;
-    background: #EFEFEF;
+    background: #ffffff;
     padding: 0.2em 0.5em;
 }
-
 .search-form #id_searchtext { min-width: 20em; }
 
 .closed, .closed a { color: #8A8A8A; }
