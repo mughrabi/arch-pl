@@ -240,14 +240,21 @@ def quick_search(request, searchtext=None, template="forum/thread_list.html"):
 
 
 def advanced_search(request, template="forum/advanced_search.html"):
+    t = None
     if request.GET:
         f = AdvancedSearchForm(request.GET)
         if f.is_valid():
-            pass
-#            Thread.objects.filter(solved=f.cleaned_data['solved'],
-#                    closed=f.cleaned_data['closed']).post_set.filter(text
+            t = Thread.objects.all()
+            if f.cleaned_data['searchtext']:
+                t = t.filter(post__text__contains=f.cleaned_data['searchtext'])
+            if f.cleaned_data['user']:
+                t = t.filter(post__author__username__exact=f.cleaned_data['user'])
+            if f.cleaned_data['solved']:
+                t = t.filter(solved=True)
+            t = t[:30]
     else:
         f = AdvancedSearchForm()
     return render_to_response(template, {
+        "threads": t,
         "form": f,
         }, context_instance=RequestContext(request))

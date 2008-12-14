@@ -22,6 +22,5 @@ class AdvancedSearchForm(forms.Form):
     user = forms.CharField(label="Nazwa użytkownika", required=False)
     solved = forms.BooleanField(
             label="Tylko tematy oznaczone jako rozwiązane", required=False)
-    closed = forms.BooleanField(label="Tylko zamknięte tematy", required=False)
 
     # TODO - walidacja
