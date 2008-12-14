@@ -30,7 +30,6 @@
     {% for t in threads %}
         <tr>
             <td class="t_name">
-                <strong>Nowy</strong> &bull;
                 {% if t.sticky %}<strong>Przyklejony</strong> &bull; {% endif %}
                 {% if t.solved %}<strong>Rozwiązany</strong> &bull; {% endif %}
                 {% if t.closed %}<strong>Zamknięty</strong> &bull; {% endif %}

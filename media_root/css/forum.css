@@ -71,7 +71,7 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
     /* border: 1px solid #DCDCDC;   */
     border: 1px solid #C1C1C1;  
     background: #ffffff;
-    min-height: 95px;
+    min-height: 98px;
 }
 
 .post .panel {
@@ -88,7 +88,6 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
     float: right;
 }
 
-
 .rnav {
     border-right: none;
     padding: 0 1em;
@@ -99,7 +98,7 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 .avatar img { 
     max-height: 70px; 
     padding: 0 0.5em; 
-    margin: -0.9em 0;
+    margin: -0.5em 0;
 }
 
 /* search form */

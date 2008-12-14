@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    <div>
+    <div class="post_body">
         <div class="lnav">
             <div class="avatar">
                 <img src="{{ p.author.get_profile.avatar }}" alt="" />
@@ -94,16 +94,20 @@
     {% endifnotequal %}
 {% endif %}
 
-<div class="center" style="clear: both;">
-    {% for n in page.sitecount %}
-        {% ifequal n page.offset_step %}
-            <strong>{{ n }}</strong>
-        {% else %}
-            <a href="{{ thread.get_absolute_url }}offset/{{n}}/">{{ n }}</a>
-        {% endifequal %}
-        {% if not forloop.last %}&bull;{% endif %}
-    {% endfor %}
-</div>
+{% if page.sitecount %}
+    <div class="center" style="clear: both;">
+        &laquo;
+        {% for n in page.sitecount %}
+            {% ifequal n page.offset_step %}
+                <strong>{{ n }}</strong>
+            {% else %}
+                <a href="{{ thread.get_absolute_url }}offset/{{n}}/">{{ n }}</a>
+            {% endifequal %}
+            {% if not forloop.last %}&bull;{% endif %}
+        {% endfor %}
+        &raquo;
+    </div>
+{% endif %}
 
 
 {% endblock %}

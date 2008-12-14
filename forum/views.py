@@ -15,13 +15,13 @@ from models import Thread, Post
 from models import VisitedThread, AllVisited
 from forms import PostForm, ThreadForm, AdvancedSearchForm
 
-def thread_list(request, offset_step=0, number=40,
+def thread_list(request, offset_step=0, number=20,
         popupinfo=None, template="forum/thread_list.html"):
     offset_step = int(offset_step)
     number = int(number)
     offset = offset_step * number
     u = request.user
-    if u.is_authenticated():
+    if u.is_authenticated() and not offset_step:
         dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
         try:
             allcv = AllVisited.objects.get(user=u)
@@ -42,7 +42,7 @@ def thread_list(request, offset_step=0, number=40,
             "offset": offset,
             "number": number,
             "offset_step": offset_step,
-            "sitecount": [],
+            "next": offset_step + 1,
             }
     return render_to_response(template, {
         "unreaded_threads": unreaded,
@@ -51,15 +51,21 @@ def thread_list(request, offset_step=0, number=40,
         "popupinfo": popupinfo,
         }, context_instance=RequestContext(request))
 
-def thread(request, thread_slug, offset_step=0, number=20,
+def thread(request, thread_slug, offset_step=None, number=20,
         template="forum/thread.html"):
-    offset_step = int(offset_step)
-    number = int(number)
-    offset = offset_step * number
+    # ++thread.count
     t = get_object_or_404(Thread, slug=thread_slug)
-    # why this is +2 _NOT_ +1 ?!
     t.view_count += 1
     t.save()
+    if offset_step:
+        offset_step = int(offset_step)
+        offset = offset_step * number
+    else:
+        offset = t.post_count - number
+        if offset < 0:
+            offset = 0
+        offset_step = t.post_count // number
+    number = int(number)
     p = t.post_set.all()[offset:offset+number]
     f = PostForm()
     if request.user.is_authenticated():
@@ -222,19 +228,18 @@ def delete_post(request, thread_slug, post_id):
 
 
 def quick_search(request, searchtext=None, template="forum/thread_list.html"):
+    pageinfo = { "sitecount" : [] }
     if request.GET:
         searchtext = request.GET.get("searchtext")
-    pageinfo = { "sitecount" : [] }
     if not searchtext or \
             len(searchtext.replace(" ", "")) < len(searchtext.split()) * 4:
         return thread_list(request, 
                 popupinfo="podana fraza składa się ze zbyt krótkich haseł")
-    thread = Thread.objects.all()
-    for stext in searchtext.split():
-        thread = thread.filter(Q(post__text__contains=stext) | Q(title=stext))
-    thread = thread.distinct()[:100]
+    thread = Thread.objects.filter(
+            Q(post__text__contains=searchtext) | Q(title__contains=searchtext)
+            ).distinct()[:20]
     return render_to_response(template, {
-        "thread": thread,
+        "old_threads": thread,
         "page": pageinfo,
         }, context_instance=RequestContext(request))
 
@@ -246,15 +251,25 @@ def advanced_search(request, template="forum/advanced_search.html"):
         if f.is_valid():
             t = Thread.objects.all()
             if f.cleaned_data['searchtext']:
-                t = t.filter(post__text__contains=f.cleaned_data['searchtext'])
+                stext = f.cleaned_data['searchtext']
+                t = t.filter(Q(post__text__contains=stext) | Q(title__contains=stext))
             if f.cleaned_data['user']:
                 t = t.filter(post__author__username__exact=f.cleaned_data['user'])
             if f.cleaned_data['solved']:
                 t = t.filter(solved=True)
-            t = t[:30]
+            t = t.distinct()[:30]
     else:
         f = AdvancedSearchForm()
     return render_to_response(template, {
         "threads": t,
         "form": f,
+        }, context_instance=RequestContext(request))
+
+
+@login_required
+def user_latest_active_threads(request, template="forum/thread_list.html"):
+    t = Thread.objects.filter(post__author=request.user)[:10].distinct()
+    return render_to_response(template, {
+        "old_threads": t,
+        "page": { "sitecount" : [] },
         }, context_instance=RequestContext(request))

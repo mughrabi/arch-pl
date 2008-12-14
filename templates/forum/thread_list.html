@@ -53,19 +53,15 @@
 
         </tbody>
     </table>
+
+    {% if page.next %}
+        <div class="center"><a href="/forum/older/{{ page.next }}/">&lsaquo; Pokaż starsze</a></div>
+    {% endif %}
+
 {% else %}
     <div class="infobox center">Brak postów do wyświetlenia</div>
 {% endif %}
 
 
-        {% if not page.sitecount|length_is:"1" %}
-            <div class="center">
-                {% for n in page.sitecount %}
-                    {% ifequal n page.offset %}
-                        <strong>{{ n }}</strong>
-                    {% endifequal %}
-                    {% if not forloop.last %}&bull;{% endif %}
-                {% endfor %}
-            </div>
-        {% endif %}
+
 {% endblock %}

@@ -60,6 +60,8 @@ class Post(models.Model):
         super(Post, self).save(force_insert, force_update)
         t = self.thread
         lp = t.post_set.latest("date")
+        t.latest_post_date = lp.date
+        t.latest_post_author = lp.author
         t.post_count = t.post_set.count() - 1
         t.save()
 
