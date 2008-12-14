@@ -2,9 +2,6 @@ Nowy Portal Arch Linuksa
 ========================
 
 - [Temat na forum](http://forum.arch-linux.pl/viewtopic.php?id=4713)
-- [Miejsce gdzie można zgłaszać swoje pomysły i oceniać już
-  istniejące](http://archstorm.appspot.com/)
-
 
 
 
@@ -16,17 +13,17 @@ FAQ
 Kiedy będzie gotowe?
 --------------------
 
-Jak napiszę.
+Jak napiszę. Mam nadzieję że zdążę do końca stycznia 2009. Staram się jednak nie
+śpieszyć i zanim cokolwiek postanowię staram się wszystko dokładnie
+przetestować pod kątem funkcjonalności.
 
 
-
-
-Co można już przetestowac?
+Co można już przetestować?
 --------------------------
 
-Żadna część portalu nie jest jeszcze gotowa. Mam zamiar jak najszybciej napisać
-forum, potem będzie już z górki.
-
+Tak, testowa instancja działa na [serwerze rootnode](http://husio.rootnode.net/forum/). 
+Aby móc korzystać ze wszystkich usług portalu, wymagana jest [rejestracja](http://husio.rootnode.net/accounts/register/), 
+która zajmuje dosłownie chwilę.
 
 
 Dlaczego wszystko piszesz od zera?
@@ -34,9 +31,8 @@ Dlaczego wszystko piszesz od zera?
 
 To nie jest prawda. Do planety i wikipedi użyję gotowych komponentów, jedynie
 *newsy* i forum piszę od zera w [Django](http://www.djangoproject.com/), a to
-tylko dlatego, że nie znam żadnego programu który spełniałby wszytkie
+tylko dlatego, że nie znam żadnego programu który spełniałby wszystkie
 oczekiwania.
-
 
 
 Chciałbym pomóc. Co mogę robić?
@@ -50,9 +46,10 @@ pomoc:
 - Dużo wolnego czasu i chęć testowania kodu ;)
 
 
-Mam fajny pomysł który możnaby zrealizować. Gdzie z nim pójść?
+Mam fajny pomysł który można by zrealizować. Gdzie z nim pójść?
 --------------------------------------------------------------
 
-Ponieważ na forum archa nie można głosować, napisałem na szybko stronę
-działającą na Google App Engine. Możesz [zgłaszać tu wszystkie swoje pomysły i
-głosować na te które już istnieją](http://archstorm.appspot.com/)
+Żeby nie zaśmiecać starego forum, wszelkie pomysły możesz pisać na [testowej
+instancji nowego forum](http://husio.rootnode.net/forum/). Abyś mógł pisać nowe
+wiadomości, wymagana jest [rejestracja](http://husio.rootnode.net/accounts/register/), 
+która zajmuje dosłownie chwilę.
