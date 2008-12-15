@@ -111,10 +111,21 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 blockquote {
     border: 1px solid #CACACA;
     border-left: 3px solid #717171;
-    margin: 0.5em 1em;
-    padding: 0 1em;
+    margin: 0.5em 0.1em 0.5em 2em;
+    padding: 0.5em 0 0.5em 3em;
     color: #717171;
     font-size: 0.9em;
 }
 
 blockquote p { margin: 0.1em; padding 0; }
+
+pre {
+    color: #000000;
+    padding: 0.5em 0 0.5em 3em;
+    margin: 0.5em 0.1em 0.5em 2em;
+    border: 1px solid #BFBFBF;
+    border-left: 3px solid #BFBFBF;
+    line-height: 1.2em;
+    font-family: sans-serif, Monospace, fixed;
+}
+
