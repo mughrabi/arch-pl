@@ -30,7 +30,8 @@ class Thread(models.Model):
         return "/forum/thread/%s/" % self.slug
 
     def __unicode__(self):
-        return self.title + " by " + self.author.username
+        return "%s, napisany przez %s" % \
+                (self.title, self.author.username)
 
     def _get_latest_post(self):
         "Return latest related post or None"

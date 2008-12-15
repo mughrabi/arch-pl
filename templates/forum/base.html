@@ -9,6 +9,9 @@
     {{ block.super }} # forum 
 {% endblock %}
 
+{% block head %}
+    <link rel="alternate" type="application/atom+xml" title="Forum Arch Linux" href="/forum/feeds/latest/" /> 
+{% endblock %}
 
 
 {% block submenu %}
@@ -18,6 +21,7 @@
         <li><a href="/forum/advanced_search/">Szukaj</a></li>
         <li><a href="/forum/all_readed/">Oznacz jako przeczytane</a></li>
         <li><a href="/forum/my_activity/">Aktywne tematy</a></li>
+        <li><a href="/forum/feeds/latest/">RSS</a></li> 
     {% endif %}
 {% endblock %}
 
