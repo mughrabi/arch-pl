@@ -113,11 +113,10 @@ def add_post(request, thread_slug, post_id=None,
         data = {}
         if post_id:
             q_post = t.post_set.get(id=post_id)
-            q_info = u"\n\n > *%s*, **%s** powiedział:" % \
-                    (q_post.date, q_post.author.username)
+            q_info = u">**%s powiedział:**\n>" % q_post.author.username
             q_info = [q_info, ]
-            q_msg = [' \n\n > ' + l for l in q_post.text.split("\n") if l.strip()]
-            data['text'] = " ".join(q_info + q_msg)
+            q_msg = ['\n> ' + l for l in q_post.text.split("\n") if l.strip()]
+            data['text'] = " ".join(q_info + q_msg) + "\n\n"
         f = PostForm(data)
     return render_to_response(template, {
         "topic": t,

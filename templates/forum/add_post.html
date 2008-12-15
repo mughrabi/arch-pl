@@ -11,9 +11,10 @@
 {% block middle %}
 
 <form action="." method="POST">
-    <p><em>Do formatowania składni możesz użyć markdown</em></p>
     {{ form }}
     <div id="id_submit"><input type="submit" value="Wyślij" /></div>
 </form>
+    <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
+    <div id="markdown_info"></div>
 
 {% endblock %}

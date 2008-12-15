@@ -24,9 +24,5 @@ div#id_submit input { min-width: 20em; }
 input#id_title { width: 95%; }
 input#id_keywords { min-width: 40em; }
 
-.wmd-preview { margin: 2em; }
-
-.formbox {
-    margin: 2em 0 0 0;
-}
+.formbox { margin: 2em 0 0 0; }
 

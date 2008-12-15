@@ -15,7 +15,7 @@ class UserProfile(models.Model):
 
     def avatar(self):
         if not hasattr(self, "__avatar"):
-            default = "http://127.0.0.1:8000/static/images/default_avatar.jpg"
+            default = "http://127.0.0.1:8000/static/images/default_avatar.png"
             self.__avatar = \
                     "http://www.gravatar.com/avatar.php?" \
                     + urllib.urlencode({

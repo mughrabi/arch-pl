@@ -42,13 +42,13 @@
     <div class="panel">
         <div class="panel-right">
             <small>{{ p.date }}</small>
-            {% ifequal p.author.username user.username %}
             {% ifequal p thread.latest_post %}
-            &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
-            &bull; <a href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
+                {% ifequal p.author.username user.username %}
+                    &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
+                    &bull; <a href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
+                {% endifequal %}
             {% endifequal %}
-            {% endifequal %}
-            &bull; <a href="reply/quote/{{ p.id }}/">cytuj</a>
+            &bull; <a href="{{ thread.get_absolute_url }}reply/quote/{{ p.id }}/">cytuj</a>
         </div>
         <div>
             <a href="#{{ forloop.counter|add:page.offset }}" id="{{ forloop.counter|add:page.offset }}">
@@ -68,7 +68,7 @@
         </div>
 
         <div class="rnav">
-            {{ p.text|escape|urlize|markdown }}
+            {{ p.text|markdown }}
         </div>
     </div>
 </div> <!-- class="post" -->

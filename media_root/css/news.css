@@ -1,6 +1,4 @@
-.news {
-    margin: 5em 2em;
-}
+.news { margin: 5em 2em; }
 
 .news .news-header { 
     border-bottom: 1px dotted #1793D1; 
@@ -18,9 +16,7 @@
     text-align: right;
 }
 
-.news .text {
-
-}
+.news .text { }
 
 .news .news-pref {
     text-align: right;
