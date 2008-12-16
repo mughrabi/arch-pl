@@ -129,3 +129,5 @@ pre {
     font-family: sans-serif, Monospace, fixed;
 }
 
+/* TODO */
+td .t_author { font-style: italic; }
