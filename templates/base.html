@@ -2,15 +2,15 @@
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+        <link rel="fluid-icon" href="/static/images/favicon.png" title="Arch Linux" />
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Arch Linux Polska{% endblock %}</title>
+        {% block head %} {% endblock %}
+        {% block css %} {% endblock %}
         <script type="text/javascript" src="/static/javascript/jquery.js"></script>
         <script type="text/javascript" src="/static/javascript/popupinfo.js"></script>
         {% block javascript %} {% endblock %}
-        {% block css %} {% endblock %}
-        <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
-        <title>{% block title %}Arch Linux Polska{% endblock %}</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        {% block head %} 
-        {% endblock %}
     </head>
     <body>
         {% if popupinfo %}
@@ -42,6 +42,7 @@
                     {% endif %}
                 </ul>
             </div>
+            <div class="menu-shadow"></div>
         </div>
 
         {% block middle %} {% endblock %}

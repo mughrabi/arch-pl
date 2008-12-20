@@ -15,6 +15,22 @@ from models import Thread, Post
 from models import VisitedThread, AllVisited
 from forms import PostForm, ThreadForm, AdvancedSearchForm
 
+#@login_required
+#def latest_seen_post(request, thread, template=None):
+#    dt = datetime.dateting.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
+#    try:
+#        thread = get_object_or_404(Thread, slug=thread)
+#        latest_date = VisitedThread.objects.get(
+#                user=request.user, thread=thread)
+#    except VisitedThread.DoesNotExist:
+#        try:
+#            allcv = AllVisited.objects.get(user=request.user)
+#            dt = dt if dt > allcv.date else allcv.date
+#        except AllVisited.DoesNotExist:
+#            pass
+#    return to_JSON()
+#    #TODO
+
 def thread_list(request, offset_step=0, number=20,
         popupinfo=None, template="forum/thread_list.html"):
     offset_step = int(offset_step)

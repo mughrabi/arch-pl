@@ -87,7 +87,6 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 .rnav { padding: 0 1em; margin-left: 80px; }
 .lnav { position: absolute; }
 .avatar img { 
-    max-height: 70px; 
     margin: -0.3em 0.5em;
 }
 

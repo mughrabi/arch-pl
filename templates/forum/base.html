@@ -13,6 +13,9 @@
     <link rel="alternate" type="application/atom+xml" title="Forum Arch Linux" href="/forum/feeds/latest/" /> 
 {% endblock %}
 
+{% block javascript %}
+    <script type="text/javascript" src="/static/javascript/quicksearch.js"></script>
+{% endblock %}
 
 {% block submenu %}
     {% if user.is_authenticated %}
@@ -28,8 +31,8 @@
 {% block middle %}
     <div class="search-form">
         <form action="/forum/search/" method="GET">
-            <input id="id_searchtext" name="searchtext" type="text" />
-            <input id="id_submit" type="submit" value="Szukaj">
+            <img style="margin: 0 0 -5px 0;" src="/static/images/search.png" alt="" />
+            <input id="id_quucjsearch_text" name="searchtext" type="text" />
         </form>
     </div>
 

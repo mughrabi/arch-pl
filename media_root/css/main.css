@@ -33,7 +33,7 @@ a:hover {
     padding: 0;
     font-family: "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif;
     background: #333333;
-    margin: 0.5em 0;
+    margin: 0.5em 0 0 0;
 }
 
 .header-menu ul.menu {
@@ -55,7 +55,7 @@ a:hover {
     padding: 0.3em 0.6em;
 }
 
-.menu a:hover {  
+.header-menu a:hover {  
     color: #ffffff; 
     background: #1793D1;
 }
@@ -83,6 +83,11 @@ ul.submenu a { color: #ffffff; }
 ul.submenu li { 
     display: inline; 
     padding: 0 0.4em; 
+}
+
+.menu-shadow {
+    background: url("/static/images/menu_panel_shadow.png") repeat-x;
+    min-height: 30px;
 }
 
 .infobox {
