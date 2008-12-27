@@ -6,30 +6,41 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template.defaultfilters import slugify
 from django.db.models import Q
+# ajax
+#from django.core import serializers 
+import json
 
 from settings import FORUM_MAX_DAY_MARK
 from models import Thread, Post
 from models import VisitedThread, AllVisited
 from forms import PostForm, ThreadForm, AdvancedSearchForm
 
-#@login_required
-#def latest_seen_post(request, thread, template=None):
-#    dt = datetime.dateting.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
-#    try:
-#        thread = get_object_or_404(Thread, slug=thread)
-#        latest_date = VisitedThread.objects.get(
-#                user=request.user, thread=thread)
-#    except VisitedThread.DoesNotExist:
-#        try:
-#            allcv = AllVisited.objects.get(user=request.user)
-#            dt = dt if dt > allcv.date else allcv.date
-#        except AllVisited.DoesNotExist:
-#            pass
-#    return to_JSON()
-#    #TODO
+@login_required
+def latest_seen_post(request, thread_slug, template=None):
+    "Get latest_seen date for given thread"
+    dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
+    try:
+        thread = get_object_or_404(Thread, slug=thread_slug)
+        latest_date = VisitedThread.objects.get(
+                user=request.user, thread=thread)
+    except VisitedThread.DoesNotExist:
+        try:
+            allcv = AllVisited.objects.get(user=request.user)
+            dt = dt if dt > allcv.date else allcv.date
+        except AllVisited.DoesNotExist:
+            pass
+    json_data = json.dumps({
+        "year": dt.year, 
+        "month": dt.month, 
+        "day": dt.day,
+        "hour" : dt.hour, 
+        "minute" : dt.minute,
+    })
+    return HttpResponse(json_data, mimetype="application/javascript")
+
 
 def thread_list(request, offset_step=0, number=20,
         popupinfo=None, template="forum/thread_list.html"):
@@ -190,7 +201,7 @@ def mark_all_read(request):
 @login_required
 def toggle_solved(request, thread_slug):
     t = get_object_or_404(Thread, slug=thread_slug)
-    if t.author == request.user:
+    if t.author == request.user or request.user.has_perm("thread.can_edit"):
         t.solved = not t.solved
         t.save()
     return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
@@ -216,7 +227,8 @@ def edit_post(request, thread_slug, post_id, template="forum/add_post.html"):
     t = get_object_or_404(Thread, slug=thread_slug)
     p = t.post_set.get(id=post_id)
     u = request.user
-    if not t.latest_post.id == p.id or not p.author == u:
+    if not u.has_perm("thread.can_edit") and not \
+            (t.latest_post.id == p.id and p.author == u):
         return HttpResponseRedirect(t.get_absolute_url())
     if request.POST:
         f = PostForm(request.POST, instance=p)
@@ -234,7 +246,8 @@ def delete_post(request, thread_slug, post_id):
     t = get_object_or_404(Thread, slug=thread_slug)
     p = t.post_set.get(id=post_id)
     u = request.user
-    if t.latest_post.id == p.id and p.author == u:
+    if u.has_perm("thread.can_delete") or \
+            (t.latest_post.id == p.id and p.author == u):
         p.delete()
         if not t.post_set.count():
             return HttpResponseRedirect("/forum/")
@@ -287,3 +300,11 @@ def user_latest_active_threads(request, template="forum/thread_list.html"):
         "old_threads": t,
         "page": { "sitecount" : [] },
         }, context_instance=RequestContext(request))
+
+@login_required
+def delete_thread(request, thread_slug):
+    if not request.user.has_perm("forum.thread.can_delete"):
+        return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
+    t = get_object_or_404(Thread, slug=thread_slug)
+    t.delete()
+    return HttpResponseRedirect("/forum/")

@@ -65,7 +65,8 @@ def user_preferences(request, template="userprofile/preferences.html"):
     profile = UserProfile.objects.get_or_create(
             user=request.user, defaults={})[0]
     if request.POST:
-        form = UserProfileForm(request.POST)
+        form = UserProfileForm(request.POST,
+                instance=UserProfile(user=request.user))
         if form.is_valid():
             # TODO
             form = form.save()

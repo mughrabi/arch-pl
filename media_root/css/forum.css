@@ -130,3 +130,14 @@ pre {
 
 /* TODO */
 td .t_author { font-style: italic; }
+
+
+.signature {
+    margin-bottom: -1em;
+    padding: 0;
+    font-size: 0.9em;
+    color: #B5B5B5;
+}
+
+.signature a { color: #6D6D6D; }
+.signature a:hover { color: #313131; }

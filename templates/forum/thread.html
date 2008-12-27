@@ -3,37 +3,41 @@
 {% load markup %}
 
 {% block css %} 
-{{ block.super }} 
-<link rel="stylesheet" type="text/css" href="/static/css/addform.css" />
+    {{ block.super }} 
+    <link rel="stylesheet" type="text/css" href="/static/css/addform.css" />
 {% endblock %}
 
 {% block javascript %}
-<script type="text/javascript" src="/static/javascript/jquery.autogrow.js"></script>
-<script type="text/javascript" src="/static/javascript/markdown.js"></script>
-<script type="text/javascript" src="/static/javascript/textareagrow.js"></script>
-<script type="text/javascript" src="/static/javascript/blockquote_hide.js"></script>
+    {{ block.super }}
+    <script type="text/javascript" src="/static/javascript/jquery.autogrow.js"></script>
+    <script type="text/javascript" src="/static/javascript/markdown.js"></script>
+    <script type="text/javascript" src="/static/javascript/textareagrow.js"></script>
+    <script type="text/javascript" src="/static/javascript/blockquote_hide.js"></script>
+    <script type="text/javascript" src="/static/javascript/seen_posts.js"></script>
 {% endblock %}
 
 
 {% block title %}{{ block.super}} : {{ thread.title }}{% endblock %}
 
 {% block path %}
-&bull; <a href="/forum/">Index</a>
-&raquo; {{ thread.title }} 
-{% if thread.is_new %} &bull; <strong>Nowy</strong>{% endif %}
-{% if thread.sticky %} &bull; <strong>Przyklejony</strong>{% endif %}
-{% if thread.solved %} &bull; <strong>Rozwiązany</strong>{% endif %}
-{% if thread.closed %} &bull; <strong>Zamknięty</strong>{% endif %}
-
-{% if user.is_authenticated %}
-<div style="text-align: right">
-    {% ifequal user thread.author %} 
-        {% if not thread.solved %} <a href="solved/">Oznacz temat jako &bdquo;rozwiązany&rdquo; </a> {% endif %}
-    {% endifequal %}
-</div>
-
-{% endif %}
-
+    &bull; <a href="/forum/">Index</a>
+    &raquo; {{ thread.title }} 
+    {% if thread.is_new %} &bull; <strong>Nowy</strong>{% endif %}
+    {% if thread.sticky %} &bull; <strong>Przyklejony</strong>{% endif %}
+    {% if thread.solved %} &bull; <strong>Rozwiązany</strong>{% endif %}
+    {% if thread.closed %} &bull; <strong>Zamknięty</strong>{% endif %}
+    
+    {% if user.is_authenticated %}
+        <div class="thread_prop" style="text-align: right">
+            {% ifequal user thread.author %} 
+                {% if not thread.solved %} <a href="solved/">Oznacz temat jako &bdquo;rozwiązany&rdquo; </a> {% endif %}
+            {% endifequal %}
+            
+            {% if perms.thread.can_delete %}
+                &bull; <a class="confirm" href="delete/">Usuń cały wątek</a>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}
 
 
@@ -42,14 +46,24 @@
 <div class="post">
     <div class="panel">
         <div class="panel-right">
-            <small>{{ p.date }}</small>
-            {% ifequal p thread.latest_post %}
-                {% ifequal p.author.username user.username %}
-                    &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
-                    &bull; <a href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
+            <span style="display:none" class="_post_date">{{ p.date }}</span>
+            <small>{{ p.date|date:"D d M Y" }} &bull; {{ p.date|date:"H:i" }}</small>
+            {% if perms.thread.moderator %}
+                        &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
+                        &bull; <a class="confirm" href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
+            {% else %}
+                {% ifequal p thread.latest_post %}
+                    {% ifequal p.author.username user.username %}
+                        &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
+                        &bull; <a class="confirm" href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
+                    {% endifequal %}
                 {% endifequal %}
-            {% endifequal %}
-            &bull; <a href="{{ thread.get_absolute_url }}reply/quote/{{ p.id }}/">cytuj</a>
+            {% endif %}
+
+            {% ifnotequal user thread.latest_post.author %}
+                &bull; <a href="{{ thread.get_absolute_url }}reply/quote/{{ p.id }}/">cytuj</a>
+            {% endifnotequal %}
+
         </div>
         <div>
             <a href="#{{ forloop.counter|add:page.offset }}" id="{{ forloop.counter|add:page.offset }}">
@@ -59,17 +73,19 @@
             <strong> <a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a> </strong>
         </div>
     </div>
-
     <div class="post_body">
         <div class="lnav">
             <div class="avatar">
-                <!-- <img src="{{ p.author.get_profile.avatar }}" alt="" /> -->
-                <img src="/static/images/default_avatar.png" alt="" /> 
+                <img src="{{ p.author.get_profile.avatar }}" alt="" />
+                <!-- <img src="/static/images/default_avatar.png" alt="" />  -->
             </div>
         </div>
 
         <div class="rnav">
             {{ p.text|markdown }}
+            {% if p.author.get_profile.signature %}
+                <div class="signature">{{ p.author.get_profile.signature|markdown }}</div>
+            {% endif %}
         </div>
     </div>
 </div> <!-- class="post" -->

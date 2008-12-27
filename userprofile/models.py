@@ -11,10 +11,9 @@ class UserProfile(models.Model):
     jabber = models.EmailField(blank=True)
     jabber_notify = models.BooleanField(
             _('Jabber notifycation'), default=False)
-    signature = models.CharField(max_length=256, blank=True)
-    about = models.TextField()
+    signature = models.TextField(blank=True)
 
-    def avatar(self):
+    def _avatar(self):
         if not hasattr(self, "__avatar"):
             self.__avatar = \
                 "http://www.gravatar.com/avatar.php?" + urllib.urlencode({
@@ -23,6 +22,8 @@ class UserProfile(models.Model):
                     'size': "70",
                 })
         return self.__avatar
+    avatar = property(_avatar)
+
 
     def __unicode__(self):
         return "%s profile" % self.user

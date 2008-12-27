@@ -20,8 +20,8 @@
             <tr>
                 <td class="t_name">
                     <strong>Nowy</strong> &bull;
-                    {% if t.sticky %}<strong>Przyklejony</strong> &bull; {% endif %}
                     <strong><a href="{{ t.get_absolute_url }}">{{ t.title }}</a></strong>
+                    {% if t.sticky %} &bull; <strong>Przyklejony</strong>{% endif %}
                     {% if t.solved %} &bull; <strong>Rozwiązany</strong>{% endif %}
                     {% if t.closed %} &bull; <strong>Zamknięty</strong>{% endif %}
                 </td> 
@@ -39,8 +39,8 @@
         {% for t in old_threads %}
             <tr>
                 <td class="t_name {% if t.closed %}closed{% endif %}">
-                    {% if t.sticky %}<strong>Przyklejony</strong> &bull; {% endif %}
                     <a href="{{ t.get_absolute_url }}">{{ t.title }}</a>
+                    {% if t.sticky %} &bull; <strong>Przyklejony</strong>{% endif %}
                     {% if t.solved %} &bull; <strong>Rozwiązany</strong>{% endif %}
                     {% if t.closed %} &bull; <strong>Zamknięty</strong>{% endif %}
                 </td> 
