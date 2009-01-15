@@ -20,6 +20,7 @@ urlpatterns = patterns("forum.views",
         (r"^/thread/(?P<thread_slug>[\w-]+)/(?P<post_id>\d+)/edit/$",               "edit_post"),
         (r"^/thread/(?P<thread_slug>[\w-]+)/(?P<post_id>\d+)/delete/$",             "delete_post"),
         (r"^/thread/(?P<thread_slug>[\w-]+)/delete/$",                              "delete_thread"),
+        (r"^/thread/(?P<thread_slug>[\w-]+)/block/$",                               "block_thread"),
         (r"^/thread/(?P<thread_slug>[\w-]+)/latest_seen/$",                         "latest_seen_post"),
 )
 

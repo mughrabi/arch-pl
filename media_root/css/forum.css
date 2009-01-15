@@ -76,9 +76,9 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 
 .post .panel {
     /* background-color: #EFEFEF; */
-    background-color: #E0E0E0;
+    background-color: #ECECEC;
     margin: 0;
-    padding: 0.1em 1em;
+    padding: 0 1em;
     /* border-bottom: 1px solid #DCDCDC; */
     border-bottom: 1px solid #C5C5C5;
 }
@@ -132,12 +132,22 @@ pre {
 td .t_author { font-style: italic; }
 
 
-.signature {
-    margin-bottom: -1em;
-    padding: 0;
+.post_signature {
+    margin: 0 -1.1em 0 40%;
+    padding: 0 1em;
     font-size: 0.9em;
     color: #B5B5B5;
+    border-top: 1px solid #C1C1C1;
+}
+.post_signature p { margin: 0; padding: 0; }
+
+.post_signature a { color: #6D6D6D; }
+.post_signature a:hover { color: #313131; }
+
+.post_text {
+    min-height: 50px;
 }
 
-.signature a { color: #6D6D6D; }
-.signature a:hover { color: #313131; }
+.thread_prop {
+    margin: 1em 0;
+}

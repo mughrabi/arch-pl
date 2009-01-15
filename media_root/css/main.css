@@ -31,7 +31,9 @@ a:hover {
 .header-menu {
     text-align: right;
     padding: 0;
-    font-family: "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif;
+    font-size: 0.9em;
+    font-family: "dejavu sans", "bitstream vera sans", "lucida grande", arial, sans-serif;
+    /* font-family: "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif; */
     background: #333333;
     margin: 0.5em 0 0 0;
 }
@@ -48,11 +50,13 @@ a:hover {
     margin: 0;
 }
 
+
 .header-menu a {
     font-weight: bold;
     text-decoration: none;
     color: #ffffff;
-    padding: 0.3em 0.6em;
+    padding: 0.25em 1em;
+    margin: 0;
 }
 
 .header-menu a:hover {  

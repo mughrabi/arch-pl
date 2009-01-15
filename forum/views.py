@@ -10,13 +10,23 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template.defaultfilters import slugify
 from django.db.models import Q
 # ajax
-#from django.core import serializers 
+#from django.core import serializers
 import json
 
 from settings import FORUM_MAX_DAY_MARK
 from models import Thread, Post
 from models import VisitedThread, AllVisited
 from forms import PostForm, ThreadForm, AdvancedSearchForm
+
+@login_required
+@user_passes_test(lambda u: u.has_perm("forum.thread.can_change"))
+def block_thread(request, thread_slug, template=None):
+    t = get_object_or_404(Thread, slug=thread_slug)
+    t.closed = not t.closed
+    t.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
+
+
 
 @login_required
 def latest_seen_post(request, thread_slug, template=None):
@@ -33,10 +43,10 @@ def latest_seen_post(request, thread_slug, template=None):
         except AllVisited.DoesNotExist:
             pass
     json_data = json.dumps({
-        "year": dt.year, 
-        "month": dt.month, 
+        "year": dt.year,
+        "month": dt.month,
         "day": dt.day,
-        "hour" : dt.hour, 
+        "hour" : dt.hour,
         "minute" : dt.minute,
     })
     return HttpResponse(json_data, mimetype="application/javascript")
@@ -48,7 +58,7 @@ def thread_list(request, offset_step=0, number=20,
     number = int(number)
     offset = offset_step * number
     u = request.user
-    if u.is_authenticated() and not offset_step:
+    if u.is_authenticated():
         dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
         try:
             allcv = AllVisited.objects.get(user=u)
@@ -56,9 +66,15 @@ def thread_list(request, offset_step=0, number=20,
         except AllVisited.DoesNotExist:
             pass
         # get unreaded, and fill thread list with old one
-        unreaded = Thread.objects.filter(latest_post_date__gt=dt
-                ).exclude(visitedthread__user=u)[offset:offset + number]
+        # TODO !
+        unreaded = Thread.objects.filter(
+                Q(latest_post_date__gt=dt),
+                    Q(visitedthread__isnull=True) |
+                    Q(visitedthread__isnull=False,
+                      visitedthread__date__gt=visitedthread__thread__latest_post_date)
+                ).distinct()[offset:offset + number]
         unreaded_offset = number - len(unreaded)
+        print "unreaded :", unreaded.query
         threads = Thread.objects.all()[len(unreaded):unreaded_offset]
     else:
         # fetch latest threads
@@ -195,7 +211,7 @@ def mark_all_read(request):
         obj.date = datetime.datetime.now()
         obj.save()
     #return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
-    return thread_list(request, 
+    return thread_list(request,
             popupinfo="Wszystkie posty zostały oznaczone jako przeczytane")
 
 @login_required
@@ -260,7 +276,7 @@ def quick_search(request, searchtext=None, template="forum/thread_list.html"):
         searchtext = request.GET.get("searchtext")
     if not searchtext or \
             len(searchtext.replace(" ", "")) < len(searchtext.split()) * 4:
-        return thread_list(request, 
+        return thread_list(request,
                 popupinfo="podana fraza składa się ze zbyt krótkich haseł")
     thread = Thread.objects.filter(
             Q(post__text__contains=searchtext) | Q(title__contains=searchtext)

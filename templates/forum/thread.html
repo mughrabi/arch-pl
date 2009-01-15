@@ -31,8 +31,18 @@
         <div class="thread_prop" style="text-align: right">
             {% ifequal user thread.author %} 
                 {% if not thread.solved %} <a href="solved/">Oznacz temat jako &bdquo;rozwiązany&rdquo; </a> {% endif %}
+            {% else %}
+                {% if perms.thread.can_change %} 
+                    {% if not thread.solved %} <a href="solved/">Oznacz temat jako &bdquo;rozwiązany&rdquo; </a> {% endif %}
+                {% endif %}
             {% endifequal %}
-            
+            {% if perms.thread.can_change %}
+                {% if not thread.closed %}
+                    &bull; <a href="block/">Zamknij wątek</a>
+                {% else %}
+                    &bull; <a href="block/">Otwórz wątek</a>
+                {% endif %}
+            {% endif %}
             {% if perms.thread.can_delete %}
                 &bull; <a class="confirm" href="delete/">Usuń cały wątek</a>
             {% endif %}
@@ -48,7 +58,7 @@
         <div class="panel-right">
             <span style="display:none" class="_post_date">{{ p.date }}</span>
             <small>{{ p.date|date:"D d M Y" }} &bull; {{ p.date|date:"H:i" }}</small>
-            {% if perms.thread.moderator %}
+            {% if perms.thread.can_change %}
                         &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
                         &bull; <a class="confirm" href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
             {% else %}
@@ -82,9 +92,9 @@
         </div>
 
         <div class="rnav">
-            {{ p.text|markdown }}
+            <div class="post_text">{{ p.text|markdown }}</div>
             {% if p.author.get_profile.signature %}
-                <div class="signature">{{ p.author.get_profile.signature|markdown }}</div>
+                <div class="post_signature">{{ p.author.get_profile.signature|markdown }}</div>
             {% endif %}
         </div>
     </div>
