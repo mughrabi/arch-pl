@@ -54,41 +54,38 @@
 {% block forumdata %}
 {% for p in post %}
 <div class="post">
-    <div class="panel">
-        <div class="panel-right">
-            <span style="display:none" class="_post_date">{{ p.date }}</span>
-            <small>{{ p.date|date:"D d M Y" }} &bull; {{ p.date|date:"H:i" }}</small>
-            {% if perms.thread.can_change %}
-                        &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
-                        &bull; <a class="confirm" href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
-            {% else %}
-                {% ifequal p thread.latest_post %}
-                    {% ifequal p.author.username user.username %}
-                        &bull; <a href="{{ p.id }}/edit/">edytuj</a> 
-                        &bull; <a class="confirm" href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
-                    {% endifequal %}
-                {% endifequal %}
-            {% endif %}
-
-            {% ifnotequal user thread.latest_post.author %}
-                &bull; <a href="{{ thread.get_absolute_url }}reply/quote/{{ p.id }}/">cytuj</a>
-            {% endifnotequal %}
-
-        </div>
-        <div>
-            <a href="#{{ forloop.counter|add:page.offset }}" id="{{ forloop.counter|add:page.offset }}">
-                #{{ forloop.counter|add:page.offset }} 
-            </a> 
-            &bull; autor : 
-            <strong> <a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a> </strong>
-        </div>
-    </div>
     <div class="post_body">
         <div class="lnav">
+            <strong>
+                <a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a> 
+            </strong>
+            <span style="display:none" class="_post_date">{{ p.date }}</span>
+            <p style="margin: 0"><small>
+                {{ p.date|date:"D d M Y" }} &bull; {{ p.date|date:"H:i" }}
+            </small></p>
+            
             <div class="avatar">
                 <img src="{{ p.author.get_profile.avatar }}" alt="" />
                 <!-- <img src="/static/images/default_avatar.png" alt="" />  -->
             </div>
+
+            {% if user.is_authenticated %} 
+                {% if perms.thread.can_change %}
+                            <a href="{{ p.id }}/edit/">edytuj</a> 
+                            &bull; <a class="confirm" href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
+                {% else %}
+                    {% ifequal p thread.latest_post %}
+                        {% ifequal p.author.username user.username %}
+                            <a href="{{ p.id }}/edit/">edytuj</a> 
+                            &bull; <a class="confirm" href="{{ thread.get_absolute_url }}{{ p.id }}/delete/">usuń</a> 
+                        {% endifequal %}
+                    {% endifequal %}
+                {% endif %}
+
+                {% ifnotequal user thread.latest_post.author %}
+                    &bull; <a href="{{ thread.get_absolute_url }}reply/quote/{{ p.id }}/">cytuj</a>
+                {% endifnotequal %}
+            {% endif %}
         </div>
 
         <div class="rnav">
@@ -136,5 +133,7 @@
     </div>
 {% endif %}
 
+
+<div style="clear: both; height: 8em;"><!-- placeholder --></div>
 
 {% endblock %}

@@ -65,13 +65,13 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 /* post */
 .topic-info { font-size: 1.4em; margin: 0.5em 2em; }
 
-.post { clear: both; margin: 1.5em 1em; }
+.post { clear: both; margin: 0 1em; }
 .post .user-info { margin: 1em; text-align: center; }
 .post { 
     /* border: 1px solid #DCDCDC;   */
-    border: 1px solid #C1C1C1;  
+    border-top: 1px solid #C1C1C1;  
     background: #ffffff;
-    min-height: 105px;
+    min-height: 110px;
 }
 
 .post .panel {
@@ -84,11 +84,9 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 }
 .post .panel-right { text-align: right; float: right; }
 
-.rnav { padding: 0 1em; margin-left: 80px; }
-.lnav { position: absolute; }
-.avatar img { 
-    margin: -0.3em 0.5em;
-}
+.rnav { padding: 0 1em; margin-left: 140px; }
+.lnav { position: absolute; padding: 0 0.5em; width: 140px;}
+.avatar img { margin: 0.5em; }
 
 /* search form */
 .search-form {
@@ -133,15 +131,14 @@ td .t_author { font-style: italic; }
 
 
 .post_signature {
-    margin: 0 -1.1em 0 40%;
-    padding: 0 1em;
+    margin: 1em 0 2em 0;
     font-size: 0.9em;
     color: #B5B5B5;
-    border-top: 1px solid #C1C1C1;
+    /*border-top: 1px solid #C1C1C1; */
 }
 .post_signature p { margin: 0; padding: 0; }
 
-.post_signature a { color: #6D6D6D; }
+.post_signature a { color: #B5B5B5; text-decoration: underline; }
 .post_signature a:hover { color: #313131; }
 
 .post_text {

@@ -83,6 +83,11 @@ class RegistrationForm(forms.Form):
         raise forms.ValidationError(_("poo"))
 
 
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email", "password")
+
 class UserProfileForm(ModelForm):
     class Meta:
         model  = UserProfile

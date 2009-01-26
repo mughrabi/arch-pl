@@ -70,8 +70,8 @@ def thread_list(request, offset_step=0, number=20,
         unreaded = Thread.objects.filter(
                 Q(latest_post_date__gt=dt),
                     Q(visitedthread__isnull=True) |
-                    Q(visitedthread__isnull=False,
-                      visitedthread__date__gt=visitedthread__thread__latest_post_date)
+                    Q(visitedthread__isnull=False)
+                      #visitedthread__date__gt=0)
                 ).distinct()[offset:offset + number]
         unreaded_offset = number - len(unreaded)
         print "unreaded :", unreaded.query
@@ -220,7 +220,9 @@ def toggle_solved(request, thread_slug):
     if t.author == request.user or request.user.has_perm("thread.can_edit"):
         t.solved = not t.solved
         t.save()
-    return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
+    #return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
+    return thread_list(request,
+            popupinfo="Post oznaczony został jako *Rozwiązany*")
 
 
 @login_required
@@ -230,6 +232,7 @@ def show_unreaded(request, template="forum/thread_list.html"):
         dt = AllVisited.objects.get(user=u).date
     except AllVisited.DoesNotExist:
         dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
+    # TODO! 
     unreaded = Thread.objects.filter(latest_post_date__gt=dt
             ).exclude(visitedthread__user=u)
     return render_to_response(template, {

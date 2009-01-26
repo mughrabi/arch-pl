@@ -8,7 +8,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 
 from models import UserProfile
-from forms import LoginForm, RegistrationForm, UserProfileForm
+from forms import LoginForm, RegistrationForm, UserProfileForm, UserForm
 
 def user_login(request, template="userprofile/login.html"):
     info = None
@@ -62,17 +62,20 @@ def userinfo(request, username, template="userprofile/userinfo.html"):
 
 @login_required
 def user_preferences(request, template="userprofile/preferences.html"):
-    profile = UserProfile.objects.get_or_create(
-            user=request.user, defaults={})[0]
+    user = request.user
+    profile = UserProfile.objects.get_or_create(user=user, defaults={})[0]
     if request.POST:
-        form = UserProfileForm(request.POST,
-                instance=UserProfile(user=request.user))
-        if form.is_valid():
+        profile_form = UserProfileForm(request.POST, instance=profile)
+        user_form = UserForm(request.POST, instance=user)
+        if profile_form.is_valid() and user_form.is_valid():
             # TODO
-            form = form.save()
-            return HttpResponseRedirect(profile.user.get_absolute_url())
+            user_form = user_form.save()
+            profile_form = profile_form.save()
+            return HttpResponseRedirect(user.get_absolute_url())
     else:
-        form = UserProfileForm(instance=profile)
+        user_form = UserForm(instance=user)
+        profile_form = UserProfileForm(instance=profile)
     return render_to_response(template, {
-        "form": form,
+        "user_form": user_form,
+        "profile_form": profile_form,
         }, context_instance=RequestContext(request))

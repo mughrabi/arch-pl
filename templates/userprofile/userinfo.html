@@ -5,14 +5,20 @@
 
 {% block middle %}
 <div style="margin: 4em 10em;">
-    <p>gravatar : <img src="{{ user.get_profile.avatar }}" /></p>
-    <p>nick : {{ user.username }}</p>
-    {% if user.first_name %}<p>imię : {{ user.first_name }}</p>{% endif %}
-    {% if user.last_name %}<p>nazwisko : {{ user.last_name }}</p>{% endif %}
-    <p>ostatnie logowanie : {{ user.last_login }}</p>
-    <p>data rejestracji : {{ user.date_joined }}</p>
+    <p>
+        <strong>gravatar : </strong>
+        <div class="userprofile_avatar"><img src="{{ user.get_profile.avatar }}" /></div>
+    </p>
+    <p><strong>nick : </strong>{{ user.username }}</p>
+    {% if user.first_name %}<p><strong>imię : </strong>{{ user.first_name }}</p>{% endif %}
+    {% if user.last_name %}<p><strong>nazwisko : </strong>{{ user.last_name }}</p>{% endif %}
+    <p><strong>ostatnie logowanie :</strong> {{ user.last_login }}</p>
+    <p><strong>data rejestracji :</strong> {{ user.date_joined }}</p>
     {% if user.get_profile.signature %}
-        <p>podpis : {{ user.get_profile.signature|markdown }}</p>
+    <p>
+        <strong>podpis : </strong>
+        <div class="userprofile_signature">{{ user.get_profile.signature|markdown }}</div>
+    </p>
     {% endif %}
 </div>
 {% endblock %}

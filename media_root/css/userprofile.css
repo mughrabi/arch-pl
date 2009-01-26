@@ -1,0 +1,10 @@
+.userprofile_signature { 
+    border: 1px solid #CCCCCC; 
+    background: #EFEFEF; 
+    color: #5D5D5D; 
+    padding: 0 1em;
+}
+
+.userprofile_avatar {
+    margin: 0 7em;
+}
