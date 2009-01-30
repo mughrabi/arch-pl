@@ -10,9 +10,9 @@ urlpatterns = patterns('',
     (r'^$',                                 'news.views.latest'),
     (r'^users/(?P<username>[\w-]+)/$',      'userprofile.views.userinfo'),
 
-    (r'^news',                              include('news.urls')),
-    (r'^forum',                             include('forum.urls')),
-    (r'^accounts',                          include('userprofile.urls')),
+    (r'^news/',                              include('news.urls')),
+    (r'^forum/',                             include('forum.urls')),
+    (r'^accounts/',                          include('userprofile.urls')),
     (r'^admin/(.*)',                        admin.site.root),
     (r'^',                                  include('staticpages.urls')),
 )

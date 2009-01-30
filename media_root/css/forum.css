@@ -71,11 +71,12 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
     /* border: 1px solid #DCDCDC;   */
     border-top: 1px solid #C1C1C1;  
     background: #ffffff;
-    min-height: 110px;
+    min-height: 160px;
 }
 
 .post .panel {
     /* background-color: #EFEFEF; */
+    font-size: 0.8em;
     background-color: #ECECEC;
     margin: 0;
     padding: 0 1em;
@@ -84,8 +85,8 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 }
 .post .panel-right { text-align: right; float: right; }
 
-.rnav { padding: 0 1em; margin-left: 140px; }
-.lnav { position: absolute; padding: 0 0.5em; width: 140px;}
+.rnav { padding: 0 1em; margin-left: 180px; }
+.lnav { position: absolute; padding: 0 0.5em; }
 .avatar img { margin: 0.5em; }
 
 /* search form */
@@ -142,7 +143,7 @@ td .t_author { font-style: italic; }
 .post_signature a:hover { color: #313131; }
 
 .post_text {
-    min-height: 50px;
+    min-height: 80px;
 }
 
 .thread_prop {

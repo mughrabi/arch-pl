@@ -55,6 +55,7 @@ def details(request, slug, template="news/details.html"):
 
 @login_required
 def create(request, template="news/create.html"):
+    #if 
     def get_slug(text, numb=0):
         "Create unique slug"
         if numb:
@@ -79,6 +80,9 @@ def create(request, template="news/create.html"):
         "form": f,
         }, context_instance=RequestContext(request))
 
+@login_required
+def preview(request, template="news/create.html"):
+    pass
 
 @login_required
 def edit(request, slug, template="news/create.html"):

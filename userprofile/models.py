@@ -20,7 +20,7 @@ class UserProfile(models.Model):
                 "http://www.gravatar.com/avatar.php?" + urllib.urlencode({
                     'gravatar_id': hashlib.md5(self.user.email).hexdigest(),
                     'default': "/static/images/default_avatar.png",
-                    'size': "80",
+                    'size': "70",
                 })
         return self.__avatar
 

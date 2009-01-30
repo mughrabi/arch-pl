@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.humanize',
     'django.contrib.markup',
+    'django.contrib.formtools',
     'forum',
     'userprofile',
     'news',
