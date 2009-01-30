@@ -20,14 +20,20 @@
 {% endblock %}
 
 {% block submenu %}
-    {% if user.is_authenticated %}
-        <li><a href="/forum/show_unreaded/">Pokaż nowe</a></li>
-        <li><a href="/forum/new_thread/">Nowy temat</a></li>
-        <li><a href="/forum/advanced_search/">Szukaj</a></li>
-        <li><a href="/forum/all_readed/">Oznacz jako przeczytane</a></li>
-        <li><a href="/forum/my_activity/">Aktywne tematy</a></li>
-        <li><a href="/forum/feeds/latest/">RSS</a></li> 
-    {% endif %}
+    <li id="forum_path_info">
+        <a href="/forum/">Index</a>
+        {% block path %} {% endblock %}
+    </li>
+    {% block submenu_base %}
+        {% if user.is_authenticated %}
+            <li><a href="/forum/show_unreaded/">Pokaż nowe</a></li>
+            <li><a href="/forum/new_thread/">Nowy temat</a></li>
+            <li><a href="/forum/advanced_search/">Szukaj</a></li>
+            <li><a href="/forum/all_readed/">Oznacz jako przeczytane</a></li>
+            <li><a href="/forum/my_activity/">Aktywne tematy</a></li>
+            <li><a href="/forum/feeds/latest/">RSS</a></li> 
+        {% endif %}
+    {% endblock %}
 {% endblock %}
 
 {% block middle %}
@@ -36,11 +42,6 @@
             <img style="margin: 0 0 -5px 0;" src="/static/images/search.png" alt="" />
             <input id="id_quucjsearch_text" name="searchtext" type="text" />
         </form>
-    </div>
-
-    <div class="topic-info">
-    {% block path %} 
-    {% endblock %}
     </div>
 
     {% block forumdata %}

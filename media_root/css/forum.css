@@ -1,22 +1,20 @@
 table.list {
     margin: 2em auto;
     border-collapse: collapse;
-    /* border: 1px solid #D2D2D2; */
-    border: 1px solid #333333;
     width: 96%;
     min-width: 60em;
-    line-height: 2.1em;
+    line-height: 3.1em;
+    border-bottom: 1px solid #DCDCDC;
 }
 
 table.list td { padding: 0 1em; }
 
 .list thead{
-    /* background: #EFEFEF; */
-    background: #333333;
-    border-bottom: 1px solid #333333;
-    color: #ffffff;
+    border-bottom: 1px solid #DCDCDC;
+    color: #333333;
     font-weight: bold;
     text-align: center;
+    padding-bottom: 1em;
 }
 
 thead.topic-header { border: #0771A6; }
@@ -32,6 +30,10 @@ thead.topic-header {
     color: #5E5E5E;
 }
 
+tbody tr:hover {
+    background: #ECEDFF;
+}
+
 td.t_name { min-width: 30em; }
 
 td.t_tnumb { text-align: center; }
@@ -44,22 +46,20 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 /* response container */
 
 #response {
-    margin: 0 1em;
-    float: right;
+    margin: 0 auto;
+    clear: both;
 }
 
 #form {
-    float: left;
-    min-width: 45em;
-    margin: 2px 0px;
+    width: 99%;
+    margin: 0 auto;
 }
 
-#help {
-    padding: 0px 5px;
-    height: 240px;
-    width: 45%;
-    margin: 5px 0px;
-    float: right;
+#new_post_info {
+    font-size: 0.8em;
+    clear: both;
+    text-align: right;
+    margin: 0 7em;
 }
 
 /* post */
@@ -69,7 +69,7 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 .post .user-info { margin: 1em; text-align: center; }
 .post { 
     /* border: 1px solid #DCDCDC;   */
-    border-top: 1px solid #C1C1C1;  
+    border-bottom: 1px solid #C1C1C1;  
     background: #ffffff;
     min-height: 160px;
 }
@@ -148,4 +148,10 @@ td .t_author { font-style: italic; }
 
 .thread_prop {
     margin: 1em 0;
+}
+
+
+#forum_path_info {
+    position: absolute;
+    left: 1em;
 }

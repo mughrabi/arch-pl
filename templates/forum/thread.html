@@ -20,33 +20,40 @@
 {% block title %}{{ block.super}} : {{ thread.title }}{% endblock %}
 
 {% block path %}
-    &bull; <a href="/forum/">Index</a>
-    &raquo; {{ thread.title }} 
-    {% if thread.is_new %} &bull; <strong>Nowy</strong>{% endif %}
-    {% if thread.sticky %} &bull; <strong>Przyklejony</strong>{% endif %}
-    {% if thread.solved %} &bull; <strong>Rozwiązany</strong>{% endif %}
-    {% if thread.closed %} &bull; <strong>Zamknięty</strong>{% endif %}
-    
+    <strong>
+        &raquo; {{ thread.title }}
+    </strong> 
+    <em>
+        {% if thread.is_new %} &bull; Nowy{% endif %}
+        {% if thread.sticky %} &bull; Przyklejony{% endif %}
+        {% if thread.solved %} &bull; Rozwiązany{% endif %}
+        {% if thread.closed %} &bull; Zamknięty{% endif %}
+    </em>
+{% endblock %}
+
+{% block submenu_base %}
     {% if user.is_authenticated %}
-        <div class="thread_prop" style="text-align: right">
-            {% ifequal user thread.author %} 
-                {% if not thread.solved %} <a href="solved/">Oznacz temat jako &bdquo;rozwiązany&rdquo; </a> {% endif %}
+        {% ifequal user thread.author %} 
+            {% if not thread.solved %} 
+                <li><a href="solved/">Oznacz temat jako &bdquo;rozwiązany&rdquo; </a></li>
+            {% endif %}
+        {% else %}
+            {% if perms.thread.can_change %} 
+            {% if not thread.solved %}
+                <li> <a href="solved/">Oznacz temat jako &bdquo;rozwiązany&rdquo; </a></li> 
+            {% endif %}
+            {% endif %}
+        {% endifequal %}
+        {% if perms.thread.can_change %}
+            {% if not thread.closed %}
+                <li><a href="block/">Zamknij wątek</a></li>
             {% else %}
-                {% if perms.thread.can_change %} 
-                    {% if not thread.solved %} <a href="solved/">Oznacz temat jako &bdquo;rozwiązany&rdquo; </a> {% endif %}
-                {% endif %}
-            {% endifequal %}
-            {% if perms.thread.can_change %}
-                {% if not thread.closed %}
-                    &bull; <a href="block/">Zamknij wątek</a>
-                {% else %}
-                    &bull; <a href="block/">Otwórz wątek</a>
-                {% endif %}
+                <li><a href="block/">Otwórz wątek</a></li>
             {% endif %}
-            {% if perms.thread.can_delete %}
-                &bull; <a class="confirm" href="delete/">Usuń cały wątek</a>
-            {% endif %}
-        </div>
+        {% endif %}
+        {% if perms.thread.can_delete %}
+            <li><a class="confirm" href="delete/">Usuń cały wątek</a></li>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
@@ -106,15 +113,19 @@
             <form action="reply/" method="POST" class="center">
                 {{ form.text.errors }}
                 {{ form.text }}
-                <div id="id_submit"><input type="submit" value="Wyślij" /></div>
+                <div id="new_post_info">
+                    Do formatowania tekstu możesz użyć składni 
+                    <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a> 
+                    <span id="markdown_info"></span>
+                </div>
+                <div id="id_submit">
+                    <input name="preview" type="submit" value="Podgląd" />
+                    <input name="submit" type="submit" value="Wyślij" />
+                </div>
             </form>
         </div>
     </div>
 
-    <div style="float: right;">
-        <div> Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a> </div>
-        <div id="markdown_info"></div>
-    </div>
     {% endifnotequal %}
 {% endif %}
 

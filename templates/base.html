@@ -34,8 +34,7 @@
                     {% endblock %}
                 </ul>
                 <ul class="submenu">
-                    {% block submenu %}
-                    {% endblock %}
+                    {% block submenu %}{% endblock %}
                     <li> <!-- space keeper --> </li>
                     {% if user.is_authenticated %}
                         <li><a href="/accounts/preferences/">Profil</a></li>
