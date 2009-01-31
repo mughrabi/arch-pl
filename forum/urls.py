@@ -14,14 +14,15 @@ urlpatterns = patterns("forum.views",
 
         (r"^thread/(?P<thread_slug>[\w-]+)/$",                                     "thread"),
         (r"^thread/(?P<thread_slug>[\w-]+)/offset/(?P<offset_step>\d+)/$",         "thread"),
-        (r"^thread/(?P<thread_slug>[\w-]+)/solved/$",                              "toggle_solved"),
         (r"^thread/(?P<thread_slug>[\w-]+)/reply/$",                               "add_post"),
         (r"^thread/(?P<thread_slug>[\w-]+)/reply/quote/(?P<post_id>\d+)/$",        "add_post"),
         (r"^thread/(?P<thread_slug>[\w-]+)/(?P<post_id>\d+)/edit/$",               "edit_post"),
         (r"^thread/(?P<thread_slug>[\w-]+)/(?P<post_id>\d+)/delete/$",             "delete_post"),
         (r"^thread/(?P<thread_slug>[\w-]+)/delete/$",                              "delete_thread"),
-        (r"^thread/(?P<thread_slug>[\w-]+)/block/$",                               "block_thread"),
         (r"^thread/(?P<thread_slug>[\w-]+)/latest_seen/$",                         "latest_seen_post"),
+        (r"^thread/(?P<thread_slug>[\w-]+)/toggle_block/$",                        "block_thread"),
+        (r"^thread/(?P<thread_slug>[\w-]+)/toggle_solved/$",                       "toggle_solved"),
+        (r"^thread/(?P<thread_slug>[\w-]+)/toggle_sticky/$",                       "toggle_sticky"),
 )
 
 feeds = { 'latest': LatestThreads, }

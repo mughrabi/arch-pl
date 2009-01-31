@@ -67,7 +67,6 @@ def thread_list(request, offset_step=0, number=20,
         except AllVisited.DoesNotExist:
             pass
         # get unreaded, and fill thread list with old one
-        # TODO !
         unreaded = Thread.objects.filter(
                 Q(latest_post_date__gt=dt),
                     Q(visitedthread__isnull=True) |
@@ -75,9 +74,6 @@ def thread_list(request, offset_step=0, number=20,
                       visitedthread__date__lt=F('latest_post_date'))
                 ).distinct()[offset:offset + number]
         unreaded_offset = number - len(unreaded)
-        print "*" * 120
-        print unreaded.query
-        print "*" * 120
         threads = Thread.objects.all()[len(unreaded):unreaded_offset]
     else:
         # fetch latest threads
@@ -223,10 +219,17 @@ def toggle_solved(request, thread_slug):
     if t.author == request.user or request.user.has_perm("thread.can_edit"):
         t.solved = not t.solved
         t.save()
-    #return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
-    return thread_list(request,
-            popupinfo="Post oznaczony został jako *Rozwiązany*")
+    return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
+    #return thread_list(request,
+    #        popupinfo="Post oznaczony został jako *Rozwiązany*")
 
+@login_required
+@user_passes_test(lambda u: u.has_perm("forum.can_change"))
+def toggle_sticky(request, thread_slug):
+    t = get_object_or_404(Thread, slug=thread_slug)
+    t.sticky = not t.sticky
+    t.save()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
 
 @login_required
 def show_unreaded(request, template="forum/thread_list.html"):
