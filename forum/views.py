@@ -9,6 +9,7 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template.defaultfilters import slugify
 from django.db.models import Q
+from django.db.models.expressions import F
 # ajax
 #from django.core import serializers
 import json
@@ -70,11 +71,13 @@ def thread_list(request, offset_step=0, number=20,
         unreaded = Thread.objects.filter(
                 Q(latest_post_date__gt=dt),
                     Q(visitedthread__isnull=True) |
-                    Q(visitedthread__isnull=False)
-                      #visitedthread__date__gt=0)
+                    Q(visitedthread__isnull=False,
+                      visitedthread__date__lt=F('latest_post_date'))
                 ).distinct()[offset:offset + number]
         unreaded_offset = number - len(unreaded)
-        print "unreaded :", unreaded.query
+        print "*" * 120
+        print unreaded.query
+        print "*" * 120
         threads = Thread.objects.all()[len(unreaded):unreaded_offset]
     else:
         # fetch latest threads

@@ -33,7 +33,8 @@ class Thread(models.Model):
         return "%s, napisany przez %s" % \
                 (self.title, self.author.username)
 
-    def _get_latest_post(self):
+    @property
+    def latest_post(self):
         "Return latest related post or None"
         if not hasattr(self, "__latest_post"):
             try:
@@ -42,7 +43,6 @@ class Thread(models.Model):
             except Post.DoesNotExist:
                 self.__latest_post = None
         return self.__latest_post
-    latest_post = property(_get_latest_post)
 
 
 class Post(models.Model):
