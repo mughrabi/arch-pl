@@ -107,10 +107,14 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
 .closed, .closed a { color: #8A8A8A; }
 
 blockquote {
+    /*
     border: 1px solid #CACACA;
     border-left: 3px solid #717171;
-    margin: 0.5em 0.1em 0.5em 2em;
-    padding: 0.5em 0 0.5em 3em;
+    */
+    padding: 0.5em 1em;
+    margin: 0.3em 0;
+    background: #F2F2F2;
+    border: 1px solid #E2E2E2;
     color: #717171;
     font-size: 0.9em;
 }

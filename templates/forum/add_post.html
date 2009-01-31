@@ -9,12 +9,20 @@
 {% endblock %}
 
 {% block middle %}
-
-<form action="." method="POST">
-    {{ form }}
-    <div id="id_submit"><input type="submit" value="Wyślij" /></div>
-</form>
-    <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
-    <div id="markdown_info"></div>
-
+    <div id="response">
+        <div id="form">
+            <form action="." method="POST" class="center">
+                {{ form }}
+                <div id="new_post_info">
+                    Do formatowania tekstu możesz użyć składni 
+                    <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a> 
+                    <span id="markdown_info"></span>
+                </div>
+                <div id="id_submit">
+                    <input name="preview" type="submit" value="Podgląd" />
+                    <input name="submit" type="submit" value="Wyślij" />
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

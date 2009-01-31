@@ -1,6 +1,7 @@
 body {
     min-width: 800px;
     margin: 0 auto;
+    padding: 0;
     color: #333333;
     /* font-family: "DejaVu Sans", "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif; */
     font-family: 'News Gothic MT', 'Trebuchet MS', Arial, Helvetica, sans-serif; 
@@ -20,10 +21,6 @@ a:hover {
 
 .header { 
     padding: 1em 0; 
-    /*
-    background: #EFEFEF;
-    border-bottom: 1px solid #D2D2D2;
-    */
 }
 
 
@@ -33,16 +30,13 @@ a:hover {
     padding: 0;
     font-size: 0.9em;
     font-family: "dejavu sans", "bitstream vera sans", "lucida grande", arial, sans-serif;
-    /* font-family: "Bitstream Vera Sans", "Lucida Grande", Arial, sans-serif; */
     background: #333333;
     margin: 0.5em 0 0 0;
 }
 
 .header-menu ul.menu {
-    /* background: #333333; */
     line-height: 1.6em;
     font-size: 1.1em;
-    /* border-top: 1px solid #A2A2A2; */
 }
 
 .header-menu ul {
@@ -55,8 +49,8 @@ a:hover {
     font-weight: bold;
     text-decoration: none;
     color: #ffffff;
-    padding: 0.25em 1.3em;
-    margin: 0 -1em;
+    padding: 0.25em 0.4em;
+    margin: 0;
 }
 
 .header-menu a:hover {  
