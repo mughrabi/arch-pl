@@ -5,7 +5,7 @@ $(document).ready(function() {
     $('blockquote blockquote').each(function() {
         var quote = $(this);
 
-        quote.before('<strong style="margin-left: 2em;"> &gt; &gt; \
+        quote.before('<strong style="margin-left: 2em;"> &times; \
                 <a class="show_blockquotes" href="#js_show_quotes"> \
                   ' + show_message + ' \
                 </a> \
