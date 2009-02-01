@@ -9,7 +9,6 @@ urlpatterns = patterns("forum.views",
         (r"^search/(?P<searchtext>.+)/$",      "quick_search"),
         (r"^advanced_search/$",                "advanced_search"),
         (r"^all_readed/$",                     "mark_all_read"),
-        (r"^show_unreaded/$",                  "show_unreaded"),
         (r"^my_activity/$",                    "user_latest_active_threads"),
 
         (r"^thread/(?P<thread_slug>[\w-]+)/$",                                     "thread"),

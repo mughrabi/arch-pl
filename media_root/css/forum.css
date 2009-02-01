@@ -159,3 +159,7 @@ td .t_author { font-style: italic; }
     position: absolute;
     left: 1em;
 }
+
+.new_thread {
+    background: #F0FFD1;
+}

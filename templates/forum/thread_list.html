@@ -17,7 +17,7 @@
         <tbody>
 
         {% for t in unreaded_threads %}
-            <tr>
+            <tr class="new_thread">
                 <td class="t_name">
                     <strong>Nowy</strong> &bull;
                     <strong><a href="{{ t.get_absolute_url }}">{{ t.title }}</a></strong>

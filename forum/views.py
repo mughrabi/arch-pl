@@ -67,14 +67,14 @@ def thread_list(request, offset_step=0, number=20,
         except AllVisited.DoesNotExist:
             pass
         # get unreaded, and fill thread list with old one
-        unreaded = Thread.objects.filter(
-                Q(latest_post_date__gt=dt),
-                    Q(visitedthread__isnull=True) |
-                    Q(visitedthread__isnull=False,
-                      visitedthread__date__lt=F('latest_post_date'))
-                ).distinct()[offset:offset + number]
-        unreaded_offset = number - len(unreaded)
-        threads = Thread.objects.all()[len(unreaded):unreaded_offset]
+        unreaded = Thread.objects.exclude(
+                visitedthread__user=u,
+                latest_post_date__lt=F('visitedthread__date')
+            ).filter(latest_post_date__gt=dt).distinct()[offset:offset + number]
+        threads = Thread.objects.filter(
+                visitedthread__user=u,
+                latest_post_date__lt=F('visitedthread__date')
+            ).distinct()[offset: offset + number - len(unreaded)]
     else:
         # fetch latest threads
         unreaded = []
@@ -230,21 +230,6 @@ def toggle_sticky(request, thread_slug):
     t.sticky = not t.sticky
     t.save()
     return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
-
-@login_required
-def show_unreaded(request, template="forum/thread_list.html"):
-    u = request.user
-    try:
-        dt = AllVisited.objects.get(user=u).date
-    except AllVisited.DoesNotExist:
-        dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
-    # TODO! 
-    unreaded = Thread.objects.filter(latest_post_date__gt=dt
-            ).exclude(visitedthread__user=u)
-    return render_to_response(template, {
-        "thread" : unreaded,
-        "page": { "sitecount" : [] },
-        }, context_instance=RequestContext(request))
 
 @login_required
 @user_passes_test(lambda u: u.has_perm("forum.add_post"))

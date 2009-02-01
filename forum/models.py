@@ -87,7 +87,7 @@ class VisitedThread(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return "%s @ %s" % (self.user, self.thread)
+        return u"%s @ %s" % (self.user, self.thread)
 
 
 class AllVisited(models.Model):
@@ -95,4 +95,4 @@ class AllVisited(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return "%s # %s" % (self.user, self.date)
+        return u"%s # %s" % (self.user, self.date)
