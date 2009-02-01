@@ -34,14 +34,14 @@
                 <td class="t_pnumb">{{ t.post_count }}</td>
                 <td class="t_vnumb">{{ t.view_count }}</td>
                 <td class="t_last">
-                    {{ t.latest_post_date|date:"D d M Y  -  H:i" }} &bull; {{ t.latest_post_author }}
+                    <small>{{ t.latest_post_date|date:"D d M Y  -  H:i" }} &bull; {{ t.latest_post_author }}</small>
                 </td>
             </tr>
         {% endfor %}
 
 
         {% for t in old_threads %}
-            <tr>
+            <tr class="old_thread">
                 <td class="t_name {% if t.closed %}closed{% endif %}">
                     <a href="{{ t.get_absolute_url }}">{{ t.title }}</a>
                     {% if t.sticky %} &bull; <strong>Przyklejony</strong>{% endif %}
@@ -52,7 +52,7 @@
                 <td class="t_pnumb">{{ t.post_count }}</td>
                 <td class="t_vnumb">{{ t.view_count }}</td>
                 <td class="t_last">
-                    {{ t.latest_post_date|date:"D d M Y  - H:i" }} &bull; {{ t.latest_post_author }}
+                    <small>{{ t.latest_post_date|date:"D d M Y  - H:i" }} &bull; {{ t.latest_post_author }}</small>
                 </td>
             </tr>
         {% endfor %}
