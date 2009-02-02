@@ -76,8 +76,10 @@ def thread_list(request, offset_step=0, number=20,
                 latest_post_date__lt=F('visitedthread__date')
             ).filter(latest_post_date__gt=dt).distinct()[offset:offset + number]
         threads = Thread.objects.filter(
-                visitedthread__user=u,
-                latest_post_date__lt=F('visitedthread__date')
+                Q(visitedthread__user=u,
+                  latest_post_date__lt=F('visitedthread__date')) |
+                Q(visitedthread__isnull=True) |
+                Q(latest_post_date__lt=dt)
             ).distinct()[offset: offset + number - len(unreaded)]
     else:
         # fetch latest threads
