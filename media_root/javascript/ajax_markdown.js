@@ -9,6 +9,7 @@ $(document).ready(function() {
         if ($('#ajax_form_preview').length == 0) {
             form.before('<div id="ajax_form_preview"> </div>');
         }
+        $('#ajax_form_preview').html('<img style="margin: 2em;" src="/static/images/ajax-loader.gif" alt="" />');
          $.ajax({
             type: "POST",
             url: "/forum/get_markdown/",
