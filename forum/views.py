@@ -323,7 +323,7 @@ def delete_thread(request, thread_slug):
     return HttpResponseRedirect("/forum/")
 
 
-#@login_required
+@login_required
 def text_to_markdown(request):
     if request.is_ajax():
         resp = {}

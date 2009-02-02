@@ -2,6 +2,11 @@
 
 {% block css %}<link rel="stylesheet" type="text/css" href="/static/css/addform.css" />{% endblock %}
 
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript" src="/static/javascript/ajax_markdown.js"></script>
+{% endblock %}
+
 {% if preview %}
     <div class="form_preview">
         {{ preview }}
@@ -11,7 +16,7 @@
 
 {% block middle %}
     <div class="formbox">
-        <form action="." method="POST">
+        <form action="." method="POST" class="center preview">
             {{ form.title.errors }}
             {{ form.title }}
 
@@ -19,7 +24,6 @@
             {{ form.text.errors }} 
 
             <div id="id_submit">
-                <input name="preview" type="submit" value="Podgląd" />
                 <input name="submit" type="submit" value="Wyślij" />
             </div>
         </form>
