@@ -3,6 +3,7 @@ from feeds import LatestThreads
 
 urlpatterns = patterns("forum.views",
         (r"^$",                                "thread_list"),
+        (r"^get_markdown/$",                   "text_to_markdown"),
         (r"^older/(?P<offset_step>\d+)/$",     "thread_list"),
         (r"^new_thread/$",                     "add_thread"),
         (r"^search/$",                         "quick_search"),

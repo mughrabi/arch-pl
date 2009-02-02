@@ -2,6 +2,13 @@
 
 {% block css %}<link rel="stylesheet" type="text/css" href="/static/css/addform.css" />{% endblock %}
 
+{% if preview %}
+    <div class="form_preview">
+        {{ preview }}
+    </div>
+{% endif %}
+
+
 {% block middle %}
     <div class="formbox">
         <form action="." method="POST">

@@ -106,3 +106,10 @@ ul.submenu li {
     padding: 0.6em;
     text-align: center;
 }
+
+
+#ajax_form_preview {
+    margin: 1em 4em;
+    padding: 1em;
+    border: 1px solid #D4D4D4;
+}

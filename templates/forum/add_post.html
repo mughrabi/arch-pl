@@ -5,13 +5,14 @@
 {% block javascript %}
     <script type="text/javascript" src="/static/javascript/jquery.autogrow.js"></script>
     <script type="text/javascript" src="/static/javascript/markdown.js"></script>
+    <script type="text/javascript" src="/static/javascript/ajax_markdown.js"></script>
     <script type="text/javascript" src="/static/javascript/textareagrow.js"></script>
 {% endblock %}
 
 {% block middle %}
     <div id="response">
         <div id="form">
-            <form action="." method="POST" class="center">
+            <form action="." method="POST" class="center preview">
                 {{ form }}
                 <div id="new_post_info">
                     Do formatowania tekstu możesz użyć składni 
@@ -19,7 +20,6 @@
                     <span id="markdown_info"></span>
                 </div>
                 <div id="id_submit">
-                    <input name="preview" type="submit" value="Podgląd" />
                     <input name="submit" type="submit" value="Wyślij" />
                 </div>
             </form>

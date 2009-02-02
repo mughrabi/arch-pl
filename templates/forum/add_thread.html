@@ -12,13 +12,15 @@
 {% block javascript %}
     <script type="text/javascript" src="/static/javascript/jquery.autogrow.js"></script>
     <script type="text/javascript" src="/static/javascript/markdown.js"></script>
+    <script type="text/javascript" src="/static/javascript/ajax_markdown.js"></script>
     <script type="text/javascript" src="/static/javascript/textareagrow.js"></script>
 {% endblock %}
+
 
 {% block forumdata %}
     <div id="response">
         <div id="form">
-            <form action="." method="POST" class="center">
+            <form action="." method="POST" class="center preview">
                 {{ t_form.as_p }}
                 {{ p_form.as_p }}
                 <div id="new_post_info">
@@ -27,7 +29,6 @@
                     <span id="markdown_info"></span>
                 </div>
                 <div id="id_submit">
-                    <input name="preview" type="submit" value="Podgląd" />
                     <input name="submit" type="submit" value="Wyślij" />
                 </div>
             </form>

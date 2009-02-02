@@ -10,9 +10,13 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template.defaultfilters import slugify
 from django.db.models import Q
 from django.db.models.expressions import F
-# ajax
-#from django.core import serializers
-import json
+from django.http import Http404
+
+try:
+    import simplejson as json
+except ImportError:
+    import json
+import markdown
 
 from settings import FORUM_MAX_DAY_MARK
 from models import Thread, Post
@@ -178,6 +182,8 @@ def add_thread(request, template="forum/add_thread.html"):
             return get_slug(text, numb + 1)
         return s
     u = request.user
+    tf = ThreadForm()
+    pf = PostForm()
     if request.POST:
         t = Thread(author=u, latest_post_author=u,
                 slug=get_slug(request.POST['title']))
@@ -191,9 +197,6 @@ def add_thread(request, template="forum/add_thread.html"):
                 return HttpResponseRedirect(tfins.get_absolute_url())
             else:
                 tfins.delete()
-    else:
-        tf = ThreadForm()
-        pf = PostForm()
     return render_to_response(template, {
         "t_form": tf,
         "p_form": pf,
@@ -318,3 +321,13 @@ def delete_thread(request, thread_slug):
     t = get_object_or_404(Thread, slug=thread_slug)
     t.delete()
     return HttpResponseRedirect("/forum/")
+
+
+#@login_required
+def text_to_markdown(request):
+    if request.is_ajax():
+        resp = {}
+        resp['text'] = request.POST.get('text', '')
+        resp['markdown'] = markdown.markdown(resp['text'])
+        return HttpResponse(json.dumps(resp), mimetype='application/javascript')
+    return Http404
