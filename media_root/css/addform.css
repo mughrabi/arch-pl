@@ -11,17 +11,19 @@ textarea {
     margin: 0.5em auto;
 }
 
+input { margin: 0.5em; }
+
 div#id_submit { 
     min-width: 16em; 
     text-align: right; 
     margin: 0.2em 3em;
 }
 
-input#id_title { font-size: 1.2em }
+input#id_title { font-size: 1.2em; }
 
 div#id_submit input { min-width: 20em; }
 
-input#id_title { width: 95%; }
+input#id_title { width: 90%; }
 input#id_keywords { min-width: 40em; }
 
 .formbox { margin: 2em 0 0 0; }

@@ -44,9 +44,13 @@
             <tr class="old_thread">
                 <td class="t_name {% if t.closed %}closed{% endif %}">
                     <a href="{{ t.get_absolute_url }}">{{ t.title }}</a>
-                    {% if t.sticky %} &bull; <strong>Przyklejony</strong>{% endif %}
-                    {% if t.solved %} &bull; <strong>Rozwiązany</strong>{% endif %}
-                    {% if t.closed %} &bull; <strong>Zamknięty</strong>{% endif %}
+                    <em>
+                        <small>
+                            {% if t.sticky %} &bull; Przyklejony{% endif %}
+                            {% if t.solved %} &bull; Rozwiązany{% endif %}
+                            {% if t.closed %} &bull; Zamknięty{% endif %}
+                        </small>
+                    </em>
                 </td> 
                 <td class="t_author">{{ t.author }}</td>
                 <td class="t_pnumb">{{ t.post_count }}</td>

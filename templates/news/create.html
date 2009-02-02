@@ -4,6 +4,7 @@
 
 {% block javascript %}
     {{ block.super }}
+    <script type="text/javascript" src="/static/javascript/markdown.js"></script>
     <script type="text/javascript" src="/static/javascript/ajax_markdown.js"></script>
 {% endblock %}
 
@@ -23,12 +24,15 @@
             {{ form.text }} 
             {{ form.text.errors }} 
 
+            <div style="text-align:right; margin: 1em 3em;">
+                Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a>
+                <span id="markdown_info"></span>
+            </div>
             <div id="id_submit">
                 <input name="submit" type="submit" value="Wyślij" />
             </div>
         </form>
     </div>
-    <div style="text-align:right; margin: 1em 3em;">Do formatowania tekstu możesz użyć składni <a href="http://en.wikipedia.org/wiki/Markdown">mardkown</a></div>
 {% endblock %}
 
     
