@@ -1,8 +1,10 @@
 Hot stuff
 ---------
-* podgląd pisanej wiadomości
-* statyczne strony (regulamin, FAQ) ** DONE **
-* konfiguracja profilu użytkownika
+* lepsza (wiecej mozliwosci) konfiguracja profilu użytkownika
+* sprawic zeby *pokaz nowe posty* W KONCU dzialalo
+* opcjonalne powiadamianie jabberem
+* mozliwosc pisania wiadomosci do uztkownikow 
+  (np uzasadnienie usuniecia wiadomosci)
 
 Not so hot
 ----------
@@ -12,4 +14,3 @@ Not so hot
 Future Feature
 --------------
 * internacionalizacjia
-* javascript
