@@ -35,7 +35,9 @@ def block_thread(request, thread_slug, template=None):
 
 @login_required
 def latest_seen_post(request, thread_slug, template=None):
-    "Get latest_seen date for given thread"
+    """Get latest_seen date for given thread
+    For AJAX only
+    """
     dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
     try:
         thread = get_object_or_404(Thread, slug=thread_slug)
@@ -74,7 +76,9 @@ def thread_list(request, offset_step=0, number=20,
         unreaded = Thread.objects.exclude(
                 visitedthread__user=u,
                 latest_post_date__lt=F('visitedthread__date')
-            ).filter(latest_post_date__gt=dt).distinct()[offset:offset + number]
+            ).exclude(latest_post_author=u
+            ).filter(latest_post_date__gt=dt
+            ).distinct()[offset:offset + number]
         threads = Thread.objects.filter(
                 Q(visitedthread__user=u,
                   latest_post_date__lt=F('visitedthread__date')) |
