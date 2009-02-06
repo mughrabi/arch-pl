@@ -67,14 +67,13 @@
 
 {% block forumdata %}
 {% for p in post %}
-<div class="post">
+<div class="post" id="{{ p.id }}">
     <div class="post_body">
         <div class="lnav">
             <strong>
-                <a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a> 
+                <span class="post_author"><a href="{{ p.author.get_absolute_url }}">{{ p.author }}</a></span>
             </strong>
-            <span style="display:none" class="_post_date">{{ p.date }}</span>
-            <p style="margin: 0"><small>
+            <p style="margin: 0" class="post_date"><small>
                 {{ p.date|date:"D d M Y" }} &bull; {{ p.date|date:"H:i" }}
             </small></p>
             

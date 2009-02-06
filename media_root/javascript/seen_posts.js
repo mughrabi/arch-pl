@@ -1,39 +1,57 @@
-function hide_post(post) 
-{
-    post.find(".js_show_hide").text("pokaż treść");
-    __post_min_height = post.css("min-height");
-    post.css("min-height", "2em"); 
-    post.find(".post_body").hide();
+/* now that's dirty way of getting slug */
+function get_slug() {
+    var url = window.location.pathname.split("/")
+    if (x[x.length -1] == "") {
+        return url[url.length - 2]
+    }
+    return url[url.length - 1]
 }
 
-function show_post(post)
-{
-    post.find(".js_show_hide").text("ukryj treść");
-    post.css("min-height", __post_min_height); 
-    post.find(".post_body").show();
+function toggle_post(post) {
+    $(post).find(".post_body").toggle();
+    $(post).find(".post_head").toggle();
 }
 
-function hide_old_posts()
-{
-    /* AJAX old post hiding.. */
-    $.getJSON("latest_seen/",function(data){
-        $(".post").each(function() {
-            if $(this).
-        })
-    });
+function hide_old_posts() {
+    $.ajax({
+        type: "POST",
+        url: "latest_seen_post/",
+        dataType: "json",
+        data: { 'xhr': true },
+        success: function(data) {
+            $('.post:not(:last)').each(function() {
+                if (this.id < data.id) {
+                    toggle_post(this);
+                }
+            })
+        }
+     });
 }
-
 
 $(document).ready(function() {
-    $(".thread_prop").append('&bull; <a id="hide_old_posts" href="#">Ukryj stare posty</a>');
-    $("#hide_old_posts").click(hide_old_posts);
-
-    $(".post").each(function () {
+    $(".post_body").before('<div class="post_head"></div>');
+    $(".post").find(".post_head").before(
+        '<div style="font-size: 0.8em; text-align:right; margin: 0.5em 0 -1em 0;">' + 
+        '[ <a class="js_toggle_post" href="#toggle">pokaż/schowaj post</a> ]' +
+        '</div>'
+    );
+    $(".post").each(function() {
         var post = $(this);
-        post.find(".panel-right").append('&bull; <a class="js_show_hide" href="#">ukryj treść</a>');
-        $(this).find(".js_show_hide").toggle(
-            function () { hide_post(post); },
-            function () { show_post(post); }
-        );
-    });
+        $(this).find(".js_toggle_post").click(function() { 
+            toggle_post(post);
+        });
+        $(post).find(".post_head").html(
+                $(post).find(".post_author").html() + 
+                " &bull; " +
+                $(post).find(".post_date").html()
+        ).toggle();
+    })
+    $('.post :first').before('<h3 id="js_show_all_posts" style="text-align: right;"><a href="#">Pokaż wszystkie posty</a></h3>');
+    $('#js_show_all_posts').click(function() { $('.post').each( function() {
+            $(this).find('.post_head').hide();
+            $(this).find('.post_body').show();
+        })
+    })
+
+    hide_old_posts();
 })

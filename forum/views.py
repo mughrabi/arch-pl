@@ -35,28 +35,26 @@ def block_thread(request, thread_slug, template=None):
 
 @login_required
 def latest_seen_post(request, thread_slug, template=None):
-    """Get latest_seen date for given thread
-    For AJAX only
+    """Get latest seen post id
+    For AJAX usage only
     """
+    # TODO
+    if not request.is_ajax():
+        return Http404
+    thread = get_object_or_404(Thread, slug=thread_slug)
     dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
     try:
-        thread = get_object_or_404(Thread, slug=thread_slug)
-        latest_date = VisitedThread.objects.get(
-                user=request.user, thread=thread)
+        allcv = AllVisited.objects.get(user=request.user)
+    except AllVisited.DoesNotExist:
+        allcv = dt
+    try:
+        latest_post = VisitedThread.objects.get(user=request.user,
+                thread=thread, date__gt=allcv.date)
     except VisitedThread.DoesNotExist:
-        try:
-            allcv = AllVisited.objects.get(user=request.user)
-            dt = dt if dt > allcv.date else allcv.date
-        except AllVisited.DoesNotExist:
-            pass
-    json_data = json.dumps({
-        "year": dt.year,
-        "month": dt.month,
-        "day": dt.day,
-        "hour" : dt.hour,
-        "minute" : dt.minute,
-    })
-    return HttpResponse(json_data, mimetype="application/javascript")
+        latest_post = None
+    post_id = latest_post.id if latest_post else 0
+    resp = { "id": post_id }
+    return HttpResponse(json.dumps(resp), mimetype='application/javascript')
 
 
 def thread_list(request, offset_step=0, number=20,

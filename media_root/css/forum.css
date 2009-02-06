@@ -71,6 +71,9 @@ td.t_name img { margin: 0 0.5em -0.2em 0; }
     /* border: 1px solid #DCDCDC;   */
     border-bottom: 1px solid #C1C1C1;  
     background: #ffffff;
+}
+
+.post_body { 
     min-height: 160px;
 }
 
