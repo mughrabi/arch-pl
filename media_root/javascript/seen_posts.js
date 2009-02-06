@@ -20,38 +20,48 @@ function hide_old_posts() {
         data: { 'xhr': true },
         success: function(data) {
             $('.post:not(:last)').each(function() {
+                /* if old, create header, link, hide post body */
                 if (this.id < data.id) {
+                    $(this).find(".post_body").before('<div class="post_head"></div>');
+                    $(this).find(".post_head").before(
+                        '<div class="js_toggle_post_div" style="font-size: 0.8em; text-align:right; margin: 0.5em 0 -1em 0;">' + 
+                        '<a class="js_toggle_post" href="#toggle">pokaż post</a>' +
+                        '</div>'
+                    );
                     toggle_post(this);
                 }
             })
-        }
+            $(".post").each(function() {
+                var post = $(this);
+                /* click action - hide header & link */
+                $(this).find(".js_toggle_post").click(function() { 
+                    toggle_post(post);
+                    $(post).find(".js_toggle_post_div").hide();
+                });
+                /* each post build header */
+                var short_text = $(post).find(".post_text").html(
+                    ).replace(/\n/g, '').replace(/<blockquote>.*<\/blockquote>/g, '').replace(/<.*?>/g, '').substring(0, 110) + " ..."
+                $(post).find(".post_head").html(
+                        $(post).find(".post_author").html() + 
+                        ' <span style="padding: 0 1em;">&bull;</span> ' +
+                        $(post).find(".post_date").html() +
+                        ' <span style="padding: 0 1em;">&bull;</span> ' +
+                        ' <span style="color: #6F6F6F">' + short_text + '</span>'
+                ).toggle();
+            })
+
+            $('.post :first').before('<h3 id="js_show_all_posts" style="text-align: right;"><a href="#">Pokaż wszystkie posty</a></h3>');
+            $('#js_show_all_posts').click(function() { $('.post').each( function() {
+                    $(this).find('.post_head').hide();
+                    $(this).find('.post_body').show();
+                    $('.post').each(function () { $(this).find('.js_toggle_post_div').hide(); })
+                })
+                $('#js_show_all_posts').hide();
+            })
+        } /* sucess */
      });
 }
 
 $(document).ready(function() {
-    $(".post_body").before('<div class="post_head"></div>');
-    $(".post").find(".post_head").before(
-        '<div style="font-size: 0.8em; text-align:right; margin: 0.5em 0 -1em 0;">' + 
-        '[ <a class="js_toggle_post" href="#toggle">pokaż/schowaj post</a> ]' +
-        '</div>'
-    );
-    $(".post").each(function() {
-        var post = $(this);
-        $(this).find(".js_toggle_post").click(function() { 
-            toggle_post(post);
-        });
-        $(post).find(".post_head").html(
-                $(post).find(".post_author").html() + 
-                " &bull; " +
-                $(post).find(".post_date").html()
-        ).toggle();
-    })
-    $('.post :first').before('<h3 id="js_show_all_posts" style="text-align: right;"><a href="#">Pokaż wszystkie posty</a></h3>');
-    $('#js_show_all_posts').click(function() { $('.post').each( function() {
-            $(this).find('.post_head').hide();
-            $(this).find('.post_body').show();
-        })
-    })
-
     hide_old_posts();
 })
