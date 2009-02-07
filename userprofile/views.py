@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
 
+import settings
 from models import UserProfile
 from forms import LoginForm, RegistrationForm, UserProfileForm, UserForm
 
@@ -45,7 +46,8 @@ def register(request, template="userprofile/registration.html"):
             u = user.save()
             up = UserProfile(user=user)
             up.save()
-            return HttpResponseRedirect(request.GET.get("next") or "/")
+            return HttpResponseRedirect(
+                    settings.FORUM_AFTER_REGISTRATION_REDIRECT_URL)
     else:
         f = RegistrationForm()
     return render_to_response(template, {

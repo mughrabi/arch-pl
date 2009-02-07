@@ -4,7 +4,7 @@ import hashlib
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
-
+from django.utils.safestring import SafeUnicode
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True, null=False)
@@ -19,10 +19,11 @@ class UserProfile(models.Model):
             self.__avatar = \
                 "http://www.gravatar.com/avatar.php?" + urllib.urlencode({
                     'gravatar_id': hashlib.md5(self.user.email).hexdigest(),
-                    'default': "/static/images/default_avatar.png",
-                    'size': "70",
+                    'size': 80,
+                    'default': 'identicon',
+                    #'default': "/static/images/default_avatar.png",
                 })
-        return self.__avatar
+        return SafeUnicode(self.__avatar)
 
     def __unicode__(self):
         return "%s profile" % self.user
