@@ -2,12 +2,18 @@
 
 
 {% block  middle %}
-    <div style="margin: 1em auto; width: 40em;">
+    <div class="preferences">
         <form action="." method="POST">
-            <h2>Podstawowe ustawienia konta</h2>
-            {{ user_form.as_p }}
-            <h2>Preferencje</h2>
-            {{ profile_form.as_p }}
+            <div class="prefform">
+                <h2>Podstawowe ustawienia konta</h2>
+                {{ user_form.as_p }}
+                <h2>Preferencje</h2>
+                <p>
+                <label>Avatar:</label> <em>konfiguracja za pomocą <a
+                        href="http://en.gravatar.com/">gravatar</a>.</em>
+                </p> 
+                {{ profile_form.as_p }}
+            </div>
             <div id="id_submit" style="text-align: right;"><input type="submit" value="Zapisz zmiany" /></div>
         </form>
     </div>

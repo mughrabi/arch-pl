@@ -1,0 +1,22 @@
+{% extends "news/base.html" %}
+
+{% load markup %}
+
+{% block head %}
+    {% for feed in feeds %}
+        <link rel="alternate" type="application/atom+xml" title="{{ feed.cls.title }}" href="/news/feeds/{{ feed.url }}/" /> 
+    {% endfor %}
+{% endblock %}
+
+{% block title %} {{ block.super }} - wiadomości {% endblock %}
+
+{% block middle %}
+<div style="padding: 0 5em; margin: 2em auto;">
+    <h2>Dostępne kanały</h2>
+    <ul style="line-height: 2em;">
+    {% for feed in feeds %}
+        <li><a href="{{ feed.url }}/">{{ feed.cls.title }}</a> - {{ feed.cls.description }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

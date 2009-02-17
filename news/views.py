@@ -6,6 +6,14 @@ from django.template.defaultfilters import slugify
 
 from models import News
 from forms import NewsForm
+from urls import feeds
+
+
+def feed_list(request, template="news/feed_list.html"):
+    return render_to_response(template, {
+        'feeds': [{'url': key, 'cls': feeds[key]} for key in feeds]
+        }, context_instance=RequestContext(request))
+
 
 def show_all(request, offset=0, number=10, template="news/latest.html"):
     offset = int(offset)

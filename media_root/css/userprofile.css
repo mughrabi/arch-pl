@@ -8,3 +8,26 @@
 .userprofile_avatar {
     margin: 0 7em;
 }
+
+.preferences {
+    margin: 1em auto;
+    width: 50em;
+}
+
+.preferences p {
+    margin: 1.5em 1em;
+}
+
+.preferences .prefform input {
+    border: none;
+    border-bottom: 1px dotted #848484;
+    background: #ffffff;
+    font-size: 1.3em;
+    width: 15em;
+}
+
+.preferences .prefform textarea {
+    height: 4em;
+    width: 60em;
+    font-size: 0.9em;
+}

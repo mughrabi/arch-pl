@@ -3,11 +3,6 @@
 {% load markup %}
 
 
-{% block head %}
-    <link rel="alternate" type="application/atom+xml" title="Arch Linux RSS" href="/news/latest/" /> 
-    <link rel="alternate" type="application/atom+xml" title="Arch Linux RSS" href="/news/all/" /> 
-    <link rel="alternate" type="application/atom+xml" title="Arch Linux RSS" href="/news/unpublished/" /> 
-{% endblock %}
 
 {% block css %}<link rel="stylesheet" type="text/css" href="/static/css/news.css" /> {% endblock %}
 
@@ -16,7 +11,7 @@
         <li><a href="/news/showall/">Pokaż wszystkie artykuły</a></li>
         <li><a href="/news/create/">Zaproponuj artykuł</a></li>
     {% endif %}
-        <li><a href="/news/rss/">RSS</a></li>
+        <li><a href="/news/feeds/">RSS</a></li>
 {% endblock %}
 
 
