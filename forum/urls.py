@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import patterns
-from feeds import LatestThreads
+from feeds import LatestThreads, ThreadFeed
 
 urlpatterns = patterns("forum.views",
         (r"^$",                                "thread_list"),
@@ -28,5 +28,6 @@ urlpatterns = patterns("forum.views",
 feeds = { 'latest': LatestThreads, }
 
 urlpatterns += patterns("",
-        (r'^/feeds/(?P<url>.*)/$',   'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+        (r"^thread/(?:[\w-]+)/(?P<url>.*)/$", 'django.contrib.syndication.views.feed', {'feed_dict': {'feed': ThreadFeed}}),
+        (r'^feeds/(?P<url>.*)/$',        'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
 )

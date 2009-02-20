@@ -159,8 +159,8 @@ td .t_author { font-style: italic; }
 
 
 #forum_path_info {
-    position: absolute;
-    left: 1em;
+    margin: -2em 3em 2em 3em;
+    font-size: 1.2em;
 }
 
 .new_thread {

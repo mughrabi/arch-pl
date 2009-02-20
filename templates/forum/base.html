@@ -20,10 +20,6 @@
 {% endblock %}
 
 {% block submenu %}
-    <li id="forum_path_info">
-        <a href="/forum/">Index</a>
-        {% block path %} {% endblock %}
-    </li>
     {% block submenu_base %}
         {% if user.is_authenticated %}
             <li><a href="/forum/new_thread/">Nowy temat</a></li>
@@ -41,6 +37,10 @@
             <img style="margin: 0 0 -5px 0;" src="/static/images/search.png" alt="" />
             <input id="id_quucjsearch_text" name="searchtext" type="text" />
         </form>
+    </div>
+
+    <div id="forum_path_info">
+        {% block path %} {% endblock %}
     </div>
 
     {% block forumdata %}

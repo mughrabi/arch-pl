@@ -7,6 +7,12 @@
     <link rel="stylesheet" type="text/css" href="/static/css/addform.css" />
 {% endblock %}
 
+{% block head %}
+    {% for feed in feeds %}
+        <link rel="alternate" type="application/atom+xml" title="{{ feed.cls.title }}" href="/news/feeds/{{ feed.url }}/" /> 
+    {% endfor %}
+{% endblock %}
+
 {% block javascript %}
     {{ block.super }}
     <script type="text/javascript" src="/static/javascript/jquery.autogrow.js"></script>
@@ -21,6 +27,7 @@
 {% block title %}{{ block.super}} : {{ thread.title }}{% endblock %}
 
 {% block path %}
+    <strong><a href="/forum/">Forum</a></strong>
     <strong>
         &raquo; {{ thread.title }}
     </strong> 

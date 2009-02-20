@@ -130,6 +130,7 @@ def thread(request, thread_slug, offset_step=None, number=20,
         vt.date = datetime.datetime.now()
         vt.save()
     # template data
+
     sitecount = t.post_count // number
     if sitecount and t.post_count % number:
         sitecount += 1
@@ -144,6 +145,7 @@ def thread(request, thread_slug, offset_step=None, number=20,
         "post": p,
         "form": f,
         "page": pageinfo,
+        "feed": feed,
         }, context_instance=RequestContext(request))
 
 
