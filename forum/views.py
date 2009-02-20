@@ -12,10 +12,7 @@ from django.db.models import Q
 from django.db.models.expressions import F
 from django.http import Http404
 
-try:
-    import simplejson as json
-except ImportError:
-    import json
+import json
 import markdown
 
 from settings import FORUM_MAX_DAY_MARK
@@ -145,7 +142,6 @@ def thread(request, thread_slug, offset_step=None, number=20,
         "post": p,
         "form": f,
         "page": pageinfo,
-        "feed": feed,
         }, context_instance=RequestContext(request))
 
 
