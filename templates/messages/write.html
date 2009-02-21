@@ -1,0 +1,11 @@
+{% extends "messages/base.html" %}
+
+
+{% block box %}
+    <div class="form">
+        <form action="." method="POST">
+            {{ form.as_p }}
+            <p><input type="submit" value="Wyślij &rarr;" /></p>
+        </form>
+    </div>
+{% endblock %}

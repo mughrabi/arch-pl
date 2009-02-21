@@ -7,12 +7,16 @@ class MessageBox(models.Model):
     sender = models.ForeignKey(User, related_name='sender')
     text = models.TextField(_('message'))
     date = models.DateTimeField(_('date'), auto_now_add=True)
+    is_new = models.BooleanField(default=False)
 
     def __unicode__(self):
         return u"Message at %s to %s" % (self.date, self.receiver)
 
     def get_absolute_url(self):
         return u"/messages/%d/" % self.id
+
+    def new_messages(self, user):
+        return MessageBox.object.filter(is_new=True, receiver=user)
 
     class Meta:
         ordering = ("-date", )

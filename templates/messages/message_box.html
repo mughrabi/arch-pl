@@ -1,7 +1,8 @@
 {% extends "messages/base.html" %}
 
 
-{% block  middle %}
+{% block box %}
+
 <div class="message_box">
     {% if messages %}
         {% for message in messages %}
@@ -10,11 +11,19 @@
                     <div style="float: left;">
                         <a href="{{ message.sender.get_absolute_url }}">
                             <strong>{{ message.sender }}</strong>
-                        </a> dnia <em>{{ message.date }}</em> napisał:
+                        </a> dnia <em>{{ message.date }}</em> napisał do 
+                        <a href="{{ message.receiver.get_absolute_url }}">
+                            <strong>{{ message.receiver }}</strong>
+                        </a>:
                     </div>
                     <div style="text-align:right;">
-                        <a href="{{ message.get_absolute_url }}delete/">usuń</a> &bull;
-                        <a href="{{ message.get_absolute_url }}response/">odpowiedz</a>
+                        {% ifnotequal message.sender user %}
+                            <a href="{{ message.get_absolute_url }}response/">odpowiedz</a>
+                            &bull;
+                            <a href="{{ message.get_absolute_url }}delete/">usuń</a> 
+                        {% else %}
+                            <!-- placeholder --> x
+                        {% endifnotequal %}
                     </div>
                 </div>
                 <div class="message_text">

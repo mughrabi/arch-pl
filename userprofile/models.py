@@ -9,8 +9,8 @@ from django.utils.safestring import SafeUnicode
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True, null=False)
     jabber = models.EmailField(blank=True)
-    use_js = models.BooleanField(
-            _('Enable JavaScript features'), default=True)
+    #use_js = models.BooleanField(
+    #        _('Enable JavaScript features'), default=True)
     signature = models.TextField(blank=True)
 
     @property

@@ -3,3 +3,14 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="/static/css/messages.css" />
 {% endblock %}
+
+{% block middle %}
+<div style="margin: 1em 4em; text-align:right;">
+    <a href="/messages/received/">Lista otrzymanych wiamomości</a> &bull;
+    <a href="/messages/sended/">Lista wysłanych wiadomości</a> &bull;
+    <a href="/messages/write/">Wyślij nową wiadomość</a>
+</div>
+
+    {% block box %}{% endblock %}
+{% endblock %}
+
