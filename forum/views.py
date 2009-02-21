@@ -20,22 +20,21 @@ from models import Thread, Post
 from models import VisitedThread, AllVisited
 from forms import PostForm, ThreadForm, AdvancedSearchForm
 
+
 @login_required
 @user_passes_test(lambda u: u.has_perm("forum.thread.can_change"))
 def block_thread(request, thread_slug, template=None):
+    "Block any single thread"
     t = get_object_or_404(Thread, slug=thread_slug)
     t.closed = not t.closed
     t.save()
     return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
-
-
 
 @login_required
 def latest_seen_post(request, thread_slug, template=None):
     """Get latest seen post id
     For AJAX usage only
     """
-    # TODO
     if not request.is_ajax():
         return Http404
     thread = get_object_or_404(Thread, slug=thread_slug)
@@ -74,7 +73,7 @@ def thread_list(request, offset_step=0, number=20,
                 Q(latest_post_author=u),
             ).filter(latest_post_date__gt=dt
             ).distinct()[offset:offset + number]
-        # debug
+        # debug TODO
         print "--" * 60
         print unreaded
         print "--" * 60
@@ -149,6 +148,7 @@ def thread(request, thread_slug, offset_step=None, number=20,
 @user_passes_test(lambda u: u.has_perm("forum.add_post"))
 def add_post(request, thread_slug, post_id=None,
         template="forum/add_post.html"):
+    "Add new post"
     t = get_object_or_404(Thread, slug=thread_slug)
     u = request.user
     if t.closed:
@@ -181,10 +181,12 @@ def add_post(request, thread_slug, post_id=None,
 @user_passes_test(lambda u: u.has_perm("forum.add_thread"))
 @user_passes_test(lambda u: u.has_perm("forum.add_post"))
 def add_thread(request, template="forum/add_thread.html"):
+    "Create new thread and first post"
     def get_slug(text, numb=0):
         "Create unique slug"
+        text = text[:110]
         if numb:
-            text += "_%d" % numb
+            text = text.rsplit("_", 1)[0] + "_%d" % numb
         s = slugify(text)
         if Thread.objects.filter(slug=s).count():
             return get_slug(text, numb + 1)
@@ -226,6 +228,7 @@ def mark_all_read(request):
 
 @login_required
 def toggle_solved(request, thread_slug):
+    "Toggle any single thread as solved"
     t = get_object_or_404(Thread, slug=thread_slug)
     if t.author == request.user or request.user.has_perm("thread.can_edit"):
         t.solved = not t.solved
@@ -237,6 +240,7 @@ def toggle_solved(request, thread_slug):
 @login_required
 @user_passes_test(lambda u: u.has_perm("forum.can_change"))
 def toggle_sticky(request, thread_slug):
+    "Toggle any single thread sticky"
     t = get_object_or_404(Thread, slug=thread_slug)
     t.sticky = not t.sticky
     t.save()
@@ -274,7 +278,6 @@ def delete_post(request, thread_slug, post_id):
             return HttpResponseRedirect("/forum/")
     return HttpResponseRedirect(t.get_absolute_url())
 
-
 def quick_search(request, searchtext=None, template="forum/thread_list.html"):
     pageinfo = { "sitecount" : [] }
     if request.GET:
@@ -290,7 +293,6 @@ def quick_search(request, searchtext=None, template="forum/thread_list.html"):
         "old_threads": thread,
         "page": pageinfo,
         }, context_instance=RequestContext(request))
-
 
 def advanced_search(request, template="forum/advanced_search.html"):
     t = None
@@ -313,7 +315,6 @@ def advanced_search(request, template="forum/advanced_search.html"):
         "form": f,
         }, context_instance=RequestContext(request))
 
-
 @login_required
 def user_latest_active_threads(request, template="forum/thread_list.html"):
     t = Thread.objects.filter(post__author=request.user)[:10].distinct()
@@ -329,7 +330,6 @@ def delete_thread(request, thread_slug):
     t = get_object_or_404(Thread, slug=thread_slug)
     t.delete()
     return HttpResponseRedirect("/forum/")
-
 
 @login_required
 def text_to_markdown(request):

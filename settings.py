@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'userprofile',
     'news',
     'staticpages',
+    'messages',
 )
 
 
@@ -64,7 +65,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media"
 )
 
-APPEND_SLASH = False
+APPEND_SLASH = True
 
 FORUM_MAX_DAY_MARK = 10
 FORUM_RULE_URL = "//"

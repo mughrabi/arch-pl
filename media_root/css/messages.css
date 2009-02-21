@@ -1,0 +1,22 @@
+.message_box {
+    margin: 2em 5em;
+}
+
+.message_box p {
+    margin: 0;
+}
+
+.message_box .single_message {
+    border: 1px solid #E2E2E2;
+    margin: 1em;
+}
+
+.message_box .single_message .message_header {
+    border-bottom: 1px solid #e2e2e2;
+    background: #EFEFEF;
+    padding: 0.1em 0.5em;
+}
+
+.message_box .single_message .message_text {
+    padding: 1em;
+}

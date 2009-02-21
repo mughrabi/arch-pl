@@ -81,3 +81,4 @@ def user_preferences(request, template="userprofile/preferences.html"):
         "user_form": user_form,
         "profile_form": profile_form,
         }, context_instance=RequestContext(request))
+

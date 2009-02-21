@@ -9,12 +9,13 @@ from django.utils.safestring import SafeUnicode
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True, null=False)
     jabber = models.EmailField(blank=True)
-    jabber_notify = models.BooleanField(
-            _('Jabber notifycation'), default=False)
+    use_js = models.BooleanField(
+            _('Enable JavaScript features'), default=True)
     signature = models.TextField(blank=True)
 
     @property
     def avatar(self):
+        "generate gravatar url"
         if not hasattr(self, "__avatar"):
             self.__avatar = \
                 "http://www.gravatar.com/avatar.php?" + urllib.urlencode({
@@ -27,4 +28,3 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return "%s profile" % self.user
-

@@ -1,0 +1,29 @@
+{% extends "messages/base.html" %}
+
+
+{% block  middle %}
+<div class="message_box">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="single_message">
+                <div class="message_header">
+                    <div style="float: left;">
+                        <a href="{{ message.sender.get_absolute_url }}">
+                            <strong>{{ message.sender }}</strong>
+                        </a> dnia <em>{{ message.date }}</em> napisał:
+                    </div>
+                    <div style="text-align:right;">
+                        <a href="{{ message.get_absolute_url }}delete/">usuń</a> &bull;
+                        <a href="{{ message.get_absolute_url }}response/">odpowiedz</a>
+                    </div>
+                </div>
+                <div class="message_text">
+                    {{ message.text }}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Brak wiadomości</p>
+    {% endif %}
+</div>
+{% endblock %}
