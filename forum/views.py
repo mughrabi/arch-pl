@@ -68,22 +68,17 @@ def thread_list(request, offset_step=0, number=20,
             pass
         # get unreaded, and fill thread list with old one
         unreaded = Thread.objects.exclude(
-                Q(visitedthread__user=u,
-                  latest_post_date__lt=F('visitedthread__date')) |
-                Q(latest_post_author=u),
-            ).filter(latest_post_date__gt=dt
+                visitedthread__user=u,
+                latest_post_date__lt=F('visitedthread__date')
+            ).exclude(
+                latest_post_date__lt=dt
+            ).exclude(
+                latest_post_author=u
             ).distinct()[offset:offset + number]
-        # debug TODO
-        print "--" * 60
-        print unreaded
-        print "--" * 60
-        print unreaded.query
-        print "--" * 60
         threads = Thread.objects.filter(
-                Q(visitedthread__user=u,
-                  latest_post_date__lt=F('visitedthread__date')) |
                 Q(visitedthread__isnull=True) |
-                Q(latest_post_date__lt=dt)
+                Q(visitedthread__user=u, 
+                    latest_post_date__lt=F('visitedthread__date'))
             ).distinct()[offset: offset + number - len(unreaded)]
     else:
         # fetch latest threads
