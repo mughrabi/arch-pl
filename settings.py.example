@@ -7,21 +7,12 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-#DATABASE_ENGINE = 'sqlite3'
-#DATABASE_NAME = 'test_database.sqlite3'
-#DATABASE_USER = ''
-#DATABASE_PASSWORD = ''
-#DATABASE_HOST = ''
-#DATABASE_PORT = ''
-
 DATABASE_ENGINE = 'postgresql_psycopg2'
-DATABASE_NAME = 'arch'
-DATABASE_USER = 'arch'
-DATABASE_PASSWORD = 'arch'
+DATABASE_NAME = 'xxx'
+DATABASE_USER = 'xxx'
+DATABASE_PASSWORD = 'xxx'
 DATABASE_HOST = '127.0.0.1'
-DATABASE_PORT = '5432'
-
-
+DATABASE_PORT = '5444'
 
 TIME_ZONE = 'Europe/Warsaw'
 LANGUAGE_CODE = 'pl'
@@ -31,7 +22,7 @@ USE_I18N = True
 MEDIA_ROOT = 'media_root/'
 MEDIA_URL = '/site_media/'
 ADMIN_MEDIA_PREFIX = '/media/'
-SECRET_KEY = 'y-&_(u3odpxk%(+f*_^5bfn0nseq#jj3ef8vf3kh9-2i$zmk-v'
+SECRET_KEY = 'y-&_(u3odpxk%(+f*_^5bfn0nseq#jj3ef8vf3khsass'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
@@ -60,7 +51,6 @@ INSTALLED_APPS = (
     'userprofile',
     'news',
     'staticpages',
-    'messages',
 )
 
 

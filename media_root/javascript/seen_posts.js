@@ -62,6 +62,14 @@ function hide_old_posts() {
      });
 }
 
+function show_hide_old_posts(){
+    $('#forum_path_info').after('<h3 id="js_hide_old_posts" style="text-align: right;"> <a href="#"> Ukryj stare posty </a> </h3>');
+    $('#js_hide_old_posts a').click(function () { 
+        hide_old_posts(); 
+        $('#js_hide_old_posts').hide();
+    });
+}
+
 $(document).ready(function() {
-    hide_old_posts();
+    show_hide_old_posts();
 })
