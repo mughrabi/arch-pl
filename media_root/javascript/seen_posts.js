@@ -21,7 +21,7 @@ function hide_old_posts() {
         success: function(data) {
             $('.post:not(:last)').each(function() {
                 /* if old, create header, link, hide post body */
-                if (this.id < data.id) {
+                if (data.id == -1 || this.id < data.id) {
                     $(this).find(".post_body").before('<div class="post_head"></div>');
                     $(this).find(".post_head").before(
                         '<div class="js_toggle_post_div" style="font-size: 0.8em; text-align:right; margin: 0.5em 0 -1em 0;">' + 

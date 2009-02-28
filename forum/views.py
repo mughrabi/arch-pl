@@ -38,17 +38,19 @@ def latest_seen_post(request, thread_slug, template=None):
     if not request.is_ajax():
         return Http404
     thread = get_object_or_404(Thread, slug=thread_slug)
-    dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
-    try:
-        allcv = AllVisited.objects.get(user=request.user)
-    except AllVisited.DoesNotExist:
-        allcv = dt
-    try:
-        latest_post = VisitedThread.objects.get(user=request.user,
-                thread=thread, date__gt=allcv.date)
-    except VisitedThread.DoesNotExist:
-        latest_post = None
-    post_id = latest_post.id if latest_post else 0
+    post_id = -1
+    if not thread.latest_post_author == request.user:
+        dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
+        try:
+            allcv = AllVisited.objects.get(user=request.user)
+        except AllVisited.DoesNotExist:
+            allcv = dt
+        try:
+            latest_post = VisitedThread.objects.get(user=request.user,
+                    thread=thread, date__gt=allcv.date)
+            post_id = latest_post.id
+        except VisitedThread.DoesNotExist:
+            pass
     resp = { "id": post_id }
     return HttpResponse(json.dumps(resp), mimetype='application/javascript')
 

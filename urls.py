@@ -13,7 +13,6 @@ urlpatterns = patterns('',
     (r'^news/',                             include('news.urls')),
     (r'^forum/',                            include('forum.urls')),
     (r'^accounts/',                         include('userprofile.urls')),
-    (r'^messages/',                         include('messages.urls')),
 
     (r'^admin/(.*)',                        admin.site.root),
 
