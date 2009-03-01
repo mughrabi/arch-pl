@@ -79,20 +79,3 @@ class Post(models.Model):
             t.save()
         finally:
             super(Post, self).delete()
-
-
-class VisitedThread(models.Model):
-    user = models.ForeignKey(User)
-    thread = models.ForeignKey(Thread)
-    date = models.DateTimeField(auto_now_add=True)
-
-    def __unicode__(self):
-        return u"%s @ %s" % (self.user, self.thread)
-
-
-class AllVisited(models.Model):
-    user = models.ForeignKey(User)
-    date = models.DateTimeField(auto_now_add=True)
-
-    def __unicode__(self):
-        return u"%s # %s" % (self.user, self.date)

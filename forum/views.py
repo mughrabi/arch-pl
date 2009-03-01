@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import datetime
-
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
@@ -9,15 +7,12 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template.defaultfilters import slugify
 from django.db.models import Q
-from django.db.models.expressions import F
 from django.http import Http404
 
 import json
 import markdown
 
-from settings import FORUM_MAX_DAY_MARK
 from models import Thread, Post
-from models import VisitedThread, AllVisited
 from forms import PostForm, ThreadForm, AdvancedSearchForm
 
 
@@ -30,31 +25,6 @@ def block_thread(request, thread_slug, template=None):
     t.save()
     return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
 
-@login_required
-def latest_seen_post(request, thread_slug, template=None):
-    """Get latest seen post id
-    For AJAX usage only
-    """
-    if not request.is_ajax():
-        return Http404
-    thread = get_object_or_404(Thread, slug=thread_slug)
-    post_id = -1
-    if not thread.latest_post_author == request.user:
-        dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
-        try:
-            allcv = AllVisited.objects.get(user=request.user)
-        except AllVisited.DoesNotExist:
-            allcv = dt
-        try:
-            latest_post = VisitedThread.objects.get(user=request.user,
-                    thread=thread, date__gt=allcv.date)
-            post_id = latest_post.id
-        except VisitedThread.DoesNotExist:
-            pass
-    resp = { "id": post_id }
-    return HttpResponse(json.dumps(resp), mimetype='application/javascript')
-
-
 def thread_list(request, offset_step=0, number=20,
         popupinfo=None, template="forum/thread_list.html"):
     offset_step = int(offset_step)
@@ -62,29 +32,11 @@ def thread_list(request, offset_step=0, number=20,
     offset = offset_step * number
     u = request.user
     if u.is_authenticated():
-        dt = datetime.datetime.now() - datetime.timedelta(FORUM_MAX_DAY_MARK)
-        try:
-            allcv = AllVisited.objects.get(user=u)
-            dt = dt if dt > allcv.date else allcv.date
-        except AllVisited.DoesNotExist:
-            pass
-        # get unreaded, and fill thread list with old one
-        unreaded = Thread.objects.exclude(
-                visitedthread__user=u,
-                latest_post_date__lt=F('visitedthread__date')
-            ).exclude(
-                latest_post_date__lt=dt
-            ).exclude(
-                latest_post_author=u
-            ).distinct()[offset:offset + number]
-        threads = Thread.objects.filter(
-                Q(visitedthread__isnull=True) |
-                Q(visitedthread__user=u, 
-                    latest_post_date__lt=F('visitedthread__date')) |
-                Q(latest_post_date__lt=dt)
-            ).distinct()[offset: offset + number - len(unreaded)]
+        unreaded = Thread.objects.exclude(latest_post_date__lt=u.last_login
+                ).distinct()[offset:offset + number]
+        threads = Thread.objects.filter(latest_post_date__lt=u.last_login
+                ).distinct()[offset: offset + number - len(unreaded)]
     else:
-        # fetch latest threads
         unreaded = []
         threads = Thread.objects.all()[offset:offset + number]
     # template data
@@ -118,12 +70,6 @@ def thread(request, thread_slug, offset_step=None, number=20,
     number = int(number)
     p = t.post_set.all()[offset:offset+number]
     f = PostForm()
-    if request.user.is_authenticated():
-        vt, created = VisitedThread.objects.get_or_create(
-                user=request.user, thread=t)
-        vt.date = datetime.datetime.now()
-        vt.save()
-    # template data
 
     sitecount = t.post_count // number
     if sitecount and t.post_count % number:
@@ -210,19 +156,6 @@ def add_thread(request, template="forum/add_thread.html"):
         "p_form": pf,
         }, context_instance=RequestContext(request))
 
-
-@login_required
-def mark_all_read(request):
-    "Create global `readed` mark"
-    u = request.user
-    VisitedThread.objects.filter(user=u).delete()
-    obj, created = AllVisited.objects.get_or_create(user=u)
-    if not created:
-        obj.date = datetime.datetime.now()
-        obj.save()
-    #return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
-    return thread_list(request,
-            popupinfo="Wszystkie posty zostały oznaczone jako przeczytane")
 
 @login_required
 def toggle_solved(request, thread_slug):

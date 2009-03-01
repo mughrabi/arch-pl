@@ -19,7 +19,7 @@
     <script type="text/javascript" src="/static/javascript/markdown.js"></script>
     <script type="text/javascript" src="/static/javascript/textareagrow.js"></script>
     <script type="text/javascript" src="/static/javascript/blockquote_hide.js"></script>
-    <script type="text/javascript" src="/static/javascript/seen_posts.js"></script>
+    {# TODO <script type="text/javascript" src="/static/javascript/seen_posts.js"></script> #}
     <script type="text/javascript" src="/static/javascript/ajax_markdown.js"></script>
 {% endblock %}
 
@@ -32,7 +32,6 @@
         &raquo; {{ thread.title }}
     </strong> 
     <em>
-        {% if thread.is_new %} &bull; Nowy{% endif %}
         {% if thread.sticky %} &bull; Przyklejony{% endif %}
         {% if thread.solved %} &bull; Rozwiązany{% endif %}
         {% if thread.closed %} &bull; Zamknięty{% endif %}

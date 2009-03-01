@@ -3,9 +3,12 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, login, logout
+from django.http import Http404
+
+import json
 
 import settings
 from models import UserProfile
@@ -81,4 +84,13 @@ def user_preferences(request, template="userprofile/preferences.html"):
         "user_form": user_form,
         "profile_form": profile_form,
         }, context_instance=RequestContext(request))
+
+@login_required
+def latest_login_date(request, thread_slug, template=None):
+    "AJAX only!"
+    if not request.is_ajax():
+        return Http404
+    resp = { "date": request.user.last_login }
+    return HttpResponse(json.dumps(resp), mimetype='application/javascript')
+
 

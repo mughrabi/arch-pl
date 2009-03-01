@@ -5,4 +5,5 @@ urlpatterns = patterns("userprofile.views",
         (r"^logout/$",                     "user_logout"),
         (r"^register/$",                   "register"),
         (r"^preferences/$",                "user_preferences"),
+        (r"^latest_login_date/$",          "latest_login_date"),
 )
