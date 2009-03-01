@@ -2,16 +2,16 @@ import urllib
 import hashlib
 
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+#from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.utils.safestring import SafeUnicode
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True, null=False)
     jabber = models.EmailField(blank=True)
-    #use_js = models.BooleanField(
-    #        _('Enable JavaScript features'), default=True)
+    jabber_notify = models.BooleanField(default=False)
     signature = models.TextField(blank=True)
+    show_signatures = models.BooleanField(default=True)
 
     @property
     def avatar(self):
@@ -22,7 +22,6 @@ class UserProfile(models.Model):
                     'gravatar_id': hashlib.md5(self.user.email).hexdigest(),
                     'size': 80,
                     'default': 'identicon',
-                    #'default': "/static/images/default_avatar.png",
                 })
         return SafeUnicode(self.__avatar)
 
