@@ -109,7 +109,7 @@
 
         <div class="rnav">
             <div class="post_text">{{ p.text|markdown }}</div>
-            {% if p.author.get_profile.signature %}
+            {% if user.show_signatures and p.author.get_profile.signature%}
                 <div class="post_signature">{{ p.author.get_profile.signature|markdown }}</div>
             {% endif %}
         </div>
