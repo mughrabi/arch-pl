@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template.defaultfilters import slugify
 from django.db.models import Q
 from django.http import Http404
+from django.views.decorators.cache import cache_page
 
 import json
 import markdown
@@ -18,27 +19,19 @@ from forms import PostForm, ThreadForm, AdvancedSearchForm
 
 @login_required
 @user_passes_test(lambda u: u.has_perm("forum.thread.can_change"))
-def block_thread(request, thread_slug, template=None):
+def block_thread(request, thread_slug):
     "Block any single thread"
     t = get_object_or_404(Thread, slug=thread_slug)
     t.closed = not t.closed
     t.save()
     return HttpResponseRedirect(request.META['HTTP_REFERER'] or "/forum/")
 
-def thread_list(request, offset_step=0, number=20,
-        popupinfo=None, template="forum/thread_list.html"):
+def thread_list(request, offset_step=0, number=20, popupinfo=None):
     offset_step = int(offset_step)
     number = int(number)
     offset = offset_step * number
     u = request.user
-    if u.is_authenticated():
-        unreaded = Thread.objects.exclude(latest_post_date__lt=u.last_login
-                ).distinct()[offset:offset + number]
-        threads = Thread.objects.filter(latest_post_date__lt=u.last_login
-                ).distinct()[offset: offset + number - len(unreaded)]
-    else:
-        unreaded = []
-        threads = Thread.objects.all()[offset:offset + number]
+    threads = Thread.objects.all()[offset:offset + number]
     # template data
     pageinfo = {
             "offset": offset,
@@ -46,9 +39,8 @@ def thread_list(request, offset_step=0, number=20,
             "offset_step": offset_step,
             "next": offset_step + 1,
             }
-    return render_to_response(template, {
-        "unreaded_threads": unreaded,
-        "old_threads": threads,
+    return render_to_response("forum/thread_list.html", {
+        "threads": threads,
         "page": pageinfo,
         "popupinfo": popupinfo,
         }, context_instance=RequestContext(request))

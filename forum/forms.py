@@ -8,7 +8,7 @@ from models import Thread, Post
 class ThreadForm(ModelForm):
     class Meta:
         model = Thread
-        fields = ('title', )
+        fields = ('title', 'tags')
 
 class PostForm(ModelForm):
     class Meta:

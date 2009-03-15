@@ -23,9 +23,8 @@ urlpatterns = patterns("forum.views",
         (r"^thread/(?P<thread_slug>[\w-]+)/toggle_sticky/$",                       "toggle_sticky"),
 )
 
-feeds = { 'latest': LatestThreads, }
 
 urlpatterns += patterns("",
-        (r"^thread/(?:[\w-]+)/(?P<url>.*)/$", 'django.contrib.syndication.views.feed', {'feed_dict': {'feed': ThreadFeed}}),
-        (r'^feeds/(?P<url>.*)/$',        'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+        (r"^thread/(?P<url>[\w-]+)/$",      'django.contrib.syndication.views.feed', {'feed_dict': {'feed': ThreadFeed}}),
+        (r'^feeds/(?P<url>.*)/$',           'django.contrib.syndication.views.feed', {'feed_dict': { 'latest': LatestThreads, }})
 )

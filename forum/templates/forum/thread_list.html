@@ -3,7 +3,7 @@
 
 {% block forumdata %}
 
-{% if unreaded_threads or old_threads %}
+{% if threads %}
     <table class="list">
         <thead>
             <tr>
@@ -16,18 +16,23 @@
         </thead>
         <tbody>
 
-        {% for t in unreaded_threads %}
-            <tr class="new_thread">
+        {% for t in threads %}
+            <tr>
                 <td class="t_name">
-                    <strong>Nowy</strong> &bull;
                     <strong><a href="{{ t.get_absolute_url }}">{{ t.title }}</a></strong>
-                    <em>
+                    <p>
                         <small>
-                            {% if t.sticky %} &bull; Przyklejony{% endif %}
-                            {% if t.solved %} &bull; Rozwiązany{% endif %}
-                            {% if t.closed %} &bull; Zamknięty{% endif %}
+                            {% if t.sticky %}&bull; Przyklejony{% endif %}
+                            {% if t.solved %}&bull; Rozwiązany{% endif %}
+                            {% if t.closed %}&bull; Zamknięty{% endif %}
+                            &bull;
+                            {% for tag in t.tags %} 
+                                {{ tag }}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                            &bull; 
+                            <a href="{{ t.get_absolute_url }}feed/">feed</a>
                         </small>
-                    </em>
+                    </p>
                 </td> 
                 {# <td class="t_author"><a href="{{ t.author.get_absolute_url }}">{{ t.author }}</a></td> #}
                 <td class="t_author">{{ t.author }}</td>
@@ -38,29 +43,6 @@
                 </td>
             </tr>
         {% endfor %}
-
-
-        {% for t in old_threads %}
-            <tr class="old_thread">
-                <td class="t_name {% if t.closed %}closed{% endif %}">
-                    <a href="{{ t.get_absolute_url }}">{{ t.title }}</a>
-                    <em>
-                        <small>
-                            {% if t.sticky %} &bull; Przyklejony{% endif %}
-                            {% if t.solved %} &bull; Rozwiązany{% endif %}
-                            {% if t.closed %} &bull; Zamknięty{% endif %}
-                        </small>
-                    </em>
-                </td> 
-                <td class="t_author">{{ t.author }}</td>
-                <td class="t_pnumb">{{ t.post_count }}</td>
-                <td class="t_vnumb">{{ t.view_count }}</td>
-                <td class="t_last">
-                    <small>{{ t.latest_post_date|date:"D d M Y  - H:i" }} &bull; {{ t.latest_post_author }}</small>
-                </td>
-            </tr>
-        {% endfor %}
-
         </tbody>
     </table>
 
